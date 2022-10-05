@@ -20,6 +20,11 @@ COTEXT  = "Compiling $(<F)"
 LITEXT  = "Assembling $@"
 
 #building rules
+$(DEXE)FIELD_TEST: $(MKDIRS) $(DOBJ)field_test.o
+	@rm -f $(filter-out $(DOBJ)field_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) FIELD_TEST
 $(DEXE)DOMAIN_TEST: $(MKDIRS) $(DOBJ)domain_test.o
 	@rm -f $(filter-out $(DOBJ)domain_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -28,6 +33,15 @@ EXES := $(EXES) DOMAIN_TEST
 
 #compiling rules
 $(DOBJ)domain_mod.o: src/domain_mod.f90
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)field_mod.o: src/field_mod.f90
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)field_test.o: src/tests/field_test.f90 \
+	$(DOBJ)field_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
