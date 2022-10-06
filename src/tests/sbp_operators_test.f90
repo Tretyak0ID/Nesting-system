@@ -1,11 +1,12 @@
 program sbp_operators_test
-use sbp_operators_mod, only: sbp21
+use sbp_differential_operator_mod, only: sbp21_t
 use field_mod,         only: field_t
 use domain_mod,        only: domain_t
 use const_mod,         only: pi
 
   type(field_t)  :: in_field, out_field, cos_field
   type(domain_t) :: domain
+  type(sbp21_t)  :: sbp21
   integer        :: i, j
 
   call domain%init(0.0_8, 2.0_8 * pi, 64, 0.0_8, 2.0_8 * pi, 64)
@@ -20,7 +21,7 @@ use const_mod,         only: pi
     end do
   end do
 
-  call sbp21(out_field, in_field, 'x', domain)
+  call sbp21%apply(out_field, in_field, domain, 'x')
 
   print *, cos_field%f(10, :) - out_field%f(10, :)
 

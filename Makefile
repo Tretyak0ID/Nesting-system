@@ -47,7 +47,20 @@ $(DOBJ)sbp_operators_mod.o: src/sbp_operators_mod.f90 \
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
+$(DOBJ)sbp_differential_operator_mod.o: src/sbp_differential_operator_mod.f90 \
+	$(DOBJ)differential_operator_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
 $(DOBJ)field_mod.o: src/field_mod.f90
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)differential_operator_mod.o: src/differential_operator_mod.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -66,7 +79,7 @@ $(DOBJ)domain_test.o: src/tests/domain_test.f90 \
 	@$(FC) $(OPTSC)  $< -o $@
 
 $(DOBJ)sbp_operators_test.o: src/tests/sbp_operators_test.f90 \
-	$(DOBJ)sbp_operators_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o \
 	$(DOBJ)const_mod.o

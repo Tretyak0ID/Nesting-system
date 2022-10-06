@@ -1,14 +1,33 @@
-module sbp_operators_mod
+module sbp_differential_operator_mod
+use differential_operator_mod, only : differential_operator_t
 use field_mod,  only: field_t
 use domain_mod, only: domain_t
 implicit none
 
+  type, extends(differential_operator_t) :: sbp21_t
+
+  contains
+
+    procedure :: apply => apply_sbp21
+
+  end type sbp21_t
+
+  ! type, extends(differential_operator_t) :: sbp42_t
+  !
+  ! contains
+  !
+  !   procedure :: apply => apply_sbp42
+  !
+  ! end type sbp_42_t
+
 contains
 
-  subroutine sbp21(out, in, direction, domain)
-    class    (field_t),  intent(in)  :: in
-    class    (domain_t), intent(in)  :: domain
-    class    (field_t),  intent(out) :: out
+  subroutine apply_sbp21(this, out, in, domain, direction)
+
+    class    (sbp21_t),  intent(in)  :: this
+    type     (field_t),  intent(out) :: out
+    type     (field_t),  intent(in)  :: in
+    type     (domain_t), intent(in)  :: domain
     character(len=1),    intent(in)  :: direction
     integer  (kind=8)                :: i, j
 
@@ -44,6 +63,6 @@ contains
       print *, 'Error in diff_sbp21. Wrong direction value'
     end if
 
-  end subroutine sbp21
+  end subroutine apply_sbp21
 
-end module sbp_operators_mod
+end module sbp_differential_operator_mod
