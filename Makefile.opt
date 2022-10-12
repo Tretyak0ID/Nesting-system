@@ -20,6 +20,11 @@ COTEXT  = "Compiling $(<F)"
 LITEXT  = "Assembling $@"
 
 #building rules
+$(DEXE)DIV_TEST: $(MKDIRS) $(DOBJ)div_test.o
+	@rm -f $(filter-out $(DOBJ)div_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) DIV_TEST
 $(DEXE)FIELD_TEST: $(MKDIRS) $(DOBJ)field_test.o
 	@rm -f $(filter-out $(DOBJ)field_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -30,6 +35,11 @@ $(DEXE)GRAD_TEST: $(MKDIRS) $(DOBJ)grad_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) GRAD_TEST
+$(DEXE)CURL_TEST: $(MKDIRS) $(DOBJ)curl_test.o
+	@rm -f $(filter-out $(DOBJ)curl_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) CURL_TEST
 $(DEXE)DOMAIN_TEST: $(MKDIRS) $(DOBJ)domain_test.o
 	@rm -f $(filter-out $(DOBJ)domain_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -65,6 +75,20 @@ $(DOBJ)sbp_differential_operator_mod.o: src/sbp_differential_operator_mod.f90 \
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
+$(DOBJ)div_mod.o: src/div_mod.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)differential_operator_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)curl_mod.o: src/curl_mod.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)differential_operator_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
 $(DOBJ)central_differential_operator_mod.o: src/central_differential_operator_mod.f90 \
 	$(DOBJ)differential_operator_mod.o \
 	$(DOBJ)field_mod.o \
@@ -72,7 +96,8 @@ $(DOBJ)central_differential_operator_mod.o: src/central_differential_operator_mo
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
-$(DOBJ)field_mod.o: src/field_mod.f90
+$(DOBJ)field_mod.o: src/field_mod.f90 \
+	$(DOBJ)domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -86,6 +111,16 @@ $(DOBJ)const_mod.o: src/const_mod.f90
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
+$(DOBJ)div_test.o: src/tests/div_test.f90 \
+	$(DOBJ)div_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)const_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
 $(DOBJ)field_test.o: src/tests/field_test.f90 \
 	$(DOBJ)field_mod.o
 	@echo $(COTEXT)
@@ -96,7 +131,18 @@ $(DOBJ)grad_test.o: src/tests/grad_test.f90 \
 	$(DOBJ)sbp_differential_operator_mod.o \
 	$(DOBJ)central_differential_operator_mod.o \
 	$(DOBJ)field_mod.o \
-	$(DOBJ)domain_mod.o
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)const_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)curl_test.o: src/tests/curl_test.f90 \
+	$(DOBJ)curl_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)const_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 

@@ -16,5 +16,4 @@ contains
     call diff_opy%apply(gy, in, domain, 'y')
   end subroutine
 
-
 end module grad_mod
