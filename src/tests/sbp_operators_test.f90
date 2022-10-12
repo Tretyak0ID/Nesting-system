@@ -16,12 +16,12 @@ use const_mod,         only: pi
 
   do j = 0, domain%ny
     do i = 0, domain%nx
-      in_field%f(i, j) = sin(domain%mesh_x(i))
-      cos_field%f(i, j) = cos(domain%mesh_x(i))
+      in_field%f(i, j) = sin(domain%mesh_y(j))
+      cos_field%f(i, j) = cos(domain%mesh_y(j))
     end do
   end do
 
-  call sbp42%apply(out_field, in_field, domain, 'x')
+  call sbp42%apply(out_field, in_field, domain, 'y')
 
   print *, cos_field%f(10, :) - out_field%f(10, :)
 
@@ -34,12 +34,12 @@ use const_mod,         only: pi
 
   do j = 0, domain%ny
     do i = 0, domain%nx
-      in_field%f(i, j) = sin(domain%mesh_x(i))
-      cos_field%f(i, j) = cos(domain%mesh_x(i))
+      in_field%f(i, j) = sin(domain%mesh_y(j))
+      cos_field%f(i, j) = cos(domain%mesh_y(j))
     end do
   end do
 
-  call sbp42%apply(out_field, in_field, domain, 'x')
+  call sbp42%apply(out_field, in_field, domain, 'y')
 
   print *, cos_field%f(10, :) - out_field%f(10, :)
 

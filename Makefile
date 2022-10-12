@@ -35,6 +35,11 @@ $(DEXE)SBP_OPERATORS_TEST: $(MKDIRS) $(DOBJ)sbp_operators_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) SBP_OPERATORS_TEST
+$(DEXE)CENTRAL_OPERATORS_TEST: $(MKDIRS) $(DOBJ)central_operators_test.o
+	@rm -f $(filter-out $(DOBJ)central_operators_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) CENTRAL_OPERATORS_TEST
 
 #compiling rules
 $(DOBJ)domain_mod.o: src/domain_mod.f90
@@ -42,6 +47,13 @@ $(DOBJ)domain_mod.o: src/domain_mod.f90
 	@$(FC) $(OPTSC)  $< -o $@
 
 $(DOBJ)sbp_differential_operator_mod.o: src/sbp_differential_operator_mod.f90 \
+	$(DOBJ)differential_operator_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)central_differential_operator_mod.o: src/central_differential_operator_mod.f90 \
 	$(DOBJ)differential_operator_mod.o \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o
@@ -74,6 +86,14 @@ $(DOBJ)domain_test.o: src/tests/domain_test.f90 \
 
 $(DOBJ)sbp_operators_test.o: src/tests/sbp_operators_test.f90 \
 	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)const_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)central_operators_test.o: src/tests/central_operators_test.f90 \
+	$(DOBJ)central_differential_operator_mod.o \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o \
 	$(DOBJ)const_mod.o
