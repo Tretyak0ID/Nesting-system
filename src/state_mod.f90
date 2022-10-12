@@ -5,8 +5,6 @@ implicit none
 
   type, abstract :: state_t
 
-    type(field_t) field
-
   contains
 
   end type state_t

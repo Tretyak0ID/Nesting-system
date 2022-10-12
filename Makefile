@@ -30,6 +30,11 @@ $(DEXE)FIELD_TEST: $(MKDIRS) $(DOBJ)field_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) FIELD_TEST
+$(DEXE)SWE_STATE_TEST: $(MKDIRS) $(DOBJ)swe_state_test.o
+	@rm -f $(filter-out $(DOBJ)swe_state_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) SWE_STATE_TEST
 $(DEXE)GRAD_TEST: $(MKDIRS) $(DOBJ)grad_test.o
 	@rm -f $(filter-out $(DOBJ)grad_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -78,6 +83,13 @@ $(DOBJ)sbp_differential_operator_mod.o: src/sbp_differential_operator_mod.f90 \
 	$(DOBJ)differential_operator_mod.o \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)swe_state_mod.o: src/swe_state_mod.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)state_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -134,6 +146,12 @@ $(DOBJ)div_test.o: src/tests/div_test.f90 \
 	@$(FC) $(OPTSC)  $< -o $@
 
 $(DOBJ)field_test.o: src/tests/field_test.f90 \
+	$(DOBJ)field_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)swe_state_test.o: src/tests/swe_state_test.f90 \
+	$(DOBJ)swe_state_mod.o \
 	$(DOBJ)field_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
