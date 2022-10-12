@@ -25,6 +25,11 @@ $(DEXE)FIELD_TEST: $(MKDIRS) $(DOBJ)field_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) FIELD_TEST
+$(DEXE)GRAD_TEST: $(MKDIRS) $(DOBJ)grad_test.o
+	@rm -f $(filter-out $(DOBJ)grad_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) GRAD_TEST
 $(DEXE)DOMAIN_TEST: $(MKDIRS) $(DOBJ)domain_test.o
 	@rm -f $(filter-out $(DOBJ)domain_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -43,6 +48,13 @@ EXES := $(EXES) CENTRAL_OPERATORS_TEST
 
 #compiling rules
 $(DOBJ)domain_mod.o: src/domain_mod.f90
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)grad_mod.o: src/grad_mod.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)differential_operator_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -76,6 +88,15 @@ $(DOBJ)const_mod.o: src/const_mod.f90
 
 $(DOBJ)field_test.o: src/tests/field_test.f90 \
 	$(DOBJ)field_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)grad_test.o: src/tests/grad_test.f90 \
+	$(DOBJ)grad_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
