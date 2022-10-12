@@ -61,6 +61,12 @@ $(DOBJ)domain_mod.o: src/domain_mod.f90
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
+$(DOBJ)operator_mod.o: src/operator_mod.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
 $(DOBJ)grad_mod.o: src/grad_mod.f90 \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o \
@@ -108,6 +114,12 @@ $(DOBJ)differential_operator_mod.o: src/differential_operator_mod.f90 \
 	@$(FC) $(OPTSC)  $< -o $@
 
 $(DOBJ)const_mod.o: src/const_mod.f90
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)state_mod.o: src/state_mod.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
