@@ -1,5 +1,5 @@
 module field_mod
-use domain_mod, only: domain_t
+use mesh_mod, only: mesh_t
 implicit none
 
 type, public :: field_t
@@ -9,7 +9,7 @@ type, public :: field_t
 contains
 
   procedure, public :: init
-  procedure, public :: init_on_domain
+  procedure, public :: init_on_mesh
   !update
   procedure, public :: update_s1       => update_field_s1 !v = v + s1*unity
   procedure, public :: update_s1v1     => update_field_s1v1 !v = v + s1*v1
@@ -35,59 +35,59 @@ subroutine init(this, sindx, eindx, sindy, eindy)
 
 end subroutine init
 
-subroutine init_on_domain(this, domain)
+subroutine init_on_mesh(this, mesh)
 
   class  (field_t), intent(out) :: this
-  type(domain_t),   intent(in)  :: domain
+  type(mesh_t),   intent(in)  :: mesh
 
-  allocate(this%f(0 : domain%nx, 0 : domain%ny))
+  allocate(this%f(mesh%sindx : mesh%eindx, mesh%sindy : mesh%eindy))
 
-end subroutine init_on_domain
+end subroutine init_on_mesh
 
 !update
-subroutine update_field_s1(this, scalar1, domain)
+subroutine update_field_s1(this, scalar1, mesh)
 
   class(field_t), intent(inout) :: this
   real(kind=8),   intent(in)    :: scalar1
-  type(domain_t), intent(in)    :: domain
+  type(mesh_t), intent(in)    :: mesh
   integer(kind=8) :: i, j
 
-  do i = 0, domain%nx
-    do j = 0, domain%ny
+  do i = mesh%sindx, mesh%eindx
+    do j = mesh%sindy, mesh%eindy
       this%f(i, j) = this%f(i, j) + scalar1
     end do
   end do
 
 end subroutine update_field_s1
 
-subroutine update_field_s1v1(this, scalar1, v1, domain)
+subroutine update_field_s1v1(this, scalar1, v1, mesh)
 
   class(field_t),      intent(inout) :: this
   real(kind=8),        intent(in)    :: scalar1
   type(field_t),       intent(in)    :: v1
-  type(domain_t),      intent(in)    :: domain
+  type(mesh_t),      intent(in)    :: mesh
   integer(kind=8) :: i, j
 
-  do i = 0, domain%nx
-    do j = 0, domain%ny
+  do i = mesh%sindx, mesh%eindx
+    do j = mesh%sindy, mesh%eindy
       this%f(i, j) = this%f(i, j) + scalar1 * v1%f(i, j)
     end do
   end do
 
 end subroutine update_field_s1v1
 
-subroutine update_field_s1v1s2v2(this, scalar1, v1, scalar2, v2, domain)
+subroutine update_field_s1v1s2v2(this, scalar1, v1, scalar2, v2, mesh)
 
   class(field_t),      intent(inout) :: this
   real(kind=8),        intent(in)    :: scalar1
   type(field_t),       intent(in)    :: v1
   real(kind=8),        intent(in)    :: scalar2
   type(field_t),       intent(in)    :: v2
-  type(domain_t),      intent(in)    :: domain
+  type(mesh_t),      intent(in)    :: mesh
   integer(kind=8) :: i, j
 
-  do i = 0, domain%nx
-    do j = 0, domain%ny
+  do i = mesh%sindx, mesh%eindx
+    do j = mesh%sindy, mesh%eindy
       this%f(i, j) = this%f(i, j) + scalar1 * v1%f(i, j) + scalar2 * v2%f(i, j)
     end do
   end do
@@ -95,64 +95,64 @@ subroutine update_field_s1v1s2v2(this, scalar1, v1, scalar2, v2, domain)
 end subroutine update_field_s1v1s2v2
 
 !assign
-subroutine assign_field_s1(this, scalar1, domain)
+subroutine assign_field_s1(this, scalar1, mesh)
 
   class(field_t),      intent(inout) :: this
   real(kind=8),        intent(in)    :: scalar1
-  type(domain_t),      intent(in)    :: domain
+  type(mesh_t),      intent(in)    :: mesh
   integer(kind=8) :: i, j
 
-  do i = 0, domain%nx
-    do j = 0, domain%ny
+  do i = mesh%sindx, mesh%eindx
+    do j = mesh%sindy, mesh%eindy
       this%f(i, j) = scalar1
     end do
   end do
 
 end subroutine assign_field_s1
 
-subroutine assign_field_v1(this, v1, domain)
+subroutine assign_field_v1(this, v1, mesh)
 
   class(field_t),      intent(inout) :: this
   type(field_t),       intent(in)    :: v1
-  type(domain_t),      intent(in)    :: domain
+  type(mesh_t),      intent(in)    :: mesh
   integer(kind=8) :: i, j
 
-  do i = 0, domain%nx
-    do j = 0, domain%ny
+  do i = mesh%sindx, mesh%eindx
+    do j = mesh%sindy, mesh%eindy
       this%f(i, j) = v1%f(i, j)
     end do
   end do
 
 end subroutine assign_field_v1
 
-subroutine assign_field_s1v1(this, scalar1, v1, domain)
+subroutine assign_field_s1v1(this, scalar1, v1, mesh)
 
   class(field_t),      intent(inout) :: this
   real(kind=8),        intent(in)    :: scalar1
   type(field_t),       intent(in)    :: v1
-  type(domain_t),      intent(in)    :: domain
+  type(mesh_t),      intent(in)    :: mesh
   integer(kind=8) :: i, j
 
-  do i = 0, domain%nx
-    do j = 0, domain%ny
+  do i = mesh%sindx, mesh%eindx
+    do j = mesh%sindy, mesh%eindy
       this%f(i, j) = scalar1 * v1%f(i, j)
     end do
   end do
 
 end subroutine assign_field_s1v1
 
-subroutine assign_field_s1v1s2v2(this, scalar1, v1, scalar2, v2, domain)
+subroutine assign_field_s1v1s2v2(this, scalar1, v1, scalar2, v2, mesh)
 
   class(field_t),      intent(inout) :: this
   real(kind=8),        intent(in)    :: scalar1
   type(field_t),       intent(in)    :: v1
   real(kind=8),        intent(in)    :: scalar2
   type(field_t),       intent(in)    :: v2
-  type(domain_t),      intent(in)    :: domain
+  type(mesh_t),      intent(in)    :: mesh
   integer(kind=8) :: i, j
 
-  do i = 0, domain%nx
-    do j = 0, domain%ny
+  do i = mesh%sindx, mesh%eindx
+    do j = mesh%sindy, mesh%eindy
       this%f(i, j) = scalar1 * v1%f(i, j) + scalar2 * v2%f(i, j)
     end do
   end do

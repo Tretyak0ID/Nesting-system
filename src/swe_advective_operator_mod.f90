@@ -4,7 +4,7 @@ use stvec_mod,                 only: stvec_t
 use operator_mod,              only: operator_t
 use differential_operator_mod, only: differential_operator_t
 use field_mod,                 only: field_t
-use domain_mod,                only: domain_t
+use mesh_mod,                only: mesh_t
 use grad_mod,                  only: calc_grad
 use div_mod,                   only: calc_div
 use const_mod,                 only: Earth_grav, pcori
@@ -23,40 +23,40 @@ implicit none
 
 contains
 
-  subroutine apply_swe_advective(this, out, in, domain)
+  subroutine apply_swe_advective(this, out, in, mesh)
 
     class (swe_advective_operator_t), intent(in)    :: this
     class (stvec_t),                  intent(inout) :: out
     class (stvec_t),                  intent(in)    :: in
-    type  (domain_t),                 intent(in)    :: domain
+    type  (mesh_t),                 intent(in)    :: mesh
 
     type(field_t) :: gx, gy, div, dudx, dudy, dvdx, dvdy, hu, hv
     integer       :: i, j
 
-    call gx%init_on_domain(domain)
-    call gy%init_on_domain(domain)
-    call div%init_on_domain(domain)
-    call dudx%init_on_domain(domain)
-    call dudy%init_on_domain(domain)
-    call dvdx%init_on_domain(domain)
-    call dvdy%init_on_domain(domain)
-    call hu%init_on_domain(domain)
-    call hv%init_on_domain(domain)
+    call gx%init_on_mesh(mesh)
+    call gy%init_on_mesh(mesh)
+    call div%init_on_mesh(mesh)
+    call dudx%init_on_mesh(mesh)
+    call dudy%init_on_mesh(mesh)
+    call dvdx%init_on_mesh(mesh)
+    call dvdy%init_on_mesh(mesh)
+    call hu%init_on_mesh(mesh)
+    call hv%init_on_mesh(mesh)
 
-    do i = 0, domain%nx
-      do j = 0, domain%ny
+    do i = 0, mesh%nx
+      do j = 0, mesh%ny
         hu%f(i, j) = in%h%f(i, j) * in%u%f(i, j)
         hv%f(i, j) = in%h%f(i, j) * in%v%f(i, j)
       end do
     end do
 
-    call calc_grad(gx, gy, in%h, domain, this%diff_opx, this%diff_opy)
-    call calc_div(div, hu, hv, domain, this%diff_opx, this%diff_opy)
-    call calc_grad(dudx, dudy, in%u, domain, this%diff_opx, this%diff_opy)
-    call calc_grad(dvdx, dvdy, in%v, domain, this%diff_opx, this%diff_opy)
+    call calc_grad(gx, gy, in%h, mesh, this%diff_opx, this%diff_opy)
+    call calc_div(div, hu, hv, mesh, this%diff_opx, this%diff_opy)
+    call calc_grad(dudx, dudy, in%u, mesh, this%diff_opx, this%diff_opy)
+    call calc_grad(dvdx, dvdy, in%v, mesh, this%diff_opx, this%diff_opy)
 
-    do i = 0, domain%nx
-      do j = 0, domain%ny
+    do i = 0, mesh%nx
+      do j = 0, mesh%ny
         out%u%f(i, j) = - Earth_grav * gx%f(i, j) + pcori * gy%f(i, j) - in%u%f(i, j) * dudx%f(i, j) + in%v%f(i, j) * dudy%f(i, j)
         out%v%f(i, j) = - Earth_grav * gx%f(i, j) - pcori * gy%f(i, j) - in%u%f(i, j) * dvdx%f(i, j) + in%v%f(i, j) * dvdy%f(i, j)
         out%h%f(i, j) = - div%f(i, j)

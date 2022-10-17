@@ -1,6 +1,6 @@
 module stvec_mod
 use field_mod,  only: field_t
-use domain_mod, only: domain_t
+use mesh_mod, only: mesh_t
 implicit none
 
 type, abstract, public :: stvec_t
@@ -20,51 +20,51 @@ end type stvec_t
 
 contains
 
-subroutine update_stvec_s1v1(this, scalar1, v1, domain)
+subroutine update_stvec_s1v1(this, scalar1, v1, mesh)
 
   class(stvec_t),      intent(inout) :: this
   real(kind=8),        intent(in)    :: scalar1
   class(stvec_t),      intent(in)    :: v1
-  type(domain_t),      intent(in)    :: domain
+  type(mesh_t),      intent(in)    :: mesh
 
 end subroutine update_stvec_s1v1
 
-subroutine update_stvec_s1v1s2v2(this, scalar1, v1, scalar2, v2, domain)
+subroutine update_stvec_s1v1s2v2(this, scalar1, v1, scalar2, v2, mesh)
 
   class(stvec_t),      intent(inout) :: this
   real(kind=8),        intent(in)    :: scalar1
   class(stvec_t),      intent(in)    :: v1
   real(kind=8),        intent(in)    :: scalar2
   class(stvec_t),      intent(in)    :: v2
-  type(domain_t),      intent(in)    :: domain
+  type(mesh_t),      intent(in)    :: mesh
 
 end subroutine update_stvec_s1v1s2v2
 
-subroutine assign_stvec_s1(this, scalar1, domain)
+subroutine assign_stvec_s1(this, scalar1, mesh)
 
   class(stvec_t),      intent(inout) :: this
   real(kind=8),        intent(in)    :: scalar1
-  type(domain_t),      intent(in)    :: domain
+  type(mesh_t),      intent(in)    :: mesh
 
 end subroutine assign_stvec_s1
 
-subroutine assign_stvec_s1v1(this, scalar1, v1, domain)
+subroutine assign_stvec_s1v1(this, scalar1, v1, mesh)
 
   class(stvec_t),      intent(inout) :: this
   real(kind=8),        intent(in)    :: scalar1
   class(stvec_t),      intent(in)    :: v1
-  type(domain_t),      intent(in)    :: domain
+  type(mesh_t),      intent(in)    :: mesh
 
 end subroutine assign_stvec_s1v1
 
-subroutine assign_stvec_s1v1s2v2(this, scalar1, v1, scalar2, v2, domain)
+subroutine assign_stvec_s1v1s2v2(this, scalar1, v1, scalar2, v2, mesh)
 
   class(stvec_t),      intent(inout) :: this
   real(kind=8),        intent(in)    :: scalar1
   class(stvec_t),      intent(in)    :: v1
   real(kind=8),        intent(in)    :: scalar2
   class(stvec_t),      intent(in)    :: v2
-  type(domain_t),      intent(in)    :: domain
+  type(mesh_t),      intent(in)    :: mesh
 
 end subroutine assign_stvec_s1v1s2v2
 

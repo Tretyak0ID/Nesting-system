@@ -1,6 +1,6 @@
 module operator_mod
 use stvec_mod,           only: stvec_t
-use domain_mod,          only: domain_t
+use mesh_mod,          only: mesh_t
 implicit none
 
   type, abstract :: operator_t
@@ -12,13 +12,13 @@ implicit none
   end type operator_t
 
 abstract interface
-  subroutine apply_i(this, out, in, domain)
-    import operator_t, domain_t, stvec_t
+  subroutine apply_i(this, out, in, mesh)
+    import operator_t, mesh_t, stvec_t
 
     class    (operator_t), intent(in)    :: this
     class    (stvec_t),    intent(inout) :: out
     class    (stvec_t),    intent(in)    :: in
-    type     (domain_t),   intent(in)    :: domain
+    type     (mesh_t),   intent(in)    :: mesh
 
   end subroutine apply_i
 end interface
