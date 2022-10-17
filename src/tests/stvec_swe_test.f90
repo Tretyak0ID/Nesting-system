@@ -1,10 +1,10 @@
-program swe_state_test
-use swe_state_mod, only: swe_state_t
+program stvec_swe_test
+use stvec_swe_mod, only: stvec_swe_t
 use field_mod, only: field_t
 implicit none
 
   type(field_t) u, v, h
-  type(swe_state_t) state
+  type(stvec_swe_t) state
 
   call u%init(0, 10, 0, 10)
   call v%init(0, 10, 0, 10)
@@ -22,4 +22,4 @@ implicit none
   print *, "v field: ", state%v%f
   print *, "h field: ", state%h%f
 
-end program swe_state_test
+end program stvec_swe_test

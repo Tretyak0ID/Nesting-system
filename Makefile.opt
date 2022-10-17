@@ -25,16 +25,21 @@ $(DEXE)DIV_TEST: $(MKDIRS) $(DOBJ)div_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) DIV_TEST
+$(DEXE)STVEC_SWE_TEST: $(MKDIRS) $(DOBJ)stvec_swe_test.o
+	@rm -f $(filter-out $(DOBJ)stvec_swe_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) STVEC_SWE_TEST
 $(DEXE)FIELD_TEST: $(MKDIRS) $(DOBJ)field_test.o
 	@rm -f $(filter-out $(DOBJ)field_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) FIELD_TEST
-$(DEXE)SWE_STATE_TEST: $(MKDIRS) $(DOBJ)swe_state_test.o
-	@rm -f $(filter-out $(DOBJ)swe_state_test.o,$(EXESOBJ))
+$(DEXE)SWE_ADVECTION_OPERATOR_TEST: $(MKDIRS) $(DOBJ)swe_advection_operator_test.o
+	@rm -f $(filter-out $(DOBJ)swe_advection_operator_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) SWE_STATE_TEST
+EXES := $(EXES) SWE_ADVECTION_OPERATOR_TEST
 $(DEXE)GRAD_TEST: $(MKDIRS) $(DOBJ)grad_test.o
 	@rm -f $(filter-out $(DOBJ)grad_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -67,7 +72,7 @@ $(DOBJ)domain_mod.o: src/domain_mod.f90
 	@$(FC) $(OPTSC)  $< -o $@
 
 $(DOBJ)operator_mod.o: src/operator_mod.f90 \
-	$(DOBJ)field_mod.o \
+	$(DOBJ)stvec_mod.o \
 	$(DOBJ)domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
@@ -79,6 +84,19 @@ $(DOBJ)grad_mod.o: src/grad_mod.f90 \
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
+$(DOBJ)swe_advective_operator_mod.o: src/swe_advective_operator_mod.f90 \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)stvec_mod.o \
+	$(DOBJ)operator_mod.o \
+	$(DOBJ)differential_operator_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)grad_mod.o \
+	$(DOBJ)div_mod.o \
+	$(DOBJ)const_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
 $(DOBJ)sbp_differential_operator_mod.o: src/sbp_differential_operator_mod.f90 \
 	$(DOBJ)differential_operator_mod.o \
 	$(DOBJ)field_mod.o \
@@ -86,10 +104,9 @@ $(DOBJ)sbp_differential_operator_mod.o: src/sbp_differential_operator_mod.f90 \
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
-$(DOBJ)swe_state_mod.o: src/swe_state_mod.f90 \
+$(DOBJ)stvec_mod.o: src/stvec_mod.f90 \
 	$(DOBJ)field_mod.o \
-	$(DOBJ)domain_mod.o \
-	$(DOBJ)state_mod.o
+	$(DOBJ)domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -129,9 +146,10 @@ $(DOBJ)const_mod.o: src/const_mod.f90
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
-$(DOBJ)state_mod.o: src/state_mod.f90 \
+$(DOBJ)stvec_swe_mod.o: src/stvec_swe_mod.f90 \
 	$(DOBJ)field_mod.o \
-	$(DOBJ)domain_mod.o
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)stvec_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -145,14 +163,20 @@ $(DOBJ)div_test.o: src/tests/div_test.f90 \
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
+$(DOBJ)stvec_swe_test.o: src/tests/stvec_swe_test.f90 \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)field_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
 $(DOBJ)field_test.o: src/tests/field_test.f90 \
 	$(DOBJ)field_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
-$(DOBJ)swe_state_test.o: src/tests/swe_state_test.f90 \
-	$(DOBJ)swe_state_mod.o \
-	$(DOBJ)field_mod.o
+$(DOBJ)swe_advection_operator_test.o: src/tests/swe_advection_operator_test.f90 \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)swe_advective_operator_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 

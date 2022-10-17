@@ -6,9 +6,9 @@ implicit none
 
 contains
 
-  subroutine calc_div(div, in, domain, diff_opx, diff_opy)
+  subroutine calc_div(div, inx, iny, domain, diff_opx, diff_opy)
     type  (field_t),                 intent(inout) :: div
-    type  (field_t),                 intent(in)    :: in
+    type  (field_t),                 intent(in)    :: inx, iny
     type  (domain_t),                intent(in)    :: domain
     class (differential_operator_t), intent(in)    :: diff_opx, diff_opy
     type(field_t)   :: gx_buff
@@ -18,8 +18,8 @@ contains
     call gx_buff%init_on_domain(domain)
     call gy_buff%init_on_domain(domain)
 
-    call diff_opx%apply(gx_buff, in, domain, 'x')
-    call diff_opy%apply(gy_buff, in, domain, 'y')
+    call diff_opx%apply(gx_buff, inx, domain, 'x')
+    call diff_opy%apply(gy_buff, iny, domain, 'y')
 
     do i = 0, domain%nx
       do j = 0, domain%ny
