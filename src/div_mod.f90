@@ -9,7 +9,7 @@ contains
   subroutine calc_div(div, inx, iny, mesh, diff_opx, diff_opy)
     type  (field_t),                 intent(inout) :: div
     type  (field_t),                 intent(in)    :: inx, iny
-    type  (mesh_t),                intent(in)    :: mesh
+    type  (mesh_t),                  intent(in)    :: mesh
     class (differential_operator_t), intent(in)    :: diff_opx, diff_opy
     type(field_t)   :: gx_buff
     type(field_t)   :: gy_buff
@@ -21,11 +21,8 @@ contains
     call diff_opx%apply(gx_buff, inx, mesh, 'x')
     call diff_opy%apply(gy_buff, iny, mesh, 'y')
 
-    do i = mesh%sindx, mesh%eindx
-      do j = mesh%sindy, mesh%eindy
-        div%f(i, j) = gx_buff%f(i, j) + gy_buff%f(i, j)
-      end do
-    end do
+    call div%assign(1.0_8, gx_buff, 1.0_8, gy_buff, mesh)
+
   end subroutine
 
 end module div_mod

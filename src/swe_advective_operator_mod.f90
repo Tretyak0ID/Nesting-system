@@ -4,16 +4,21 @@ use stvec_mod,                 only: stvec_t
 use operator_mod,              only: operator_t
 use differential_operator_mod, only: differential_operator_t
 use field_mod,                 only: field_t
-use mesh_mod,                only: mesh_t
+use mesh_mod,                  only: mesh_t
 use grad_mod,                  only: calc_grad
 use div_mod,                   only: calc_div
 use const_mod,                 only: Earth_grav, pcori
 implicit none
 
-  type, extends(operator_t) :: swe_advective_operator_t
+  type, public, extends(operator_t) :: swe_advective_operator_t
 
-    class(differential_operator_t) :: diff_opx
-    class(differential_operator_t) :: diff_opy
+    class(differential_operator_t), allocatable :: diff_opx
+    class(differential_operator_t), allocatable :: diff_opy
+
+    !work fields for operator
+    type(field_t)                 :: div, gx, gy, curl !for h field
+    type(field_t)                 :: gux, guy, gvx, gvy !velocity field grad
+    type(field_t)                 :: hu, hv, divmf !mass fluxes in continuty eq
 
   contains
 
@@ -25,47 +30,51 @@ contains
 
   subroutine apply_swe_advective(this, out, in, mesh)
 
-    class (swe_advective_operator_t), intent(in)    :: this
+    class (swe_advective_operator_t), intent(inout) :: this
     class (stvec_t),                  intent(inout) :: out
-    class (stvec_t),                  intent(in)    :: in
-    type  (mesh_t),                 intent(in)    :: mesh
+    class (stvec_t),                  intent(inout) :: in
+    type  (mesh_t),                   intent(in)    :: mesh
 
-    type(field_t) :: gx, gy, div, dudx, dudy, dvdx, dvdy, hu, hv
     integer       :: i, j
 
-    call gx%init_on_mesh(mesh)
-    call gy%init_on_mesh(mesh)
-    call div%init_on_mesh(mesh)
-    call dudx%init_on_mesh(mesh)
-    call dudy%init_on_mesh(mesh)
-    call dvdx%init_on_mesh(mesh)
-    call dvdy%init_on_mesh(mesh)
-    call hu%init_on_mesh(mesh)
-    call hv%init_on_mesh(mesh)
+    select type (out)
+    class is (stvec_swe_t)
+      select type(in)
+      class is (stvec_swe_t)
 
-    do i = 0, mesh%nx
-      do j = 0, mesh%ny
-        hu%f(i, j) = in%h%f(i, j) * in%u%f(i, j)
-        hv%f(i, j) = in%h%f(i, j) * in%v%f(i, j)
-      end do
-    end do
+        call this%divmf%init_on_mesh(mesh)
+        call this%gx%init_on_mesh(mesh)
+        call this%gy%init_on_mesh(mesh)
+        call this%gux%init_on_mesh(mesh)
+        call this%guy%init_on_mesh(mesh)
+        call this%gvx%init_on_mesh(mesh)
+        call this%gvy%init_on_mesh(mesh)
 
-    call calc_grad(gx, gy, in%h, mesh, this%diff_opx, this%diff_opy)
-    call calc_div(div, hu, hv, mesh, this%diff_opx, this%diff_opy)
-    call calc_grad(dudx, dudy, in%u, mesh, this%diff_opx, this%diff_opy)
-    call calc_grad(dvdx, dvdy, in%v, mesh, this%diff_opx, this%diff_opy)
+        call this%hu%assign(1.0_8, in%h, in%u, mesh)
+        call this%hv%assign(1.0_8, in%h, in%v, mesh)
 
-    do i = 0, mesh%nx
-      do j = 0, mesh%ny
-        out%u%f(i, j) = - Earth_grav * gx%f(i, j) + pcori * gy%f(i, j) - in%u%f(i, j) * dudx%f(i, j) + in%v%f(i, j) * dudy%f(i, j)
-        out%v%f(i, j) = - Earth_grav * gx%f(i, j) - pcori * gy%f(i, j) - in%u%f(i, j) * dvdx%f(i, j) + in%v%f(i, j) * dvdy%f(i, j)
-        out%h%f(i, j) = - div%f(i, j)
-      end do
-    end do
+        call calc_div(this%divmf, this%hu, this%hv, mesh, this%diff_opx, this%diff_opy)
+        call calc_grad(this%gx, this%gy, in%h, mesh, this%diff_opx, this%diff_opy)
+        call calc_grad(this%gux, this%guy, in%u, mesh, this%diff_opx, this%diff_opy)
+        call calc_grad(this%gvx, this%gvy, in%v, mesh, this%diff_opx, this%diff_opy)
 
-    ! out%u = sum(sum(mult_const(- Earth_grav, gx), mult_const(  pcori, in%v)), mult_const(-1.0_8, sum(mult(in%u, dudx), mult(in%v, dudy))))
-    ! out%v = sum(sum(mult_const(- Earth_grav, gy), mult_const(- pcori, in%u)), mult_const(-1.0_8, sum(mult(in%u, dvdx), mult(in%v, dvdy))))
-    ! out%h = mult_const(-1.0_8, div)
+        !dudt calculate
+        call out%u%assign(-1.0_8, in%u, this%gux, mesh)
+        call out%u%update(-1.0_8, in%v, this%guy, mesh)
+        call out%u%update(-1.0_8 * Earth_grav, this%gx, mesh)
+        call out%u%update(pcori, in%v, mesh)
+        !dvdt calculate
+        call out%v%assign(-1.0_8, in%u, this%gvx, mesh)
+        call out%v%update(-1.0_8, in%v, this%gvy, mesh)
+        call out%v%update(-1.0_8 * Earth_grav, this%gy, mesh)
+        call out%v%update(-1._8 * pcori, in%u, mesh)
+        !dhdt calculate
+        call out%h%assign(-1.0_8, this%divmf, mesh)
+
+      class default
+      end select
+    class default
+    end select
 
   end subroutine apply_swe_advective
 

@@ -67,6 +67,11 @@ $(DEXE)CENTRAL_OPERATORS_TEST: $(MKDIRS) $(DOBJ)central_operators_test.o
 EXES := $(EXES) CENTRAL_OPERATORS_TEST
 
 #compiling rules
+$(DOBJ)domain_mod.o: src/domain_mod.f90 \
+	$(DOBJ)mesh_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
 $(DOBJ)operator_mod.o: src/operator_mod.f90 \
 	$(DOBJ)stvec_mod.o \
 	$(DOBJ)mesh_mod.o

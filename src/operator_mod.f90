@@ -15,10 +15,10 @@ abstract interface
   subroutine apply_i(this, out, in, mesh)
     import operator_t, mesh_t, stvec_t
 
-    class    (operator_t), intent(in)    :: this
+    class    (operator_t), intent(inout) :: this
     class    (stvec_t),    intent(inout) :: out
-    class    (stvec_t),    intent(in)    :: in
-    type     (mesh_t),   intent(in)    :: mesh
+    class    (stvec_t),    intent(inout) :: in
+    type     (mesh_t),   intent(in)      :: mesh
 
   end subroutine apply_i
 end interface

@@ -14,13 +14,15 @@ contains
   procedure, public :: update_s1       => update_field_s1 !v = v + s1*unity
   procedure, public :: update_s1v1     => update_field_s1v1 !v = v + s1*v1
   procedure, public :: update_s1v1s2v2 => update_field_s1v1s2v2 !v = v + s1*v1+s2*v2
-  generic           :: update          => update_s1, update_s1v1, update_s1v1s2v2
+  procedure, public :: update_s1v1v2     => update_field_s1v1v2 !V = v + v1*v2
+  generic           :: update          => update_s1, update_s1v1v2, update_s1v1, update_s1v1s2v2
   !assign
   procedure, public :: assign_s1       => assign_field_s1 !v = s1
   procedure, public :: assign_v1       => assign_field_v1 !v = v1
   procedure, public :: assign_s1v1     => assign_field_s1v1 !v = s1*v1
+  procedure, public :: assign_s1v1v2     => assign_field_s1v1v2 !v = v1*v2
   procedure, public :: assign_s1v1s2v2 => assign_field_s1v1s2v2 !v = s1*v1+s2*v2
-  generic           :: assign          => assign_s1v1, assign_s1, assign_v1, assign_s1v1s2v2
+  generic           :: assign          => assign_s1v1, assign_s1v1v2, assign_s1, assign_v1, assign_s1v1s2v2
 
 end type field_t
 
@@ -49,7 +51,7 @@ subroutine update_field_s1(this, scalar1, mesh)
 
   class(field_t), intent(inout) :: this
   real(kind=8),   intent(in)    :: scalar1
-  type(mesh_t), intent(in)    :: mesh
+  type(mesh_t),   intent(in)    :: mesh
   integer(kind=8) :: i, j
 
   do i = mesh%sindx, mesh%eindx
@@ -75,6 +77,22 @@ subroutine update_field_s1v1(this, scalar1, v1, mesh)
   end do
 
 end subroutine update_field_s1v1
+
+subroutine update_field_s1v1v2(this, scalar1, f1, f2, mesh)
+
+  class(field_t),      intent(inout) :: this
+  real(kind=8),        intent(in)    :: scalar1
+  type(field_t),       intent(in)    :: f1, f2
+  type(mesh_t),        intent(in)    :: mesh
+  integer(kind=8) :: i, j
+
+  do i = mesh%sindx, mesh%eindx
+    do j = mesh%sindy, mesh%eindy
+      this%f(i, j) = this%f(i, j) + scalar1 * f2%f(i, j) * f1%f(i, j)
+    end do
+  end do
+
+end subroutine update_field_s1v1v2
 
 subroutine update_field_s1v1s2v2(this, scalar1, v1, scalar2, v2, mesh)
 
@@ -140,6 +158,22 @@ subroutine assign_field_s1v1(this, scalar1, v1, mesh)
   end do
 
 end subroutine assign_field_s1v1
+
+subroutine assign_field_s1v1v2(this, scalar1, f1, f2, mesh)
+
+  class(field_t),      intent(inout) :: this
+  real(kind=8),        intent(in)    :: scalar1
+  type(field_t),       intent(in)    :: f1, f2
+  type(mesh_t),        intent(in)    :: mesh
+  integer(kind=8) :: i, j
+
+  do i = mesh%sindx, mesh%eindx
+    do j = mesh%sindy, mesh%eindy
+      this%f(i, j) = scalar1 * f2%f(i, j) * f1%f(i, j)
+    end do
+  end do
+
+end subroutine assign_field_s1v1v2
 
 subroutine assign_field_s1v1s2v2(this, scalar1, v1, scalar2, v2, mesh)
 
