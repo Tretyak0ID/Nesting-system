@@ -1,7 +1,7 @@
 module vec_math_mod
 
 use field_mod, only : field_t
-use mesh_mod,     only : mesh_t
+use domain_mod,     only : domain_t
 
 implicit none
 

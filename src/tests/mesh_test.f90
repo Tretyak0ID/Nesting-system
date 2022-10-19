@@ -1,14 +1,14 @@
-program mesh_test
-use mesh_mod, only: mesh_t
+program domain_test
+use domain_mod, only: domain_t
 
-  type(mesh_t) :: mesh
-  call mesh%init(0.0_8, 1.0_8, 0, 10, 0.0_8, 1.0_8, 0, 20)
+  type(domain_t) :: domain
+  call domain%init(0.0_8, 1.0_8, 0, 10, 0.0_8, 1.0_8, 0, 20)
 
-  print *, "xs = ", mesh%xs, "xe = ", mesh%xe
-  print *, "ys = ", mesh%ys, "ye = ", mesh%ye
-  print *, "nx = ", mesh%nx, "ny = ", mesh%ny
-  print *, "dx = ", mesh%dx, " dy = ", mesh%dy
-  print *, "mesh_x = ", mesh%mesh_x
-  print *, "mesh_y = ", mesh%mesh_y
+  print *, "xs = ", domain%xs, "xe = ", domain%xe
+  print *, "ys = ", domain%ys, "ye = ", domain%ye
+  print *, "nx = ", domain%nx, "ny = ", domain%ny
+  print *, "dx = ", domain%dx, " dy = ", domain%dy
+  print *, "domain_x = ", domain%domain_x
+  print *, "domain_y = ", domain%domain_y
 
-end program mesh_test
+end program domain_test
