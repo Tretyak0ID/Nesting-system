@@ -31,23 +31,23 @@ contains
     integer  (kind=8)                    :: i, j
 
     if (direction == 'x') then
-      do i = domain%sindx + 1, domain%eindx - 1
-        do j = domain%sindy, domain%eindy
+      do i = domain%is + 1, domain%ie - 1
+        do j = domain%js, domain%je
           out%f(i, j) = (in%f(i + 1, j) - in%f(i - 1, j)) / (2.0_8 * domain%dx)
         end do
       end do
-      do j = domain%sindy, domain%eindy
+      do j = domain%js, domain%je
         out%f(0, j)         = (in%f(1, j) - in%f(domain%nx - 1, j)) / (2.0_8 * domain%dx)
         out%f(domain%nx, j) = out%f(0, j)
       end do
 
     else if(direction == 'y') then
-      do i = domain%sindx, domain%eindx
-        do j = domain%sindy + 1, domain%eindy - 1
+      do i = domain%is, domain%ie
+        do j = domain%js + 1, domain%je - 1
           out%f(i, j) = (in%f(i, j + 1) - in%f(i, j - 1)) / (2.0_8 * domain%dy)
         end do
       end do
-      do i = domain%sindx, domain%eindx
+      do i = domain%is, domain%ie
         out%f(i, 0)             = (in%f(i, 1) - in%f(i, domain%ny - 1)) / (2.0_8 * domain%dy)
         out%f(i, domain%ny)      = out%f(i, 0)
       end do
@@ -67,12 +67,12 @@ contains
     integer  (kind=8)                    :: i, j
 
     if (direction == 'x') then
-      do i = domain%sindx + 2, domain%eindx - 2
-        do j = domain%sindy, domain%eindy
+      do i = domain%is + 2, domain%ie - 2
+        do j = domain%js, domain%je
           out%f(i, j) = (in%f(i - 2, j) - 8.0_8 * in%f(i - 1, j) + 8.0_8 * in%f(i + 1, j) - in%f(i + 2, j)) / (12.0_8 * domain%dx)
         end do
       end do
-      do j = domain%sindy, domain%eindy
+      do j = domain%js, domain%je
         out%f(0, j)             = (in%f(domain%nx - 2, j) - 8.0_8 * in%f(domain%nx - 1, j) + 8.0_8 * in%f(1, j) - in%f(2, j)) / (12.0_8 * domain%dx)
         out%f(1, j)             = (in%f(domain%nx - 1, j) - 8.0_8 * in%f(0, j) + 8.0_8 * in%f(2, j) - in%f(3, j)) / (12.0_8 * domain%dx)
         out%f(domain%nx - 1, j) = (in%f(domain%nx - 3, j) - 8.0_8 * in%f(domain%nx - 2, j) + 8.0_8 * in%f(0, j) - in%f(1, j)) / (12.0_8 * domain%dx)
@@ -80,12 +80,12 @@ contains
       end do
 
     else if(direction == 'y') then
-      do i = domain%sindx, domain%eindx
-        do j = domain%sindy + 2, domain%eindy - 2
+      do i = domain%is, domain%ie
+        do j = domain%js + 2, domain%je - 2
           out%f(i, j) = (in%f(i, j - 2) - 8.0_8 * in%f(i, j - 1) + 8.0_8 * in%f(i, j + 1) - in%f(i, j + 2)) / (12.0_8 * domain%dy)
         end do
       end do
-      do i = domain%sindx, domain%eindx
+      do i = domain%is, domain%ie
         out%f(i, 0)             = (in%f(i, domain%ny - 2) - 8.0_8 * in%f(i, domain%ny - 1) + 8.0_8 * in%f(i, 1) - in%f(i, 2)) / (12.0_8 * domain%dy)
         out%f(i, 1)             = (in%f(i, domain%ny - 1) - 8.0_8 * in%f(i, 0) + 8.0_8 * in%f(i, 2) - in%f(i, 3)) / (12.0_8 * domain%dy)
         out%f(i, domain%ny - 1) = (in%f(i, domain%ny - 3) - 8.0_8 * in%f(i, domain%ny - 2) + 8.0_8 * in%f(i, 0) - in%f(i, 1)) / (12.0_8 * domain%dy)

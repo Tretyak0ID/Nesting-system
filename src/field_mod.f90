@@ -28,12 +28,12 @@ end type field_t
 
 contains
 
-subroutine init(this, sindx, eindx, sindy, eindy)
+subroutine init(this, is, ie, js, je)
 
-  integer(kind=4),  intent(in)  :: sindx, eindx, sindy, eindy
+  integer(kind=4),  intent(in)  :: is, ie, js, je
   class  (field_t), intent(out) :: this
 
-  allocate(this%f(sindx : eindx, sindy : eindy))
+  allocate(this%f(is : ie, js : je))
 
 end subroutine init
 
@@ -42,7 +42,7 @@ subroutine init_on_domain(this, domain)
   class  (field_t), intent(out) :: this
   type(domain_t),   intent(in)  :: domain
 
-  allocate(this%f(domain%sindx : domain%eindx, domain%sindy : domain%eindy))
+  allocate(this%f(domain%is : domain%ie, domain%js : domain%je))
 
 end subroutine init_on_domain
 
@@ -54,8 +54,8 @@ subroutine update_field_s1(this, scalar1, domain)
   type(domain_t),   intent(in)    :: domain
   integer(kind=8) :: i, j
 
-  do i = domain%sindx, domain%eindx
-    do j = domain%sindy, domain%eindy
+  do i = domain%is, domain%ie
+    do j = domain%js, domain%je
       this%f(i, j) = this%f(i, j) + scalar1
     end do
   end do
@@ -70,8 +70,8 @@ subroutine update_field_s1v1(this, scalar1, v1, domain)
   type(domain_t),      intent(in)    :: domain
   integer(kind=8) :: i, j
 
-  do i = domain%sindx, domain%eindx
-    do j = domain%sindy, domain%eindy
+  do i = domain%is, domain%ie
+    do j = domain%js, domain%je
       this%f(i, j) = this%f(i, j) + scalar1 * v1%f(i, j)
     end do
   end do
@@ -86,8 +86,8 @@ subroutine update_field_s1v1v2(this, scalar1, f1, f2, domain)
   type(domain_t),        intent(in)    :: domain
   integer(kind=8) :: i, j
 
-  do i = domain%sindx, domain%eindx
-    do j = domain%sindy, domain%eindy
+  do i = domain%is, domain%ie
+    do j = domain%js, domain%je
       this%f(i, j) = this%f(i, j) + scalar1 * f2%f(i, j) * f1%f(i, j)
     end do
   end do
@@ -104,8 +104,8 @@ subroutine update_field_s1v1s2v2(this, scalar1, v1, scalar2, v2, domain)
   type(domain_t),      intent(in)    :: domain
   integer(kind=8) :: i, j
 
-  do i = domain%sindx, domain%eindx
-    do j = domain%sindy, domain%eindy
+  do i = domain%is, domain%ie
+    do j = domain%js, domain%je
       this%f(i, j) = this%f(i, j) + scalar1 * v1%f(i, j) + scalar2 * v2%f(i, j)
     end do
   end do
@@ -120,8 +120,8 @@ subroutine assign_field_s1(this, scalar1, domain)
   type(domain_t),      intent(in)    :: domain
   integer(kind=8) :: i, j
 
-  do i = domain%sindx, domain%eindx
-    do j = domain%sindy, domain%eindy
+  do i = domain%is, domain%ie
+    do j = domain%js, domain%je
       this%f(i, j) = scalar1
     end do
   end do
@@ -135,8 +135,8 @@ subroutine assign_field_v1(this, v1, domain)
   type(domain_t),      intent(in)    :: domain
   integer(kind=8) :: i, j
 
-  do i = domain%sindx, domain%eindx
-    do j = domain%sindy, domain%eindy
+  do i = domain%is, domain%ie
+    do j = domain%js, domain%je
       this%f(i, j) = v1%f(i, j)
     end do
   end do
@@ -151,8 +151,8 @@ subroutine assign_field_s1v1(this, scalar1, v1, domain)
   type(domain_t),      intent(in)    :: domain
   integer(kind=8) :: i, j
 
-  do i = domain%sindx, domain%eindx
-    do j = domain%sindy, domain%eindy
+  do i = domain%is, domain%ie
+    do j = domain%js, domain%je
       this%f(i, j) = scalar1 * v1%f(i, j)
     end do
   end do
@@ -167,8 +167,8 @@ subroutine assign_field_s1v1v2(this, scalar1, f1, f2, domain)
   type(domain_t),        intent(in)    :: domain
   integer(kind=8) :: i, j
 
-  do i = domain%sindx, domain%eindx
-    do j = domain%sindy, domain%eindy
+  do i = domain%is, domain%ie
+    do j = domain%js, domain%je
       this%f(i, j) = scalar1 * f2%f(i, j) * f1%f(i, j)
     end do
   end do
@@ -185,8 +185,8 @@ subroutine assign_field_s1v1s2v2(this, scalar1, v1, scalar2, v2, domain)
   type(domain_t),      intent(in)    :: domain
   integer(kind=8) :: i, j
 
-  do i = domain%sindx, domain%eindx
-    do j = domain%sindy, domain%eindy
+  do i = domain%is, domain%ie
+    do j = domain%js, domain%je
       this%f(i, j) = scalar1 * v1%f(i, j) + scalar2 * v2%f(i, j)
     end do
   end do

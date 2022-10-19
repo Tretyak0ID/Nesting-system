@@ -21,8 +21,8 @@ contains
     call diff_opx%apply(gy_buff, in, domain, 'y')
     call diff_opy%apply(gx_buff, in, domain, 'x')
 
-    do i = domain%sindx, domain%eindx
-      do j = domain%sindy, domain%eindy
+    do i = domain%is, domain%ie
+      do j = domain%js, domain%je
         curl%f(i, j) = gx_buff%f(i, j) - gy_buff%f(i, j)
       end do
     end do

@@ -1,0 +1,39 @@
+program vec_math_test
+use div_mod,                           only: calc_div
+use sbp_differential_operator_mod,     only: sbp21_t, sbp42_t
+use central_differential_operator_mod, only: central2_t, central4_t
+use field_mod,                         only: field_t
+use domain_mod,                        only: domain_t
+use const_mod,                         only: pi
+use vec_math_mod,                      only: calc_mass_field, calc_c_norm_field, calc_sqrt_l2_norm_field
+implicit none
+
+  type(field_t)    :: in_field, div, div_field
+  type(domain_t)   :: domain
+  type(sbp21_t)    :: sbp21
+  type(sbp42_t)    :: sbp42
+  type(central2_t) :: central2
+  type(central4_t) :: central4
+
+  real(kind=8)     :: c, l2, mass
+  integer          :: i, j
+
+  call domain%init(0.0_8, 2.0_8 * pi, 0, 64, 0.0_8, 2.0_8 * pi, 0, 64)
+  call in_field%init(0, 64, 0, 64)
+  call div%init(0, 64, 0, 64)
+  call div_field%init(0, 64, 0, 64)
+
+  do j = 0, domain%ny
+    do i = 0, domain%nx
+      in_field%f(i, j)  = sin(domain%domain_y(j)) * sin(domain%domain_x(i))
+      div_field%f(i, j) = cos(domain%domain_x(i)) * sin(domain%domain_y(j)) + cos(domain%domain_y(j)) * sin(domain%domain_x(i))
+    end do
+  end do
+
+  call calc_div(div, in_field, in_field, domain, sbp42, sbp42)
+
+  print *, 'divergention error mass-norm:', calc_mass_field(div_field%f - div%f, domain)
+  print *, 'divergention error c-norm:', calc_c_norm_field(div_field%f - div%f, domain)
+  print *, 'divergention error l2-norm:', calc_sqrt_l2_norm_field(div_field%f - div%f, domain)
+
+end program vec_math_test

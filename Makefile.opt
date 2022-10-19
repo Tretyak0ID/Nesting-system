@@ -50,6 +50,11 @@ $(DEXE)SWE_ADVECTION_OPERATOR_TEST: $(MKDIRS) $(DOBJ)swe_advection_operator_test
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) SWE_ADVECTION_OPERATOR_TEST
+$(DEXE)VEC_MATH_TEST: $(MKDIRS) $(DOBJ)vec_math_test.o
+	@rm -f $(filter-out $(DOBJ)vec_math_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) VEC_MATH_TEST
 $(DEXE)GRAD_TEST: $(MKDIRS) $(DOBJ)grad_test.o
 	@rm -f $(filter-out $(DOBJ)grad_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -223,6 +228,17 @@ $(DOBJ)advective_calculate_test.o: src/tests/advective_calculate_test.f90 \
 $(DOBJ)swe_advection_operator_test.o: src/tests/swe_advection_operator_test.f90 \
 	$(DOBJ)stvec_swe_mod.o \
 	$(DOBJ)swe_advective_operator_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)vec_math_test.o: src/tests/vec_math_test.f90 \
+	$(DOBJ)div_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)const_mod.o \
+	$(DOBJ)vec_math_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
