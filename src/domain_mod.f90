@@ -5,7 +5,7 @@ type, public :: domain_t
 
   real   (kind=8) :: xs, xe, ys, ye, dx, dy
   integer(kind=4) :: is, ie, js, je, nx, ny
-  real   (kind=8), allocatable :: domain_x(:), domain_y(:)
+  real   (kind=8), allocatable :: x(:), y(:)
 
 contains
 
@@ -34,15 +34,15 @@ contains
     this%dx = (xe - xs) / this%nx
     this%dy = (ye - ys) / this%ny
 
-    allocate(this%domain_x(0 : this%nx))
-    allocate(this%domain_y(0 : this%ny))
+    allocate(this%x(is : ie))
+    allocate(this%y(js : je))
 
     do i = is, ie
-      this%domain_x(i) = xs + i * this%dx
+      this%x(i) = xs + i * this%dx
     end do
 
     do j = js, je
-      this%domain_y(j) = ys + j * this%dy
+      this%y(j) = ys + j * this%dy
     end do
 
   end subroutine init

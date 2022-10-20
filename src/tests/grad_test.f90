@@ -24,9 +24,9 @@ implicit none
 
   do j = 0, domain%ny
     do i = 0, domain%nx
-      in_field%f(i, j) = sin(domain%domain_y(j)) * sin(domain%domain_x(i))
-      gx_field%f(i, j) = cos(domain%domain_x(i)) * sin(domain%domain_y(j))
-      gy_field%f(i, j) = cos(domain%domain_y(j)) * sin(domain%domain_x(i))
+      in_field%f(i, j) = sin(domain%y(j)) * sin(domain%x(i))
+      gx_field%f(i, j) = cos(domain%x(i)) * sin(domain%y(j))
+      gy_field%f(i, j) = cos(domain%y(j)) * sin(domain%x(i))
     end do
   end do
 

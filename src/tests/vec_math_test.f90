@@ -16,24 +16,36 @@ implicit none
   type(central4_t) :: central4
 
   real(kind=8)     :: c, l2, mass
+  type(field_t)    :: diff_m
   integer          :: i, j
 
   call domain%init(0.0_8, 2.0_8 * pi, 0, 64, 0.0_8, 2.0_8 * pi, 0, 64)
   call in_field%init(0, 64, 0, 64)
   call div%init(0, 64, 0, 64)
   call div_field%init(0, 64, 0, 64)
+  call diff_m%init_on_domain(domain)
 
-  do j = 0, domain%ny
-    do i = 0, domain%nx
-      in_field%f(i, j)  = sin(domain%domain_y(j)) * sin(domain%domain_x(i))
-      div_field%f(i, j) = cos(domain%domain_x(i)) * sin(domain%domain_y(j)) + cos(domain%domain_y(j)) * sin(domain%domain_x(i))
+  do j = domain%is, domain%ie
+    do i = domain%js, domain%je
+      in_field%f(i, j)  = sin(domain%y(j)) * sin(domain%x(i))
+      div_field%f(i, j) = cos(domain%x(i)) * sin(domain%y(j)) + cos(domain%y(j)) * sin(domain%x(i))
     end do
   end do
 
   call calc_div(div, in_field, in_field, domain, sbp42, sbp42)
 
-  print *, 'divergention error mass-norm:', calc_mass_field(div_field%f - div%f, domain)
-  print *, 'divergention error c-norm:', calc_c_norm_field(div_field%f - div%f, domain)
-  print *, 'divergention error l2-norm:', calc_sqrt_l2_norm_field(div_field%f - div%f, domain)
+  do j = domain%is, domain%ie
+    do i = domain%js, domain%je
+      diff_m%f(i, j) = div_field%f(i, j) - div%f(i, j)
+    end do
+  end do
+
+  mass = calc_mass_field(diff_m, domain)
+  c = calc_c_norm_field(diff_m, domain)
+  l2 = calc_sqrt_l2_norm_field(diff_m, domain)
+
+  print *, 'divergention error mass-norm:', mass
+  print *, 'divergention error c-norm:', c
+  print *, 'divergention error l2-norm:', l2
 
 end program vec_math_test

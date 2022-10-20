@@ -14,7 +14,6 @@ implicit none
 
     class(differential_operator_t), allocatable :: diff_opx
     class(differential_operator_t), allocatable :: diff_opy
-
     !work fields for operator
     type(field_t)                 :: div, gx, gy, curl !for h field
     type(field_t)                 :: gux, guy, gvx, gvy !velocity field grad
@@ -22,11 +21,21 @@ implicit none
 
   contains
 
+    procedure :: init => init_swe
     procedure :: apply => apply_swe_advective
 
   end type swe_advective_operator_t
 
 contains
+
+  subroutine init_swe(this, diff_opx, diff_opy)
+
+    class(swe_advective_operator_t), intent(inout) :: this
+    class(differential_operator_t),  intent(in)    :: diff_opx, diff_opy
+    this%diff_opx = diff_opx
+    this%diff_opy = diff_opy
+
+  end subroutine init_swe
 
   subroutine apply_swe_advective(this, out, in, domain)
 

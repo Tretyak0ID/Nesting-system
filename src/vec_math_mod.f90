@@ -1,7 +1,7 @@
 module vec_math_mod
 
-use field_mod, only : field_t
-use domain_mod,     only : domain_t
+use field_mod,  only : field_t
+use domain_mod, only : domain_t
 
 implicit none
 
@@ -15,9 +15,10 @@ function calc_mass_field(field, domain) result(out)
 
   integer(kind=4) :: i, j
 
+  out = 0.0_8;
   do i = domain%is, domain%ie
     do j = domain%js, domain%je
-      out = out + abs(field%f(i ,j)) * domain%dx * domain%dy
+      out = out + abs(field%f(i, j)) * domain%dx * domain%dy
     end do
   end do
 
@@ -41,6 +42,7 @@ function calc_sqrt_l2_norm_field(field, domain) result(out)
 
   integer(kind=4) :: i, j
 
+  out = 0.0_8;
   do i = domain%is, domain%ie
     do j = domain%js, domain%je
       out = out + field%f(i ,j) ** 2 * domain%dx * domain%dy

@@ -8,7 +8,7 @@ use domain_mod, only: domain_t
   print *, "ys = ", domain%ys, "ye = ", domain%ye
   print *, "nx = ", domain%nx, "ny = ", domain%ny
   print *, "dx = ", domain%dx, " dy = ", domain%dy
-  print *, "domain_x = ", domain%domain_x
-  print *, "domain_y = ", domain%domain_y
+  print *, "x = ", domain%x
+  print *, "y = ", domain%y
 
 end program domain_test

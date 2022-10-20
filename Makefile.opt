@@ -35,11 +35,6 @@ $(DEXE)FIELD_TEST: $(MKDIRS) $(DOBJ)field_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) FIELD_TEST
-$(DEXE)MESH_TEST: $(MKDIRS) $(DOBJ)mesh_test.o
-	@rm -f $(filter-out $(DOBJ)mesh_test.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) MESH_TEST
 $(DEXE)ADVECTIVE_CALCULATE_TEST: $(MKDIRS) $(DOBJ)advective_calculate_test.o
 	@rm -f $(filter-out $(DOBJ)advective_calculate_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -50,6 +45,11 @@ $(DEXE)SWE_ADVECTION_OPERATOR_TEST: $(MKDIRS) $(DOBJ)swe_advection_operator_test
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) SWE_ADVECTION_OPERATOR_TEST
+$(DEXE)TEST_1_GAUSSIAN_HILL: $(MKDIRS) $(DOBJ)test_1_gaussian_hill.o
+	@rm -f $(filter-out $(DOBJ)test_1_gaussian_hill.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) TEST_1_GAUSSIAN_HILL
 $(DEXE)VEC_MATH_TEST: $(MKDIRS) $(DOBJ)vec_math_test.o
 	@rm -f $(filter-out $(DOBJ)vec_math_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -65,6 +65,11 @@ $(DEXE)CURL_TEST: $(MKDIRS) $(DOBJ)curl_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) CURL_TEST
+$(DEXE)DOMAIN_TEST: $(MKDIRS) $(DOBJ)domain_test.o
+	@rm -f $(filter-out $(DOBJ)domain_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) DOMAIN_TEST
 $(DEXE)SBP_OPERATORS_TEST: $(MKDIRS) $(DOBJ)sbp_operators_test.o
 	@rm -f $(filter-out $(DOBJ)sbp_operators_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -91,6 +96,14 @@ $(DOBJ)domain_mod.o: src/domain_mod.f90
 $(DOBJ)operator_mod.o: src/operator_mod.f90 \
 	$(DOBJ)stvec_mod.o \
 	$(DOBJ)domain_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)initial_condition_mod.o: src/initial_condition_mod.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)stvec_mod.o \
+	$(DOBJ)stvec_swe_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -213,11 +226,6 @@ $(DOBJ)field_test.o: src/tests/field_test.f90 \
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
-$(DOBJ)mesh_test.o: src/tests/mesh_test.f90 \
-	$(DOBJ)domain_mod.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC)  $< -o $@
-
 $(DOBJ)advective_calculate_test.o: src/tests/advective_calculate_test.f90 \
 	$(DOBJ)stvec_swe_mod.o \
 	$(DOBJ)swe_advective_operator_mod.o \
@@ -228,6 +236,17 @@ $(DOBJ)advective_calculate_test.o: src/tests/advective_calculate_test.f90 \
 $(DOBJ)swe_advection_operator_test.o: src/tests/swe_advection_operator_test.f90 \
 	$(DOBJ)stvec_swe_mod.o \
 	$(DOBJ)swe_advective_operator_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)test_1_gaussian_hill.o: src/tests/test_1_gaussian_hill.f90 \
+	$(DOBJ)initial_condition_mod.o \
+	$(DOBJ)swe_advective_operator_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)const_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -259,6 +278,11 @@ $(DOBJ)curl_test.o: src/tests/curl_test.f90 \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o \
 	$(DOBJ)const_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)domain_test.o: src/tests/domain_test.f90 \
+	$(DOBJ)domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 

@@ -16,8 +16,8 @@ use const_mod,         only: pi
 
   do j = 0, domain%ny
     do i = 0, domain%nx
-      in_field%f(i, j) = sin(domain%domain_y(j))
-      cos_field%f(i, j) = cos(domain%domain_y(j))
+      in_field%f(i, j) = sin(domain%y(j))
+      cos_field%f(i, j) = cos(domain%y(j))
     end do
   end do
 
@@ -34,8 +34,8 @@ use const_mod,         only: pi
 
   do j = 0, domain%ny
     do i = 0, domain%nx
-      in_field%f(i, j) = sin(domain%domain_y(j))
-      cos_field%f(i, j) = cos(domain%domain_y(j))
+      in_field%f(i, j) = sin(domain%y(j))
+      cos_field%f(i, j) = cos(domain%y(j))
     end do
   end do
 
