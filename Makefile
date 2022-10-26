@@ -147,6 +147,20 @@ $(DOBJ)swe_advective_operator_mod.o: src/operators/swe_advective_operator_mod.f9
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
+$(DOBJ)swe_vect_inv_operator_mod.o: src/operators/swe_vect_inv_operator_mod.f90 \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)stvec_mod.o \
+	$(DOBJ)operator_mod.o \
+	$(DOBJ)differential_operator_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)grad_mod.o \
+	$(DOBJ)div_mod.o \
+	$(DOBJ)curl_mod.o \
+	$(DOBJ)const_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
 $(DOBJ)horizontal_advection_operator_mod.o: src/operators/horizontal_advection_operator_mod.f90 \
 	$(DOBJ)stvec_swe_mod.o \
 	$(DOBJ)stvec_mod.o \
@@ -199,6 +213,7 @@ $(DOBJ)swe_advection_operator_test.o: src/tests/swe_advection_operator_test.f90 
 $(DOBJ)test_1_gaussian_hill.o: src/tests/test_1_gaussian_hill.f90 \
 	$(DOBJ)initial_condition_mod.o \
 	$(DOBJ)swe_advective_operator_mod.o \
+	$(DOBJ)swe_vect_inv_operator_mod.o \
 	$(DOBJ)horizontal_advection_operator_mod.o \
 	$(DOBJ)sbp_differential_operator_mod.o \
 	$(DOBJ)central_differential_operator_mod.o \

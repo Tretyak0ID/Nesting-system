@@ -6,9 +6,9 @@ implicit none
 
 contains
 
-  subroutine calc_curl(curl, in, domain, diff_opx, diff_opy)
+  subroutine calc_curl(curl, inx, iny, domain, diff_opx, diff_opy)
     type  (field_t),                 intent(inout) :: curl
-    type  (field_t),                 intent(in)    :: in
+    type  (field_t),                 intent(in)    :: inx, iny
     type  (domain_t),                intent(in)    :: domain
     class (differential_operator_t), intent(in)    :: diff_opx, diff_opy
     type(field_t)   :: gx_buff
@@ -18,8 +18,8 @@ contains
     call gx_buff%init_on_domain(domain)
     call gy_buff%init_on_domain(domain)
 
-    call diff_opx%apply(gy_buff, in, domain, 'y')
-    call diff_opy%apply(gx_buff, in, domain, 'x')
+    call diff_opx%apply(gy_buff, inx, domain, 'y')
+    call diff_opy%apply(gx_buff, iny, domain, 'x')
 
     do i = domain%is, domain%ie
       do j = domain%js, domain%je

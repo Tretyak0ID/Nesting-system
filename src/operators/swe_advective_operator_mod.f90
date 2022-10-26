@@ -4,7 +4,7 @@ use stvec_mod,                 only: stvec_t
 use operator_mod,              only: operator_t
 use differential_operator_mod, only: differential_operator_t
 use field_mod,                 only: field_t
-use domain_mod,                  only: domain_t
+use domain_mod,                only: domain_t
 use grad_mod,                  only: calc_grad
 use div_mod,                   only: calc_div
 use const_mod,                 only: Earth_grav, pcori
@@ -49,7 +49,7 @@ contains
       select type(in)
       class is (stvec_swe_t)
 
-        call this%divmf%init_on_domain(domain)
+        call this%div%init_on_domain(domain)
         call this%hu%init_on_domain(domain)
         call this%hv%init_on_domain(domain)
         call this%gx%init_on_domain(domain)
@@ -62,10 +62,10 @@ contains
         call out%v%init_on_domain(domain)
         call out%h%init_on_domain(domain)
 
-        call this%hu%assign(1.0_8, in%h, in%u, domain)
-        call this%hv%assign(1.0_8, in%h, in%v, domain)
+        call this%hu%assign(-1.0_8, in%h, in%u, domain)
+        call this%hv%assign(-1.0_8, in%h, in%v, domain)
 
-        call calc_div(this%divmf, this%hu, this%hv, domain, this%diff_opx, this%diff_opy)
+        call calc_div(this%div, this%hu, this%hv, domain, this%diff_opx, this%diff_opy)
         call calc_grad(this%gx, this%gy, in%h, domain, this%diff_opx, this%diff_opy)
         call calc_grad(this%gux, this%guy, in%u, domain, this%diff_opx, this%diff_opy)
         call calc_grad(this%gvx, this%gvy, in%v, domain, this%diff_opx, this%diff_opy)
@@ -81,7 +81,7 @@ contains
         call out%v%update(-1.0_8 * Earth_grav, this%gy, domain)
         call out%v%update(-1.0_8 * pcori, in%u, domain)
         !dhdt calculate
-        call out%h%assign(-1.0_8, this%divmf, domain)
+        call out%h%assign(1.0_8, this%div, domain)
 
       class default
       end select

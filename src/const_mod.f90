@@ -4,7 +4,7 @@ implicit none
 real(kind=8), parameter :: pi = acos(-1._8)
 
 real(kind=8), parameter :: Earth_grav = 9.80616_8   !Earth gravity acceleration m/s^2
-real(kind=8), parameter :: Earth_radii = 0.6371229d7 !Earth radius
+real(kind=8), parameter :: Earth_radii = 6371.22_8 * 1000.0_8 !Earth radius
 real(kind=8), parameter :: Earth_sidereal_T = 23*60*60+56*60+4!Earth sidereal period
 real(kind=8), parameter :: Earth_omega = 2.0_8*pi/Earth_sidereal_T!Earth angular speed
 
@@ -15,7 +15,7 @@ real(kind=8), parameter :: Cp   = 3.5_8*rgaz
 real(kind=8), parameter :: Cv   = 2.5_8*rgaz
 real(kind=8), parameter :: kappa = 2.0_8 / 7.0_8
 
-real(kind=8), parameter :: pcori = 2.0_8 * 7.292_8 * 10.0_8 ** (-5.0_8)
+real(kind=8), parameter :: pcori = 0.0_8 !2.0_8 * 7.292_8 * 10.0_8 ** (-5.0_8)
 
 contains
 
