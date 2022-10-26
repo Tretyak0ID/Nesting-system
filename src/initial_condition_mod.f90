@@ -13,11 +13,14 @@ contains
     type(domain_t),    intent(in)    :: domain
     real(kind=8),      intent(in)    :: h_mean, kx, ky
 
+    real(kind=8)    :: dx, dy
     integer(kind=8) :: i, j
 
     do i = domain%is, domain%ie
       do j = domain%js, domain%je
-        vec%h%f(i, j) = h_mean + 0.10_8 * h_mean * exp(- kx * (domain%x(i) - 0.5_8 * (maxval(domain%x) - minval(domain%x)) / 2.0_8) ** 2.0_8 - ky * (domain%y(j) - 0.5_8 * (maxval(domain%y) - minval(domain%y)) / 2.0_8) ** 2.0_8)
+        dx = (domain%x(i) - (maxval(domain%x) - minval(domain%x)) / 2.0_8) / domain%x(domain%ie)
+        dy = (domain%y(j) - (maxval(domain%y) - minval(domain%y)) / 2.0_8) / domain%y(domain%je)
+        vec%h%f(i, j) = h_mean + 0.10_8 * h_mean * exp(- kx * dx ** 2.0_8 - ky * dy ** 2.0_8)
       end do
     end do
 
