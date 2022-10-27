@@ -3,7 +3,6 @@ use initial_conditions_mod,            only : swm_gaussian_hill
 use swe_advective_operator_mod,        only : swe_advective_operator_t
 use swe_vect_inv_operator_mod,         only : swe_vect_inv_operator_t
 use horizontal_advection_operator_mod, only : horizontal_advection_operator_t
-use sbp_differential_operator_mod,     only : sbp21_t, sbp42_t
 use central_differential_operator_mod, only : central2_t, central4_t
 use timescheme_mod,                    only : timescheme_t
 use timescheme_factory_mod,            only : create_timescheme
@@ -18,8 +17,6 @@ implicit none
 type(domain_t)                   :: domain
 type(stvec_swe_t)                :: state
 type(swe_advective_operator_t)   :: op
-type(sbp21_t)                    :: sbp21
-type(sbp42_t)                    :: sbp42
 type(central2_t)                 :: central2
 type(central4_t)                 :: central4
 class(timescheme_t), allocatable :: timescheme
@@ -40,8 +37,8 @@ call create_timescheme(timescheme, state, 'rk4')
 call swm_gaussian_hill(state, domain, H_MEAN, 100.0_8, 100.0_8)
 
 do t = 0, Nt
-  print *, t
-  call write_field(state%h, domain, './data/test1.b', t + 1)
+  if (mod(t, 100) == 0) print *, 'step: ',  t
+  call write_field(state%h, domain, './data/test1h.dat', t + 1)
   call timescheme%step(state, op, domain, dt)
 end do
 

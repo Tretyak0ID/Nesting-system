@@ -35,6 +35,11 @@ $(DEXE)FIELD_TEST: $(MKDIRS) $(DOBJ)field_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) FIELD_TEST
+$(DEXE)TEST_3_GEOSTROPHIC_CYCLONE: $(MKDIRS) $(DOBJ)test_3_geostrophic_cyclone.o
+	@rm -f $(filter-out $(DOBJ)test_3_geostrophic_cyclone.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) TEST_3_GEOSTROPHIC_CYCLONE
 $(DEXE)ADVECTIVE_CALCULATE_TEST: $(MKDIRS) $(DOBJ)advective_calculate_test.o
 	@rm -f $(filter-out $(DOBJ)advective_calculate_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -55,6 +60,11 @@ $(DEXE)VEC_MATH_TEST: $(MKDIRS) $(DOBJ)vec_math_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) VEC_MATH_TEST
+$(DEXE)TEST_2_GEOSTROPHIC_BALANCE: $(MKDIRS) $(DOBJ)test_2_geostrophic_balance.o
+	@rm -f $(filter-out $(DOBJ)test_2_geostrophic_balance.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) TEST_2_GEOSTROPHIC_BALANCE
 $(DEXE)GRAD_TEST: $(MKDIRS) $(DOBJ)grad_test.o
 	@rm -f $(filter-out $(DOBJ)grad_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -96,7 +106,8 @@ $(DOBJ)initial_condition_mod.o: src/initial_condition_mod.f90 \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o \
 	$(DOBJ)stvec_mod.o \
-	$(DOBJ)stvec_swe_mod.o
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)const_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -197,6 +208,22 @@ $(DOBJ)field_test.o: src/tests/field_test.f90 \
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
+$(DOBJ)test_3_geostrophic_cyclone.o: src/tests/test_3_geostrophic_cyclone.f90 \
+	$(DOBJ)initial_condition_mod.o \
+	$(DOBJ)swe_vect_inv_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)curl_mod.o \
+	$(DOBJ)timescheme_mod.o \
+	$(DOBJ)timesheme_factory_mod.o \
+	$(DOBJ)rk4_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)const_mod.o \
+	$(DOBJ)read_write_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
 $(DOBJ)advective_calculate_test.o: src/tests/advective_calculate_test.f90 \
 	$(DOBJ)stvec_swe_mod.o \
 	$(DOBJ)swe_advective_operator_mod.o \
@@ -215,7 +242,6 @@ $(DOBJ)test_1_gaussian_hill.o: src/tests/test_1_gaussian_hill.f90 \
 	$(DOBJ)swe_advective_operator_mod.o \
 	$(DOBJ)swe_vect_inv_operator_mod.o \
 	$(DOBJ)horizontal_advection_operator_mod.o \
-	$(DOBJ)sbp_differential_operator_mod.o \
 	$(DOBJ)central_differential_operator_mod.o \
 	$(DOBJ)timescheme_mod.o \
 	$(DOBJ)timesheme_factory_mod.o \
@@ -236,6 +262,20 @@ $(DOBJ)vec_math_test.o: src/tests/vec_math_test.f90 \
 	$(DOBJ)domain_mod.o \
 	$(DOBJ)const_mod.o \
 	$(DOBJ)vec_math_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)test_2_geostrophic_balance.o: src/tests/test_2_geostrophic_balance.f90 \
+	$(DOBJ)initial_condition_mod.o \
+	$(DOBJ)swe_vect_inv_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)timescheme_mod.o \
+	$(DOBJ)timesheme_factory_mod.o \
+	$(DOBJ)rk4_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)const_mod.o \
+	$(DOBJ)read_write_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 

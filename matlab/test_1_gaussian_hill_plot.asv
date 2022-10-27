@@ -1,8 +1,0 @@
-A = read_bin('../data/test1.b', 129, 129);
-
-axis([0 129 0 129 0 10000])
-for i = 1:length(A(1,1,:))
-
-    surf(X, Y, A(:, :, i))
-    cla;
-end
