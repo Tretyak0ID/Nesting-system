@@ -45,6 +45,11 @@ $(DEXE)ADVECTIVE_CALCULATE_TEST: $(MKDIRS) $(DOBJ)advective_calculate_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) ADVECTIVE_CALCULATE_TEST
+$(DEXE)MULTI_DOMAIN_TEST: $(MKDIRS) $(DOBJ)multi_domain_test.o
+	@rm -f $(filter-out $(DOBJ)multi_domain_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) MULTI_DOMAIN_TEST
 $(DEXE)SWE_ADVECTION_OPERATOR_TEST: $(MKDIRS) $(DOBJ)swe_advection_operator_test.o
 	@rm -f $(filter-out $(DOBJ)swe_advection_operator_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -119,6 +124,11 @@ $(DOBJ)stvec_mod.o: src/stvec_mod.f90 \
 
 $(DOBJ)vec_math_mod.o: src/vec_math_mod.f90 \
 	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)multi_domain_mod.o: src/multi_domain_mod.f90 \
 	$(DOBJ)domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
@@ -228,6 +238,12 @@ $(DOBJ)advective_calculate_test.o: src/tests/advective_calculate_test.f90 \
 	$(DOBJ)stvec_swe_mod.o \
 	$(DOBJ)swe_advective_operator_mod.o \
 	$(DOBJ)rk4_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)multi_domain_test.o: src/tests/multi_domain_test.f90 \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
