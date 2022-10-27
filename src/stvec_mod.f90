@@ -10,6 +10,7 @@ type, abstract, public :: stvec_t
 contains
 
   procedure, public :: copy           => copy_stvec
+  procedure, public :: create_similar => create_similar_stvec
     !updates
   procedure, public :: update_s1v1     => update_stvec_s1v1 !v = v + s1*v1
   procedure, public :: update_s1v1s2v2 => update_stvec_s1v1s2v2 !v = v + s1*v1+s2*v2
@@ -33,6 +34,13 @@ subroutine copy_stvec(this, fin, multi_domain)
   class(multi_domain_t), intent(in) :: multi_domain
 
 end subroutine copy_stvec
+
+subroutine create_similar_stvec(this, destination)
+
+  class(stvec_t), intent(in)    :: this
+  class(stvec_t), intent(inout) :: destination
+
+end subroutine create_similar_stvec
 
 subroutine update_stvec_s1v1(this, scalar1, v1, multi_domain)
 

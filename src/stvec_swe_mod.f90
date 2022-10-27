@@ -13,6 +13,7 @@ type, extends(stvec_t), public :: stvec_swe_t
 contains
 
   procedure, public :: copy
+  procedure, public :: create_similar
   !update
   procedure, public :: update_s1v1 !st = st + s1*v1
   procedure, public :: update_s1v1v2 !st = st + s1*v1*v2
@@ -41,6 +42,20 @@ subroutine copy(this, fin, multi_domain)
   end select
 
 end subroutine copy
+
+subroutine create_similar(this, destination)
+
+  class(stvec_swe_t), intent(in)    :: this
+  class(stvec_t),     intent(inout) :: destination
+
+  select type (destination)
+  class is (stvec_swe_t)
+    call this%h%create_similar(destination%h)
+    call this%u%create_similar(destination%u)
+    call this%v%create_similar(destination%v)
+  end select
+
+end subroutine create_similar
 
 subroutine update_s1v1(this, scalar1, v1, multi_domain)
 

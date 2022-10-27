@@ -11,8 +11,9 @@ module multi_grid_field_mod
 
   contains
 
-    procedure, public :: init => init_multi_grid_field
-    procedure, public :: copy => copy_multi_grid_field
+    procedure, public :: init           => init_multi_grid_field
+    procedure, public :: copy           => copy_multi_grid_field
+    procedure, public :: create_similar => create_similar_multi_grid_field
     !update
     procedure, public :: update_s1       => update_multi_grid_field_s1 !v = v + s1*unity
     procedure, public :: update_s1v1     => update_multi_grid_field_s1v1 !v = v + s1*v1
@@ -66,6 +67,20 @@ contains
     end do
 
   end subroutine copy_multi_grid_field
+
+  subroutine create_similar_multi_grid_field(this, destination)
+
+    class(multi_grid_field_t), intent(in)    :: this
+    class(multi_grid_field_t), intent(inout) :: destination
+    integer(kind=4) :: i, j
+
+    do i = 1, this%num_sub_x
+      do j = 1, this%num_sub_y
+        call this%subfields(i, j)%create_similar(destination%subfields(i, j))
+      end do
+    end do
+
+  end subroutine create_similar_multi_grid_field
 
   !update
   subroutine update_multi_grid_field_s1(this, scalar1, multi_domain)
