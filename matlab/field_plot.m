@@ -1,4 +1,4 @@
-A = read_bin('../data/test_interp.dat', 65, 1);
+A = read_bin('../data/test_interp.dat', 33, 1);
 
 plot(A)
 
