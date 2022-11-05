@@ -1,7 +1,8 @@
-A = read_bin('../data/test3curl.dat', 129, 129);
+A = read_bin('../data/test_interp.dat', 65, 1);
 
-B = A(:,:,1);
+plot(A)
 
+figure;
 axis([0 129 0 129 0 10000])
 for i = 1:5:length(A(1,1,:))
     %zlim([9600 11000])  %comment for 2d field

@@ -30,9 +30,22 @@ contains
     this%ye = ye
     this%js = js
     this%je = je
-    this%ny = je - js
-    this%dx = (xe - xs) / this%nx
-    this%dy = (ye - ys) / this%ny
+
+    if (is == ie) then
+      this%nx = 0.0_8
+      this%dx = 0.0_8
+    else
+      this%nx = ie - is
+      this%dx = (xe - xs) / this%nx
+    end if
+
+    if (je == js) then
+      this%ny = 0.0_8
+      this%dy = 0.0_8
+    else
+      this%ny = je - js
+      this%dy = (ye - ys) / this%ny
+    end if
 
     allocate(this%x(is : ie))
     allocate(this%y(js : je))

@@ -40,6 +40,11 @@ $(DEXE)FIELD_TEST: $(MKDIRS) $(DOBJ)field_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) FIELD_TEST
+$(DEXE)INTERPOLATION_TEST: $(MKDIRS) $(DOBJ)interpolation_test.o
+	@rm -f $(filter-out $(DOBJ)interpolation_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) INTERPOLATION_TEST
 $(DEXE)TEST_3_GEOSTROPHIC_CYCLONE: $(MKDIRS) $(DOBJ)test_3_geostrophic_cyclone.o
 	@rm -f $(filter-out $(DOBJ)test_3_geostrophic_cyclone.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -115,6 +120,8 @@ $(DOBJ)read_write_mod.o: src/read_write_mod.f90 \
 $(DOBJ)initial_condition_mod.o: src/initial_condition_mod.f90 \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_domain_mod.o \
+	$(DOBJ)multi_grid_field_mod.o \
 	$(DOBJ)stvec_mod.o \
 	$(DOBJ)stvec_swe_mod.o \
 	$(DOBJ)const_mod.o
@@ -167,7 +174,7 @@ $(DOBJ)stvec_swe_mod.o: src/stvec_swe_mod.f90 \
 
 $(DOBJ)operator_mod.o: src/operators/operator_mod.f90 \
 	$(DOBJ)stvec_mod.o \
-	$(DOBJ)domain_mod.o
+	$(DOBJ)multi_domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -176,8 +183,8 @@ $(DOBJ)swe_advective_operator_mod.o: src/operators/swe_advective_operator_mod.f9
 	$(DOBJ)stvec_mod.o \
 	$(DOBJ)operator_mod.o \
 	$(DOBJ)differential_operator_mod.o \
-	$(DOBJ)field_mod.o \
-	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_grid_field_mod.o \
+	$(DOBJ)multi_domain_mod.o \
 	$(DOBJ)grad_mod.o \
 	$(DOBJ)div_mod.o \
 	$(DOBJ)const_mod.o
@@ -189,8 +196,8 @@ $(DOBJ)swe_vect_inv_operator_mod.o: src/operators/swe_vect_inv_operator_mod.f90 
 	$(DOBJ)stvec_mod.o \
 	$(DOBJ)operator_mod.o \
 	$(DOBJ)differential_operator_mod.o \
-	$(DOBJ)field_mod.o \
-	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_grid_field_mod.o \
+	$(DOBJ)multi_domain_mod.o \
 	$(DOBJ)grad_mod.o \
 	$(DOBJ)div_mod.o \
 	$(DOBJ)curl_mod.o \
@@ -203,8 +210,8 @@ $(DOBJ)horizontal_advection_operator_mod.o: src/operators/horizontal_advection_o
 	$(DOBJ)stvec_mod.o \
 	$(DOBJ)operator_mod.o \
 	$(DOBJ)differential_operator_mod.o \
-	$(DOBJ)field_mod.o \
-	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_grid_field_mod.o \
+	$(DOBJ)multi_domain_mod.o \
 	$(DOBJ)grad_mod.o \
 	$(DOBJ)div_mod.o \
 	$(DOBJ)const_mod.o
@@ -241,6 +248,15 @@ $(DOBJ)stvec_swe_test.o: src/tests/stvec_swe_test.f90 \
 $(DOBJ)field_test.o: src/tests/field_test.f90 \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)interpolation_test.o: src/tests/interpolation_test.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)read_write_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)interpolation_mod.o \
+	$(DOBJ)const_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -365,7 +381,7 @@ $(DOBJ)central_operators_test.o: src/tests/central_operators_test.f90 \
 $(DOBJ)timescheme_mod.o: src/timeschemes/timescheme_mod.f90 \
 	$(DOBJ)operator_mod.o \
 	$(DOBJ)stvec_mod.o \
-	$(DOBJ)domain_mod.o
+	$(DOBJ)multi_domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -381,7 +397,7 @@ $(DOBJ)rk4_mod.o: src/timeschemes/rk4_mod.f90 \
 	$(DOBJ)stvec_mod.o \
 	$(DOBJ)timescheme_mod.o \
 	$(DOBJ)operator_mod.o \
-	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_domain_mod.o \
 	$(DOBJ)stvec_swe_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
@@ -390,7 +406,7 @@ $(DOBJ)explicit_euler_mod.o: src/timeschemes/explicit_Euler_mod.f90 \
 	$(DOBJ)stvec_mod.o \
 	$(DOBJ)timescheme_mod.o \
 	$(DOBJ)operator_mod.o \
-	$(DOBJ)domain_mod.o
+	$(DOBJ)multi_domain_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -432,6 +448,12 @@ $(DOBJ)central_differential_operator_mod.o: src/differential_operators/central_d
 $(DOBJ)differential_operator_mod.o: src/differential_operators/differential_operator_mod.f90 \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)interpolation_mod.o: src/differential_operators/interpolation_mod.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)multi_grid_field_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
