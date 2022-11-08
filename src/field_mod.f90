@@ -126,7 +126,9 @@ subroutine create_similar(this, destination)
   class(field_t), intent(in)    :: this
   class(field_t), intent(inout) :: destination
 
-  allocate(destination%f(this%is : this%ie, this%js : this%je))
+  integer(kind=4) :: i, j
+
+  call destination%init(this%is, this%ie, this%js, this%je)
 
 end subroutine create_similar
 

@@ -27,18 +27,18 @@ subroutine step_rk4(this, v0, operator, multi_domain, dt)
     real(kind=8),         intent(in)    :: dt
 
     call operator%apply(this%k1, v0, multi_domain)
-
+    
     call this%y%assign(1.0_8, v0, 0.5_8 * dt, this%k1, multi_domain)
     call operator%apply(this%k2, this%y, multi_domain)
 
-    call this%y%assign(1.0_8, v0, 0.5_8*dt, this%k2, multi_domain)
+    call this%y%assign(1.0_8, v0, 0.5_8 * dt, this%k2, multi_domain)
     call operator%apply(this%k3, this%y, multi_domain)
 
     call this%y%assign(1.0_8, v0, dt, this%k3, multi_domain)
     call operator%apply(this%k4, this%y, multi_domain)
 
-    call v0%update(dt/6.0_8, this%k1, dt/3.0_8, this%k2, multi_domain)
-    call v0%update(dt/3.0_8, this%k3, dt/6.0_8, this%k4, multi_domain)
+    call v0%update(dt / 6.0_8, this%k1, dt / 3.0_8, this%k2, multi_domain)
+    call v0%update(dt / 3.0_8, this%k3, dt / 6.0_8, this%k4, multi_domain)
 
 end subroutine step_rk4
 

@@ -12,6 +12,7 @@ module multi_grid_field_mod
   contains
 
     procedure, public :: init           => init_multi_grid_field
+    procedure, public :: init_subfields => init_subfields
     procedure, public :: copy           => copy_multi_grid_field
     procedure, public :: create_similar => create_similar_multi_grid_field
     !update
@@ -39,6 +40,7 @@ contains
     integer(kind=4) ::  n, m
 
     allocate(this%subfields(1 : multi_domain%num_sub_x, 1 : multi_domain%num_sub_y))
+
     this%num_sub_x = multi_domain%num_sub_x
     this%num_sub_y = multi_domain%num_sub_y
 
@@ -49,6 +51,17 @@ contains
     end do
 
   end subroutine init_multi_grid_field
+
+  subroutine init_subfields(this, num_sub_x, num_sub_y)
+
+    class(multi_grid_field_t), intent(inout) :: this
+    integer(kind=4),           intent(in)    :: num_sub_x, num_sub_y
+
+    allocate(this%subfields(1 : num_sub_x, 1 : num_sub_y))
+    this%num_sub_x = num_sub_x
+    this%num_sub_y = num_sub_y
+
+  end subroutine init_subfields
 
   subroutine copy_multi_grid_field(this, fin)
 
@@ -72,11 +85,13 @@ contains
 
     class(multi_grid_field_t), intent(in)    :: this
     class(multi_grid_field_t), intent(inout) :: destination
-    integer(kind=4) :: i, j
+    integer(kind=8)                          :: i, j
 
-    do i = 1, this%num_sub_x
-      do j = 1, this%num_sub_y
-        call this%subfields(i, j)%create_similar(destination%subfields(i, j))
+    call destination%init_subfields(this%num_sub_x, this%num_sub_y)
+
+    do i = 1, destination%num_sub_x
+      do j = 1, destination%num_sub_y
+        call destination%subfields(i, j)%init(this%subfields(i, j)%is, this%subfields(i, j)%ie, this%subfields(i, j)%js, this%subfields(i, j)%je)
       end do
     end do
 

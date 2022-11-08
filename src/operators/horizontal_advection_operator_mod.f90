@@ -26,12 +26,17 @@ end type horizontal_advection_operator_t
 
 contains
 
-  subroutine init_ha(this, diff_opx, diff_opy)
+  subroutine init_ha(this, diff_opx, diff_opy, multi_domain)
 
     class(horizontal_advection_operator_t), intent(inout) :: this
     class(differential_operator_t),         intent(in)    :: diff_opx, diff_opy
+    class(multi_domain_t),                  intent(in)    :: multi_domain
+
     this%diff_opx = diff_opx
     this%diff_opy = diff_opy
+
+    call this%gx%init(multi_domain)
+    call this%gy%init(multi_domain)
 
   end subroutine init_ha
 
@@ -46,9 +51,6 @@ contains
     class is (stvec_swe_t)
       select type(in)
       class is (stvec_swe_t)
-
-        call this%gx%init(multi_domain)
-        call this%gy%init(multi_domain)
 
         call calc_grad(this%gx, this%gy, in%h, multi_domain, this%diff_opx, this%diff_opy)
 
