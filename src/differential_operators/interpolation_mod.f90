@@ -5,16 +5,30 @@ implicit none
 
 contains
 
+subroutine identity(in, out, direction)
+
+  type(field_t),     intent(inout) :: out
+  type(field_t),     intent(in)    :: in
+  character(len=*), intent(in)     :: direction
+  integer(kind=8) :: i
+
+    do i = in%is, in%ie
+      out%f(i, out%js) = in%f(i, in%js)
+    end do
+
+end subroutine identity
+
 subroutine interp_1d_sbp21_2to1_ratio(in, out, direction)
 
-  type(field_t),     intent(inout) :: in, out
-  character(len=11), intent(in)    :: direction
+  type(field_t),     intent(inout) :: out
+  type(field_t),     intent(in)    :: in
+  character(len=*), intent(in)     :: direction
   integer(kind=8) :: i, j
 
   if (direction == 'coarse2fine') then
 
       do i = in%is, in%ie - 1
-        out%f(2 * i, out%js) = in%f(i, in%js)
+        out%f(2 * i, out%js)     = in%f(i, in%js)
         out%f(2 * i + 1, out%js) = (in%f(i, in%js) + in%f(i + 1, in%js)) / 2.0_8
       end do
       out%f(out%ie, out%js) = in%f(in%ie, in%js)
@@ -32,8 +46,9 @@ subroutine interp_1d_sbp21_2to1_ratio(in, out, direction)
 end subroutine interp_1d_sbp21_2to1_ratio
 
 subroutine interp_1d_sbp42_2to1_ratio(in, out, direction)
-  type(field_t),     intent(inout) :: in, out
-  character(len=11), intent(in)    :: direction
+  type(field_t),     intent(inout) :: out
+  type(field_t),     intent(in)    :: in
+  character(len=*), intent(in)     :: direction
   integer(kind=8) :: i, j
 
   if (direction == 'coarse2fine') then

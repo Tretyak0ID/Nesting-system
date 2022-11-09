@@ -29,12 +29,22 @@ implicit none
 
 contains
 
-  subroutine init_vecinv(this, diff_opx, diff_opy)
+  subroutine init_vecinv(this, diff_opx, diff_opy, multi_domain)
 
     class(swe_vect_inv_operator_t), intent(inout) :: this
     class(differential_operator_t), intent(in)    :: diff_opx, diff_opy
+    class(multi_domain_t),          intent(in)    :: multi_domain
     this%diff_opx = diff_opx
     this%diff_opy = diff_opy
+
+    call this%div%init(multi_domain)
+    call this%curl%init(multi_domain)
+    call this%gx%init(multi_domain)
+    call this%gy%init(multi_domain)
+    call this%kin_energy%init(multi_domain)
+    call this%gh_kin_energy%init(multi_domain)
+    call this%hu%init(multi_domain)
+    call this%hv%init(multi_domain)
 
   end subroutine init_vecinv
 
@@ -49,15 +59,6 @@ contains
     class is (stvec_swe_t)
       select type(in)
       class is (stvec_swe_t)
-
-        call this%div%init(multi_domain)
-        call this%curl%init(multi_domain)
-        call this%gx%init(multi_domain)
-        call this%gy%init(multi_domain)
-        call this%kin_energy%init(multi_domain)
-        call this%gh_kin_energy%init(multi_domain)
-        call this%hu%init(multi_domain)
-        call this%hv%init(multi_domain)
 
         call this%hu%assign(1.0_8, in%h, in%u, multi_domain)
         call this%hv%assign(1.0_8, in%h, in%v, multi_domain)

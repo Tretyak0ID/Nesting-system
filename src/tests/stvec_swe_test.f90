@@ -32,14 +32,10 @@ implicit none
   state1%v = v
   state1%h = h
 
-  call state2%assign(1.0_8, state1, multi_domain)
+  call state1%create_similar(state2)
 
-  print *, "u1 field: ", state1%u%subfields(1, 1)%f
-  print *, "v1 field: ", state1%v%subfields(1, 1)%f
-  print *, "h1 field: ", state1%h%subfields(1, 1)%f
-
-  print *, "u2 field: ", state2%u%subfields(1, 1)%f
-  print *, "v2 field: ", state2%v%subfields(1, 1)%f
-  print *, "h2 field: ", state2%h%subfields(1, 1)%f
+  print *, "u2 field: ", state2%u%subfields(2, 1)%f
+  print *, "v2 field: ", state2%v%subfields(2, 1)%f
+  print *, "h2 field: ", state2%h%subfields(2, 1)%f
 
 end program stvec_swe_test

@@ -45,9 +45,10 @@ end subroutine copy
 
 subroutine create_similar(this, destination)
 
-  class(stvec_swe_t), intent(in)    :: this
-  class(stvec_t),     intent(inout) :: destination
+  class(stvec_swe_t),          intent(in)    :: this
+  class(stvec_t), allocatable, intent(inout) :: destination
 
+  allocate(stvec_swe_t :: destination)
   select type (destination)
   class is (stvec_swe_t)
     call this%h%create_similar(destination%h)

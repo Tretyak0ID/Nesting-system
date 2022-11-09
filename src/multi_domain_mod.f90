@@ -43,8 +43,8 @@ contains
         xe = global_domain%xs + n * abs(global_domain%xe - global_domain%xs) / num_sub_x
         ys = global_domain%ys + (m - 1) * abs(global_domain%ye - global_domain%ys) / num_sub_y
         ye = global_domain%ys + m * abs(global_domain%ye - global_domain%ys) / num_sub_y
-        ie = this%degree_condensation(n, m) * global_domain%nx
-        je = this%degree_condensation(n, m) * global_domain%ny
+        ie = this%degree_condensation(n, m) * global_domain%ie / num_sub_x
+        je = this%degree_condensation(n, m) * global_domain%je / num_sub_y
         call this%subdomains(n, m)%init(xs, xe, 0, ie, ys, ye, 0, je)
       end do
     end do
