@@ -15,7 +15,7 @@ real(kind=8), parameter :: Cp   = 3.5_8*rgaz
 real(kind=8), parameter :: Cv   = 2.5_8*rgaz
 real(kind=8), parameter :: kappa = 2.0_8 / 7.0_8
 
-real(kind=8), parameter :: pcori = 2.0_8 * 7.292_8 * 10.0_8 ** (-5.0_8)
+real(kind=8), parameter :: pcori = 0.0_8 !2.0_8 * 7.292_8 * 10.0_8 ** (-5.0_8)
 
 contains
 

@@ -16,40 +16,98 @@ subroutine sbp_SAT_penalty_two_block(tend, in, direction, domains, diff_method)
   character(len=1),         intent(in)    :: direction
   character(len=5),         intent(in)    :: diff_method
 
-  type(field_t)   :: layer_ls, layer_le, layer_rs, layer_re
+  type(field_t)   :: layer_ls, layer_le, layer_rs, layer_re, interp_layer_ls, interp_layer_le, interp_layer_rs, interp_layer_re
   integer(kind=4) :: n, m, k
   real(kind=8)    :: df, h0
+
+  if (diff_method == 'sbp21') then
+    h0 = 1.0_8 / 2.0_8
+  else if (diff_method == 'sbp42') then
+    h0 = 17.0_8 / 48.0_8
+  end if
 
   if (direction == 'x') then
     do n = 2, domains%num_sub_x
       do m = 1, domains%num_sub_y
         !n-m-th subdomain
+        call layer_ls%init(domains%subdomains(n - 1, m)%js, domains%subdomains(n - 1, m)%je, 0, 0)
+        call layer_le%init(domains%subdomains(n - 1, m)%js, domains%subdomains(n - 1, m)%je, 0, 0)
+        call layer_rs%init(domains%subdomains(n, m)%js, domains%subdomains(n, m)%je, 0, 0)
+        call layer_re%init(domains%subdomains(n, m)%js, domains%subdomains(n, m)%je, 0, 0)
+
+        do k = layer_ls%is, layer_ls%ie
+          layer_ls%f(k, 0) = in%subfields(n - 1, m)%f(in%subfields(n - 1, m)%is, k)
+          layer_le%f(k, 0) = in%subfields(n - 1, m)%f(in%subfields(n - 1, m)%ie, k)
+        end do
+
+        do k = layer_rs%is, layer_rs%ie
+          layer_rs%f(k, 0) = in%subfields(n, m)%f(in%subfields(n, m)%is, k)
+          layer_re%f(k, 0) = in%subfields(n, m)%f(in%subfields(n, m)%ie, k)
+        end do
+
         if(domains%subdomains(n - 1, m)%ny == domains%subdomains(n, m)%ny) then
           !blocks n and n-1 size 1:1
-          h0 = 1.0_8 / 2.0_8
-          call layer_ls%init(0, 0, domains%subdomains(n - 1, m)%js, domains%subdomains(n - 1, m)%je)
-          call layer_le%init(0, 0, domains%subdomains(n - 1, m)%js, domains%subdomains(n - 1, m)%je)
-          call layer_rs%init(0, 0, domains%subdomains(n, m)%js, domains%subdomains(n, m)%je)
-          call layer_re%init(0, 0, domains%subdomains(n, m)%js, domains%subdomains(n, m)%je)
 
-          do k = layer_ls%js, layer_ls%je
-            layer_ls%f(0, k) = in%subfields(n - 1, m)%f(in%subfields(n - 1, m)%is, k)
-            layer_le%f(0, k) = in%subfields(n - 1, m)%f(in%subfields(n - 1, m)%ie, k)
-            layer_rs%f(0, k) = in%subfields(n, m)%f(in%subfields(n, m)%is, k)
-            layer_re%f(0, k) = in%subfields(n, m)%f(in%subfields(n, m)%ie, k)
-          end do
-
-          do k = layer_ls%js, layer_ls%je
-            df = (layer_re%f(0, k) - layer_ls%f(0, k)) / (domains%subdomains(n - 1, m)%dx * h0)
+          do k = layer_ls%is, layer_ls%ie
+            df = (layer_re%f(k, 0) - layer_ls%f(k, 0)) / (domains%subdomains(n - 1, m)%dx * h0)
             tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%is, k) = tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%is, k) - (df) / 2.0_8
 
-            df = (layer_le%f(0, k) - layer_rs%f(0, k)) / (domains%subdomains(n - 1, m)%dx * h0)
+            df = (layer_le%f(k, 0) - layer_rs%f(k, 0)) / (domains%subdomains(n - 1, m)%dx * h0)
             tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie, k) = tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie, k) - (df) / 2.0_8
 
-            df = (layer_le%f(0, k) - layer_rs%f(0, k)) / (domains%subdomains(n, m)%dx * h0)
+            df = (layer_le%f(k, 0) - layer_rs%f(k, 0)) / (domains%subdomains(n, m)%dx * h0)
             tend%subfields(n, m)%f(tend%subfields(n, m)%is, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%is, k) - (df) / 2.0_8
 
-            df = (layer_re%f(0, k) - layer_ls%f(0, k)) / (domains%subdomains(n, m)%dx * h0)
+            df = (layer_re%f(k, 0) - layer_ls%f(k, 0)) / (domains%subdomains(n, m)%dx * h0)
+            tend%subfields(n, m)%f(tend%subfields(n, m)%ie, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%ie, k) - (df) / 2.0_8
+          end do
+
+        else
+
+          call layer_ls%create_similar(interp_layer_re)
+          call layer_le%create_similar(interp_layer_rs)
+          call layer_rs%create_similar(interp_layer_le)
+          call layer_re%create_similar(interp_layer_ls)
+
+          if (diff_method == 'sbp21') then
+            if (2 * domains%subdomains(n - 1, m)%ny == domains%subdomains(n, m)%ny) then
+              call interp_1d_sbp21_2to1_ratio(layer_ls, interp_layer_ls, 'coarse2fine')
+              call interp_1d_sbp21_2to1_ratio(layer_le, interp_layer_le, 'coarse2fine')
+              call interp_1d_sbp21_2to1_ratio(layer_rs, interp_layer_rs, 'fine2coarse')
+              call interp_1d_sbp21_2to1_ratio(layer_re, interp_layer_re, 'fine2coarse')
+            else if (domains%subdomains(n - 1, m)%ny == 2 * domains%subdomains(n, m)%ny) then
+              call interp_1d_sbp21_2to1_ratio(layer_ls, interp_layer_ls, 'fine2coarse')
+              call interp_1d_sbp21_2to1_ratio(layer_le, interp_layer_le, 'fine2coarse')
+              call interp_1d_sbp21_2to1_ratio(layer_rs, interp_layer_rs, 'coarse2fine')
+              call interp_1d_sbp21_2to1_ratio(layer_re, interp_layer_re, 'coarse2fine')
+            end if
+          else if (diff_method == 'sbp42') then
+            if (2 * domains%subdomains(n - 1, m)%ny == domains%subdomains(n, m)%ny) then
+              call interp_1d_sbp42_2to1_ratio(layer_ls, interp_layer_ls, 'coarse2fine')
+              call interp_1d_sbp42_2to1_ratio(layer_le, interp_layer_le, 'coarse2fine')
+              call interp_1d_sbp42_2to1_ratio(layer_rs, interp_layer_rs, 'fine2coarse')
+              call interp_1d_sbp42_2to1_ratio(layer_re, interp_layer_re, 'fine2coarse')
+            else if (domains%subdomains(n - 1, m)%ny == 2 * domains%subdomains(n, m)%ny) then
+              call interp_1d_sbp42_2to1_ratio(layer_ls, interp_layer_ls, 'fine2coarse')
+              call interp_1d_sbp42_2to1_ratio(layer_le, interp_layer_le, 'fine2coarse')
+              call interp_1d_sbp42_2to1_ratio(layer_rs, interp_layer_rs, 'coarse2fine')
+              call interp_1d_sbp42_2to1_ratio(layer_re, interp_layer_re, 'coarse2fine')
+            end if
+          end if
+
+          do k = layer_ls%is, layer_ls%ie
+            df = (interp_layer_re%f(k, 0) - layer_ls%f(k, 0)) / (domains%subdomains(n - 1, m)%dx * h0)
+            tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%is, k) = tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%is, k) - (df) / 2.0_8
+
+            df = (layer_le%f(k, 0) - interp_layer_rs%f(k, 0)) / (domains%subdomains(n - 1, m)%dx * h0)
+            tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie, k) = tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie, k) - (df) / 2.0_8
+          end do
+
+          do k = layer_rs%is, layer_rs%ie
+            df = (interp_layer_le%f(k, 0) - layer_rs%f(k, 0)) / (domains%subdomains(n, m)%dx * h0)
+            tend%subfields(n, m)%f(tend%subfields(n, m)%is, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%is, k) - (df) / 2.0_8
+
+            df = (layer_re%f(k, 0) - interp_layer_ls%f(k, 0)) / (domains%subdomains(n, m)%dx * h0)
             tend%subfields(n, m)%f(tend%subfields(n, m)%ie, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%ie, k) - (df) / 2.0_8
           end do
 

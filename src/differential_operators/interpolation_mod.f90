@@ -66,7 +66,7 @@ subroutine interp_1d_sbp42_2to1_ratio(in, out, direction)
   else if (direction == 'fine2coarse') then
 
       do i = out%is + 3, out%ie - 2
-          out%f(i, out%js) = (-in%f(2 * i - 3, in%js) +9*in%f(2*i-1, in%js) + 16*in%f(2*i, in%js)+ 9*in%f(2*i+1, in%js) - in%f(2*i+3, in%js)) / 32.0_8
+          out%f(i, out%js) = (-in%f(2 * i - 3, in%js) +9 * in%f(2*i-1, in%js) + 16*in%f(2*i, in%js)+ 9*in%f(2*i+1, in%js) - in%f(2*i+3, in%js)) / 32.0_8
       end do
       out%f(out%is, out%js)     = (- in%f(in%ie - 3, in%js) + 9.0_8 * in%f(in%ie - 1, in%js) + 16.0_8 * in%f(in%is + 0, in%js) + 9.0_8 * in%f(in%is + 1, in%js) - in%f(in%is + 3, in%js)) / 32.0_8
       out%f(out%is + 1, out%js) = (- in%f(in%ie - 1, in%js) + 9.0_8 * in%f(in%is + 1, in%js) + 16.0_8 * in%f(in%is + 2, in%js) + 9.0_8 * in%f(in%is + 3, in%js) - in%f(in%is + 5, in%js)) / 32.0_8
