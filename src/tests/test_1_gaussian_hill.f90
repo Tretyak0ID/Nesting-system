@@ -19,31 +19,37 @@ implicit none
 type(domain_t)                   :: domain
 type(multi_domain_t)             :: multi_domain
 type(stvec_swe_t)                :: state
-type(swe_advective_operator_t)   :: op
+type(swe_vect_inv_operator_t)   :: op
 type(sbp21_t)                    :: sbp21
 type(central2_t)                 :: central2
+type(central4_t)                 :: central4
 type(sbp42_t)                    :: sbp42
 class(timescheme_t), allocatable :: timescheme
 integer(kind=4), allocatable :: deg(:, :)
 
 real(kind=8)    :: LX     = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii
 real(kind=8)    :: H_MEAN = 10.0_8 ** 4.0_8
-integer(kind=4) :: Nt     = 180 * 4, t
-real(kind=8)    :: T_max  = 5.0_8 * 3600.0_8 * 24.0_8, dt
+integer(kind=4) :: Nt     = 180 * 8, t
+real(kind=8)    :: T_max  = 10.0_8 * 3600.0_8 * 24.0_8, dt
 allocate(deg(1:2, 1:1))
-deg(1, 1) = 2
-deg(2, 1) = 1
+deg(1, 1) = 1
+deg(2, 1) = 2
 dt = T_max / Nt
+
+sbp21%name = 'sbp21'
+sbp42%name = 'sbp42'
+central2%name = 'cent2'
+central4%name = 'cent4'
 
 call domain%init(0.0_8, LX, 0, 128, 0.0_8, LY, 0, 128)
 call multi_domain%init(domain, 2, 1, deg)
 call state%h%init(multi_domain)
 call state%u%init(multi_domain)
 call state%v%init(multi_domain)
-call op%init(sbp21, central2, multi_domain)
+call op%init(sbp42, central4, multi_domain)
 
 call create_timescheme(timescheme, state, 'rk4')
-call swm_gaussian_hill(state, multi_domain, H_MEAN, 100.0_8, 100.0_8)
+call swm_gaussian_hill(state, multi_domain, H_MEAN, 50.0_8, 50.0_8)
 
 do t = 0, Nt
   if (mod(t, 100) == 0) print *, 'step: ',  t

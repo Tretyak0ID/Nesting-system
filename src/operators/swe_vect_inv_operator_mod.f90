@@ -34,8 +34,6 @@ contains
     class(swe_vect_inv_operator_t), intent(inout) :: this
     class(differential_operator_t), intent(in)    :: diff_opx, diff_opy
     class(multi_domain_t),          intent(in)    :: multi_domain
-    this%diff_opx = diff_opx
-    this%diff_opy = diff_opy
 
     call this%div%init(multi_domain)
     call this%curl%init(multi_domain)
@@ -45,6 +43,9 @@ contains
     call this%gh_kin_energy%init(multi_domain)
     call this%hu%init(multi_domain)
     call this%hv%init(multi_domain)
+
+    this%diff_opx = diff_opx
+    this%diff_opy = diff_opy
 
   end subroutine init_vecinv
 
@@ -60,11 +61,11 @@ contains
       select type(in)
       class is (stvec_swe_t)
 
-        call this%hu%assign(1.0_8, in%h, in%u, multi_domain)
-        call this%hv%assign(1.0_8, in%h, in%v, multi_domain)
+        call this%hu%assign(-1.0_8, in%h, in%u, multi_domain)
+        call this%hv%assign(-1.0_8, in%h, in%v, multi_domain)
 
-        call this%kin_energy%assign(0.5_8, in%u, in%u, multi_domain)
-        call this%kin_energy%update(0.5_8, in%v, in%v, multi_domain)
+        call this%kin_energy%assign(0.50_8, in%u, in%u, multi_domain)
+        call this%kin_energy%update(0.50_8, in%v, in%v, multi_domain)
         call this%gh_kin_energy%assign(Earth_grav, in%h, 1.0_8, this%kin_energy, multi_domain)
 
         call calc_div(this%div, this%hu, this%hv, multi_domain, this%diff_opx, this%diff_opy)
@@ -80,7 +81,7 @@ contains
         call out%v%update(-pcori, in%u, multi_domain)
         call out%v%update(-1.0_8, this%curl, in%u, multi_domain)
         !h field
-        call out%h%assign(-1.0_8, this%div, multi_domain)
+        call out%h%assign(1.0_8, this%div, multi_domain)
 
       class default
       end select

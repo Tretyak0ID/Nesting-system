@@ -23,13 +23,13 @@ contains
 
     do n = 1, domain%num_sub_x
       do m = 1, domain%num_sub_y
-        call diff_opx%apply(gy_buff%subfields(n, m), inx%subfields(n, m), domain%subdomains(n, m), 'y')
-        call diff_opy%apply(gx_buff%subfields(n, m), iny%subfields(n, m), domain%subdomains(n, m), 'x')
+        call diff_opy%apply(gy_buff%subfields(n, m), inx%subfields(n, m), domain%subdomains(n, m), 'y')
+        call diff_opx%apply(gx_buff%subfields(n, m), iny%subfields(n, m), domain%subdomains(n, m), 'x')
       end do
     end do
 
-    call sbp_SAT_penalty_two_block(gx_buff, iny, 'x', domain, 'sbp21')
-    call sbp_SAT_penalty_two_block(gy_buff, inx, 'y', domain, 'sbp21')
+    call sbp_SAT_penalty_two_block(gx_buff, iny, 'x', domain, diff_opx%name)
+    call sbp_SAT_penalty_two_block(gy_buff, inx, 'y', domain, diff_opy%name)
 
     do n = 1, domain%num_sub_x
       do m = 1, domain%num_sub_y

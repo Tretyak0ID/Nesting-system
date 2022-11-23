@@ -21,8 +21,8 @@ contains
       end do
     end do
 
-    call sbp_SAT_penalty_two_block(gx, in, 'x', domain, 'sbp21')
-    call sbp_SAT_penalty_two_block(gy, in, 'y', domain, 'sbp21')
+    call sbp_SAT_penalty_two_block(gx, in, 'x', domain, diff_opx%name)
+    call sbp_SAT_penalty_two_block(gy, in, 'y', domain, diff_opy%name)
 
   end subroutine
 

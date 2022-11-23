@@ -93,6 +93,8 @@ subroutine sbp_SAT_penalty_two_block(tend, in, direction, domains, diff_method)
               call interp_1d_sbp42_2to1_ratio(layer_rs, interp_layer_rs, 'coarse2fine')
               call interp_1d_sbp42_2to1_ratio(layer_re, interp_layer_re, 'coarse2fine')
             end if
+          else
+            exit
           end if
 
           do k = layer_ls%is, layer_ls%ie

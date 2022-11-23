@@ -27,8 +27,8 @@ contains
       end do
     end do
 
-    call sbp_SAT_penalty_two_block(gx_buff, inx, 'x', domain, 'sbp21')
-    call sbp_SAT_penalty_two_block(gy_buff, iny, 'y', domain, 'sbp21')
+    call sbp_SAT_penalty_two_block(gx_buff, inx, 'x', domain, diff_opx%name)
+    call sbp_SAT_penalty_two_block(gy_buff, iny, 'y', domain, diff_opy%name)
     call div%assign(1.0_8, gx_buff, 1.0_8, gy_buff, domain)
 
   end subroutine

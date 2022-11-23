@@ -52,7 +52,7 @@ contains
       do m = 1, multi_domain%num_sub_y
         do i = multi_domain%subdomains(n, m)%is, multi_domain%subdomains(n, m)%ie
           do j = multi_domain%subdomains(n, m)%js, multi_domain%subdomains(n, m)%je
-            dx = (multi_domain%subdomains(n, m)%x(i) - (maxval(multi_domain%global_domain%x) - minval(multi_domain%global_domain%x)) / 2.0_8)
+            dx = (multi_domain%subdomains(n, m)%x(i) - 0.98_8 * (maxval(multi_domain%global_domain%x) - minval(multi_domain%global_domain%x)) / 2.0_8)
             dy = (multi_domain%subdomains(n, m)%y(j) - (maxval(multi_domain%global_domain%y) - minval(multi_domain%global_domain%y)) / 2.0_8)
 
             dhdr%subfields(n, m)%f(i, j) = h_mean * exp( - (sqrt(dx ** 2.0_8 + dy ** 2.0_8) / scale_sigma) ** 2.0_8) * scale_h * 2.0_8 * sqrt(dx ** 2.0_8 + dy ** 2.0_8) / scale_sigma ** 2.0_8
@@ -90,13 +90,13 @@ contains
       do m = 1, multi_domain%num_sub_y
         do i = multi_domain%subdomains(n, m)%is, multi_domain%subdomains(n, m)%ie
           do j = multi_domain%subdomains(n, m)%js, multi_domain%subdomains(n, m)%je
-            dx = (multi_domain%subdomains(n, m)%x(i) - (maxval(multi_domain%global_domain%x) - minval(multi_domain%global_domain%x)) / 2.0_8)
+            dx = (multi_domain%subdomains(n, m)%x(i) - 0.6_8 * (maxval(multi_domain%global_domain%x) - minval(multi_domain%global_domain%x)) / 2.0_8)
             dy = (multi_domain%subdomains(n, m)%y(j) - (maxval(multi_domain%global_domain%y) - minval(multi_domain%global_domain%y)) / 2.0_8)
 
             dhdr%subfields(n, m)%f(i, j) = h_mean * exp( - (sqrt(dx ** 2.0_8 + dy ** 2.0_8) / scale_sigma) ** 2.0_8) * scale_h * 2.0_8 * sqrt(dx ** 2.0_8 + dy ** 2.0_8) / scale_sigma ** 2.0_8
             vtan%subfields(n, m)%f(i, j) = (- sqrt(dx ** 2.0_8 + dy ** 2.0_8) * pcori + sqrt((sqrt(dx ** 2.0_8 + dy ** 2.0_8) * pcori) ** 2.0_8 + 4.0_8 * Earth_grav * sqrt(dx ** 2.0_8 + dy ** 2.0_8) * dhdr%subfields(n, m)%f(i, j))) / 2.0_8
-            h0%subfields(n, m)%f(i, j) = pcori  / Earth_grav * cos((multi_domain%subdomains(n, m)%y(j) - 10.0_8 ** 7.0_8) / (6371.22_8 * 1000.0_8)) * 10.0_8 * 6371.22_8 * 1000.0_8
-            u0%subfields(n, m)%f(i, j) = sin((multi_domain%subdomains(n, m)%y(j) - 10.0_8 ** 7.0_8) / (6371.22_8 * 1000.0_8)) * 10.0_8
+            h0%subfields(n, m)%f(i, j) = pcori  / Earth_grav * cos((multi_domain%subdomains(n, m)%y(j) - 10.0_8 ** 7.0_8) / (6371.22_8 * 1000.0_8)) * 5.0_8 * 6371.22_8 * 1000.0_8
+            u0%subfields(n, m)%f(i, j) = sin((multi_domain%subdomains(n, m)%y(j) - 10.0_8 ** 7.0_8) / (6371.22_8 * 1000.0_8)) * 5.0_8
 
             vec%h%subfields(n, m)%f(i, j) = h_mean - (h_mean * exp( - (sqrt(dx ** 2.0_8 + dy ** 2.0_8) / scale_sigma) ** 2.0_8)) * scale_h + h0%subfields(n, m)%f(i, j)
             vec%u%subfields(n, m)%f(i, j) = - vtan%subfields(n, m)%f(i, j) * cos(pi / 2.0_8 - atan2(dy, dx)) + u0%subfields(n, m)%f(i, j)
