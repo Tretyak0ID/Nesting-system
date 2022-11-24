@@ -49,7 +49,7 @@ call state%v%init(multi_domain)
 call op%init(sbp42, central4, multi_domain)
 
 call create_timescheme(timescheme, state, 'rk4')
-call swm_gaussian_hill(state, multi_domain, H_MEAN, 50.0_8, 50.0_8)
+call swm_gaussian_hill(state, multi_domain, H_MEAN, 50.0_8, 50.0_8, 1)
 
 do t = 0, Nt
   if (mod(t, 100) == 0) print *, 'step: ',  t

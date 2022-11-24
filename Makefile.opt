@@ -255,6 +255,7 @@ $(DOBJ)test_0_horizontal_advection.o: src/tests/test_0_horizontal_advection.f90 
 	$(DOBJ)swe_advective_operator_mod.o \
 	$(DOBJ)swe_vect_inv_operator_mod.o \
 	$(DOBJ)horizontal_advection_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
 	$(DOBJ)sbp_differential_operator_mod.o \
 	$(DOBJ)timescheme_mod.o \
 	$(DOBJ)timesheme_factory_mod.o \

@@ -1,8 +1,9 @@
 program test_1_gaussian_hill
-use initial_conditions_mod,            only : swm_gaussian_hill
+use initial_conditions_mod,            only : swm_gaussian_hill, swm_rotor_velocity
 use swe_advective_operator_mod,        only : swe_advective_operator_t
 use swe_vect_inv_operator_mod,         only : swe_vect_inv_operator_t
 use horizontal_advection_operator_mod, only : horizontal_advection_operator_t
+use central_differential_operator_mod, only : central2_t, central4_t
 use sbp_differential_operator_mod,     only : sbp21_t, sbp42_t
 use timescheme_mod,                    only : timescheme_t
 use timescheme_factory_mod,            only : create_timescheme
@@ -21,42 +22,43 @@ type(stvec_swe_t)                     :: state
 type(horizontal_advection_operator_t) :: op
 type(sbp21_t)                         :: sbp21
 type(sbp42_t)                         :: sbp42
+type(central2_t)                      :: central2
+type(central4_t)                      :: central4
 class(timescheme_t), allocatable      :: timescheme
 integer(kind=4), allocatable          :: deg(:, :)
 
 real(kind=8)    :: LX     = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii
 real(kind=8)    :: H_MEAN = 10.0_8 ** 4.0_8
-integer(kind=4) :: Nt     = 180 * 4, t, i, j, n, m
-real(kind=8)    :: T_max  = 5.0_8 * 3600.0_8 * 24.0_8, dt
+integer(kind=4) :: Nt     = 180 * 16, t, i, j, n, m
+real(kind=8)    :: T_max  = 20.0_8 * 3600.0_8 * 24.0_8, dt
+
 allocate(deg(1:2, 1:1))
-deg(1, 1) = 1
+deg(1, 1) = 2
 deg(2, 1) = 1
 dt = T_max / Nt
+
+sbp21%name = 'sbp21'
+sbp42%name = 'sbp42'
+central2%name = 'cent2'
+central4%name = 'cent4'
 
 call domain%init(0.0_8, LX, 0, 128, 0.0_8, LY, 0, 128)
 call multi_domain%init(domain, 2, 1, deg)
 call state%h%init(multi_domain)
 call state%u%init(multi_domain)
 call state%v%init(multi_domain)
-call op%init(sbp21, sbp21, multi_domain)
-
-do n = 1, state%u%num_sub_x
-  do m = 1, state%u%num_sub_y
-    do i = state%u%subfields(n, m)%is, state%u%subfields(n, m)%ie
-      do j = state%u%subfields(n, m)%js, state%u%subfields(n, m)%je
-        state%u%subfields(n, m)%f(i, j) = 50.0_8
-      end do
-    end do
-  end do
-end do
+call op%init(sbp42, central4, multi_domain)
 
 call create_timescheme(timescheme, state, 'rk4')
-call swm_gaussian_hill(state, multi_domain, H_MEAN, 100.0_8, 100.0_8)
+call swm_gaussian_hill(state, multi_domain, H_MEAN, 2000.0_8, 100.0_8, 0)
+call swm_rotor_velocity(state, multi_domain, 100.0_8)
 
 do t = 0, Nt
   if (mod(t, 100) == 0) print *, 'step: ',  t
-  call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test1h.dat', t + 1)
+  if (mod(t, 20) == 0) call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test0h_left.dat', t/20 + 1)
+  if (mod(t, 20) == 0) call write_field(state%h%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test0h_right.dat', t/20 + 1)
   call timescheme%step(state, op, multi_domain, dt)
+  if (t == Nt / 2) call swm_rotor_velocity(state, multi_domain, -100.0_8)
 end do
 
 end program test_1_gaussian_hill

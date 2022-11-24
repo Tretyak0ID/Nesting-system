@@ -5,16 +5,17 @@ module initial_conditions_mod
   use multi_grid_field_mod, only : multi_grid_field_t
   use stvec_mod,            only : stvec_t
   use stvec_swe_mod,        only : stvec_swe_t
-  use const_mod,            only : Earth_grav, pcori, pi
+  use const_mod,            only : Earth_grav, Earth_radii, pcori, pi
 implicit none
 
 contains
 
-  subroutine swm_gaussian_hill(vec, multi_domain, h_mean, kx, ky)
-
+  subroutine swm_rotor_velocity(vec, multi_domain, velocity_scale)
+  !Sets one elongated "Gaussian hill" in the middle of each subdivision subdomain,
+  !used in conjunction with the net transfer operator
     type(stvec_swe_t),    intent(inout) :: vec
     type(multi_domain_t), intent(in)    :: multi_domain
-    real(kind=8),         intent(in)    :: h_mean, kx, ky
+    real(kind=8),         intent(in)    :: velocity_scale
 
     real(kind=8)    :: dx, dy
     integer(kind=8) :: i, j, n, m
@@ -23,9 +24,40 @@ contains
       do m = 1, multi_domain%num_sub_y
         do i = multi_domain%subdomains(n, m)%is, multi_domain%subdomains(n, m)%ie
           do j = multi_domain%subdomains(n, m)%js, multi_domain%subdomains(n, m)%je
-            dx = (multi_domain%subdomains(n, m)%x(i) - 0.8_8 * (maxval(multi_domain%global_domain%x) - minval(multi_domain%global_domain%x)) / 2.0_8) / multi_domain%global_domain%x(multi_domain%global_domain%ie)
-            dy = (multi_domain%subdomains(n, m)%y(j) - 0.8_8 * (maxval(multi_domain%global_domain%y) - minval(multi_domain%global_domain%y)) / 2.0_8) / multi_domain%global_domain%y(multi_domain%global_domain%je)
-            vec%h%subfields(n, m)%f(i, j) = h_mean + 0.1_8 * h_mean * exp(- kx * (dx ** 2.0_8) - ky * (dy ** 2.0_8))
+            vec%u%subfields(n, m)%f(i, j) =  velocity_scale * sin((multi_domain%subdomains(n, m)%x(i)) / (2.0_8 * Earth_radii)) * cos((multi_domain%subdomains(n, m)%y(j)) / (2.0_8 * Earth_radii))
+            vec%v%subfields(n, m)%f(i, j) = -velocity_scale * cos((multi_domain%subdomains(n, m)%x(i)) / (2.0_8 * Earth_radii)) * sin((multi_domain%subdomains(n, m)%y(j)) / (2.0_8 * Earth_radii))
+          end do
+        end do
+      end do
+    end do
+
+  end subroutine swm_rotor_velocity
+
+
+
+  subroutine swm_gaussian_hill(vec, multi_domain, h_mean, kx, ky, one_hill)
+  !Sets the Gaussian slide, the scale is adjusted by the parameters kx and ky
+    type(stvec_swe_t),    intent(inout) :: vec
+    type(multi_domain_t), intent(in)    :: multi_domain
+    real(kind=8),         intent(in)    :: h_mean, kx, ky
+    integer(kind=2),      intent(in)    :: one_hill
+
+    real(kind=8)    :: dx, dy
+    integer(kind=8) :: i, j, n, m
+
+    do n = 1, multi_domain%num_sub_x
+      do m = 1, multi_domain%num_sub_y
+        do i = multi_domain%subdomains(n, m)%is, multi_domain%subdomains(n, m)%ie
+          do j = multi_domain%subdomains(n, m)%js, multi_domain%subdomains(n, m)%je
+            if (one_hill.eq.1) then
+              dx = (multi_domain%subdomains(n, m)%x(i) - 0.8_8 * (maxval(multi_domain%global_domain%x) - minval(multi_domain%global_domain%x)) / 2.0_8) / multi_domain%global_domain%x(multi_domain%global_domain%ie)
+              dy = (multi_domain%subdomains(n, m)%y(j) - 0.8_8 * (maxval(multi_domain%global_domain%y) - minval(multi_domain%global_domain%y)) / 2.0_8) / multi_domain%global_domain%y(multi_domain%global_domain%je)
+              vec%h%subfields(n, m)%f(i, j) = h_mean + 0.1_8 * h_mean * exp(- kx * (dx ** 2.0_8) - ky * (dy ** 2.0_8))
+            else
+              dx = (multi_domain%subdomains(n, m)%x(i) - (maxval(multi_domain%subdomains(n, m)%x) + minval(multi_domain%subdomains(n, m)%x)) / 2.0_8) / multi_domain%global_domain%x(multi_domain%global_domain%ie)
+              dy = (multi_domain%subdomains(n, m)%y(j) - (maxval(multi_domain%subdomains(n, m)%y) + minval(multi_domain%subdomains(n, m)%y)) / 2.0_8) / multi_domain%global_domain%y(multi_domain%global_domain%je)
+              vec%h%subfields(n, m)%f(i, j) = h_mean + 0.1_8 * h_mean * exp(- kx * (dx ** 2.0_8) - ky * (dy ** 2.0_8))
+            end if
           end do
         end do
       end do
@@ -36,7 +68,8 @@ contains
 
 
   subroutine swm_geostrophic_balance(vec, multi_domain, h_mean, scale_h, scale_sigma)
-
+  !Geostrophic balanced vortex of characteristic depth scale_h
+  !and characteristic scale scale_sigma.
     type(stvec_swe_t),    intent(inout) :: vec
     type(multi_domain_t), intent(in)    :: multi_domain
     real(kind=8),         intent(in)    :: h_mean, scale_h, scale_sigma
@@ -71,7 +104,8 @@ contains
 
 
   subroutine swm_geostrophic_cyclone(vec, multi_domain, h_mean, scale_h, scale_sigma)
-
+  !Geostrophic balanced cyclone in a constant velocity field
+  !of characteristic depth scale_h and characteristic scale scale_sigma.
     type(stvec_swe_t),    intent(inout) :: vec
     type(multi_domain_t), intent(in)    :: multi_domain
     real(kind=8),         intent(in)    :: h_mean, scale_h, scale_sigma
