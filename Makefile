@@ -60,11 +60,6 @@ $(DEXE)INTERPOLATION_TEST: $(MKDIRS) $(DOBJ)interpolation_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) INTERPOLATION_TEST
-$(DEXE)TEST_3_GEOSTROPHIC_CYCLONE: $(MKDIRS) $(DOBJ)test_3_geostrophic_cyclone.o
-	@rm -f $(filter-out $(DOBJ)test_3_geostrophic_cyclone.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) TEST_3_GEOSTROPHIC_CYCLONE
 $(DEXE)ADVECTIVE_CALCULATE_TEST: $(MKDIRS) $(DOBJ)advective_calculate_test.o
 	@rm -f $(filter-out $(DOBJ)advective_calculate_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -90,6 +85,11 @@ $(DEXE)VEC_MATH_TEST: $(MKDIRS) $(DOBJ)vec_math_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) VEC_MATH_TEST
+$(DEXE)TEST_4_GEOSTROPHIC_CYCLONE_DISCONTINUUM: $(MKDIRS) $(DOBJ)test_4_geostrophic_cyclone_discontinuum.o
+	@rm -f $(filter-out $(DOBJ)test_4_geostrophic_cyclone_discontinuum.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) TEST_4_GEOSTROPHIC_CYCLONE_DISCONTINUUM
 $(DEXE)TEST_2_GEOSTROPHIC_BALANCE: $(MKDIRS) $(DOBJ)test_2_geostrophic_balance.o
 	@rm -f $(filter-out $(DOBJ)test_2_geostrophic_balance.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -115,11 +115,21 @@ $(DEXE)DOMAIN_TEST: $(MKDIRS) $(DOBJ)domain_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) DOMAIN_TEST
+$(DEXE)TEST_3_GEOSTROPHIC_CYCLONE_PERIODIC: $(MKDIRS) $(DOBJ)test_3_geostrophic_cyclone_periodic.o
+	@rm -f $(filter-out $(DOBJ)test_3_geostrophic_cyclone_periodic.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) TEST_3_GEOSTROPHIC_CYCLONE_PERIODIC
 $(DEXE)SBP_OPERATORS_TEST: $(MKDIRS) $(DOBJ)sbp_operators_test.o
 	@rm -f $(filter-out $(DOBJ)sbp_operators_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) SBP_OPERATORS_TEST
+$(DEXE)TEST_5_BAROTROPIC_INSTABILITY: $(MKDIRS) $(DOBJ)test_5_barotropic_instability.o
+	@rm -f $(filter-out $(DOBJ)test_5_barotropic_instability.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) TEST_5_BAROTROPIC_INSTABILITY
 $(DEXE)CENTRAL_OPERATORS_TEST: $(MKDIRS) $(DOBJ)central_operators_test.o
 	@rm -f $(filter-out $(DOBJ)central_operators_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -323,26 +333,6 @@ $(DOBJ)interpolation_test.o: src/tests/interpolation_test.f90 \
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
-$(DOBJ)test_3_geostrophic_cyclone.o: src/tests/test_3_geostrophic_cyclone.f90 \
-	$(DOBJ)initial_condition_mod.o \
-	$(DOBJ)swe_vect_inv_operator_mod.o \
-	$(DOBJ)swe_advective_operator_mod.o \
-	$(DOBJ)sbp_differential_operator_mod.o \
-	$(DOBJ)central_differential_operator_mod.o \
-	$(DOBJ)curl_mod.o \
-	$(DOBJ)timescheme_mod.o \
-	$(DOBJ)timesheme_factory_mod.o \
-	$(DOBJ)rk4_mod.o \
-	$(DOBJ)field_mod.o \
-	$(DOBJ)multi_grid_field_mod.o \
-	$(DOBJ)domain_mod.o \
-	$(DOBJ)multi_domain_mod.o \
-	$(DOBJ)stvec_swe_mod.o \
-	$(DOBJ)const_mod.o \
-	$(DOBJ)read_write_mod.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC)  $< -o $@
-
 $(DOBJ)advective_calculate_test.o: src/tests/advective_calculate_test.f90 \
 	$(DOBJ)stvec_swe_mod.o \
 	$(DOBJ)swe_advective_operator_mod.o \
@@ -389,6 +379,27 @@ $(DOBJ)vec_math_test.o: src/tests/vec_math_test.f90 \
 	$(DOBJ)domain_mod.o \
 	$(DOBJ)const_mod.o \
 	$(DOBJ)vec_math_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)test_4_geostrophic_cyclone_discontinuum.o: src/tests/test_4_geostrophic_cyclone_discontinuum.f90 \
+	$(DOBJ)initial_condition_mod.o \
+	$(DOBJ)swe_vect_inv_operator_mod.o \
+	$(DOBJ)swe_advective_operator_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)curl_mod.o \
+	$(DOBJ)grad_mod.o \
+	$(DOBJ)timescheme_mod.o \
+	$(DOBJ)timesheme_factory_mod.o \
+	$(DOBJ)rk4_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)multi_grid_field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_domain_mod.o \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)const_mod.o \
+	$(DOBJ)read_write_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -452,11 +463,51 @@ $(DOBJ)domain_test.o: src/tests/domain_test.f90 \
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
+$(DOBJ)test_3_geostrophic_cyclone_periodic.o: src/tests/test_3_geostrophic_cyclone_periodic.f90 \
+	$(DOBJ)initial_condition_mod.o \
+	$(DOBJ)swe_vect_inv_operator_mod.o \
+	$(DOBJ)swe_advective_operator_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)curl_mod.o \
+	$(DOBJ)timescheme_mod.o \
+	$(DOBJ)timesheme_factory_mod.o \
+	$(DOBJ)rk4_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)multi_grid_field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_domain_mod.o \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)const_mod.o \
+	$(DOBJ)read_write_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
 $(DOBJ)sbp_operators_test.o: src/tests/sbp_operators_test.f90 \
 	$(DOBJ)sbp_differential_operator_mod.o \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o \
 	$(DOBJ)const_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)test_5_barotropic_instability.o: src/tests/test_5_barotropic_instability.f90 \
+	$(DOBJ)initial_condition_mod.o \
+	$(DOBJ)swe_vect_inv_operator_mod.o \
+	$(DOBJ)swe_advective_operator_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)curl_mod.o \
+	$(DOBJ)timescheme_mod.o \
+	$(DOBJ)timesheme_factory_mod.o \
+	$(DOBJ)rk4_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)multi_grid_field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_domain_mod.o \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)const_mod.o \
+	$(DOBJ)read_write_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
