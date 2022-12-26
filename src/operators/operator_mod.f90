@@ -4,7 +4,7 @@ use multi_domain_mod, only: multi_domain_t
 implicit none
 
   type, abstract :: operator_t
-
+  !Abstract type for RHS operators
     contains
 
       procedure(apply_i), deferred :: apply

@@ -12,7 +12,7 @@ use const_mod,                 only: Earth_grav, pcori
 implicit none
 
   type, public, extends(operator_t) :: swe_vect_inv_operator_t
-
+  !RHS operator for shallow water equation in vector invariant form
     class(differential_operator_t), allocatable :: diff_opx
     class(differential_operator_t), allocatable :: diff_opy
     !work fields for operator
@@ -82,6 +82,10 @@ contains
         call out%v%update(-1.0_8, this%curl, in%u, multi_domain)
         !h field
         call out%h%assign(1.0_8, this%div, multi_domain)
+
+        !forcing
+        !call out%u%update(-0.0_8 * pcori, multi_domain)
+        !call out%v%update( 10.0_8 * pcori, multi_domain)
 
       class default
       end select

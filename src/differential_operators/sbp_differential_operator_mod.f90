@@ -12,6 +12,14 @@ implicit none
 
   end type sbp21_t
 
+  type, extends(differential_operator_t) :: sbp21_2_t
+
+  contains
+
+    procedure :: apply => apply_sbp21_2
+
+  end type sbp21_2_t
+
   type, extends(differential_operator_t) :: sbp42_t
 
   contains
@@ -58,6 +66,47 @@ contains
     end if
 
   end subroutine apply_sbp21
+
+  subroutine apply_sbp21_2(this, out, in, domain, direction)
+
+    class    (sbp21_2_t),  intent(in)  :: this
+    type     (field_t),  intent(inout) :: out
+    type     (field_t),  intent(in)    :: in
+    type     (domain_t), intent(in)    :: domain
+    character(len=1),    intent(in)    :: direction
+    integer  (kind=8)                  :: i, j
+
+    if (direction == 'x') then
+      do j = domain%js, domain%je
+        out%f(0, j) = (in%f(0, j) - 2.0_8 * in%f(1, j) + in%f(2, j)) / domain%dx ** 2.0_8
+      end do
+      do i = domain%is + 1, domain%ie - 1
+        do j = domain%js, domain%je
+          out%f(i, j) = (in%f(i + 1, j) - 2.0_8 * in%f(i, j) + in%f(i - 1, j)) / domain%dx ** 2.0_8
+        end do
+      end do
+      do j = domain%js, domain%je
+        out%f(out%ie, j) = (in%f(domain%ie - 2, j) - 2.0_8 * in%f(domain%ie - 1, j) + in%f(domain%ie, j)) / domain%dx ** 2.0_8
+      end do
+
+    else if (direction == 'y') then
+      do i = domain%is, domain%ie
+        out%f(i, 0) = (in%f(i, in%je - 1) - 2.0_8 * in%f(i, 0) + in%f(i, 1)) / domain%dy ** 2.0_8
+      end do
+      do i = domain%is, domain%ie
+        do j = domain%js + 1, domain%je - 1
+          out%f(i, j) = (in%f(i, j - 1) - 2.0_8 * in%f(i, j) + in%f(i, j + 1)) / domain%dy ** 2.0_8
+        end do
+      end do
+      do i = domain%is, domain%ie
+        out%f(i, out%je) = (in%f(i, in%je - 1) - 2.0_8 * in%f(i, in%je) + in%f(i, 1)) / domain%dy ** 2.0_8
+      end do
+
+    else
+      print *, 'Error in diff_sbp21_2. Wrong direction value'
+    end if
+
+  end subroutine apply_sbp21_2
 
   subroutine apply_sbp42(this, out, in, domain, direction)
     class    (sbp42_t),  intent(in)    :: this

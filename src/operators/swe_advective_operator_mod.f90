@@ -11,7 +11,7 @@ use const_mod,                 only: Earth_grav, pcori
 implicit none
 
   type, public, extends(operator_t) :: swe_advective_operator_t
-
+  !RHS operator for shallow water equation advective form
     class(differential_operator_t), allocatable :: diff_opx
     class(differential_operator_t), allocatable :: diff_opy
     !work fields for operator

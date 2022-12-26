@@ -11,7 +11,7 @@ module horizontal_advection_operator_mod
 implicit none
 
 type, public, extends(operator_t) :: horizontal_advection_operator_t
-
+!Horizontal Transfer Operator
   class(differential_operator_t), allocatable :: diff_opx
   class(differential_operator_t), allocatable :: diff_opy
   !work fields for operator

@@ -145,7 +145,7 @@ contains
 
             state%h%subfields(n, m)%f(i, j) = h_mean - (h_mean * exp( - (sqrt(dx ** 2.0_8 + dy ** 2.0_8) / scale_sigma) ** 2.0_8)) * scale_h + h0%subfields(n, m)%f(i, j)
             state%u%subfields(n, m)%f(i, j) = - vtan%subfields(n, m)%f(i, j) * cos(pi / 2.0_8 - atan2(dy, dx)) + u0%subfields(n, m)%f(i, j)
-            state%v%subfields(n, m)%f(i, j) =   vtan%subfields(n, m)%f(i, j) * sin(pi / 2.0_8 - atan2(dy, dx))
+            state%v%subfields(n, m)%f(i, j) =   vtan%subfields(n, m)%f(i, j) * sin(pi / 2.0_8 - atan2(dy, dx)) + v0%subfields(n, m)%f(i, j)
           end do
         end do
       end do
@@ -160,16 +160,36 @@ contains
     real(kind=8),         intent(in)    :: h_mean, u0
 
     integer(kind=8) :: i, j, n, m, k
+    real(kind=8)    :: c, lx, ly
+    type(multi_grid_field_t) :: d1, d2, h_pret
+
+    c = 1000.0_8
+
+    call state%h%create_similar(h_pret)
+    call state%h%create_similar(d1)
+    call state%h%create_similar(d2)
 
     do n = 1, multi_domain%num_sub_x
       do m = 1, multi_domain%num_sub_y
         do i = multi_domain%subdomains(n, m)%is, multi_domain%subdomains(n, m)%ie
           do j = multi_domain%subdomains(n, m)%js, multi_domain%subdomains(n, m)%je
+
             state%u%subfields(n, m)%f(i, j) = u0 * (sin(2.0_8 * pi * multi_domain%subdomains(n, m)%y(j) / abs(multi_domain%global_domain%ye - multi_domain%global_domain%ys)) ** 81.0_8)
-            state%h%subfields(n, m)%f(i, j) = h_mean
+            state%h%subfields(n, m)%f(i, j) = h_mean !phone field for h
+
             do k = multi_domain%subdomains(n, m)%js, j
               state%h%subfields(n, m)%f(i, j) = state%h%subfields(n, m)%f(i, j) - pcori / Earth_grav * state%u%subfields(n, m)%f(i, k) * multi_domain%subdomains(n, m)%dy
             end do
+
+            lx = abs(multi_domain%global_domain%xe - multi_domain%global_domain%xs)
+            ly = abs(multi_domain%global_domain%ye - multi_domain%global_domain%ys)
+
+            d1%subfields(n, m)%f(i, j) = ((multi_domain%subdomains(n, m)%x(i) - 0.85_8 * lx) / lx) ** 2.0_8 + ((multi_domain%subdomains(n, m)%y(j) - 0.75_8 * ly) / ly) ** 2.0_8
+            d2%subfields(n, m)%f(i, j) = ((multi_domain%subdomains(n, m)%x(i) - 0.15_8 * lx) / lx) ** 2.0_8 + ((multi_domain%subdomains(n, m)%y(j) - 0.25_8 * ly) / ly) ** 2.0_8
+            h_pret%subfields(n, m)%f(i, j) = 0.01_8 * h_mean * (exp(- c * d1%subfields(n, m)%f(i, j)) + exp(- c * d2%subfields(n, m)%f(i, j)))
+
+            state%h%subfields(n, m)%f(i, j) = state%h%subfields(n, m)%f(i, j) + h_pret%subfields(n, m)%f(i, j)
+
           end do
         end do
       end do

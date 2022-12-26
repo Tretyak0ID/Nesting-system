@@ -5,7 +5,7 @@ implicit none
 
   type, abstract :: differential_operator_t
 
-      character(len=5), public :: name
+      character(len=7), public :: name
 
     contains
 
