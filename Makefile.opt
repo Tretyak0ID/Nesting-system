@@ -541,6 +541,7 @@ $(DOBJ)test_5_barotropic_instability.o: src/tests/test_5_barotropic_instability.
 	$(DOBJ)initial_condition_mod.o \
 	$(DOBJ)swe_vect_inv_operator_mod.o \
 	$(DOBJ)swe_advective_operator_mod.o \
+	$(DOBJ)diffusion_operator_mod.o \
 	$(DOBJ)sbp_differential_operator_mod.o \
 	$(DOBJ)central_differential_operator_mod.o \
 	$(DOBJ)curl_mod.o \

@@ -32,14 +32,14 @@ real(kind=8)    :: H_MEAN = 10.0_8 ** 4.0_8
 integer(kind=4) :: Nt     = 180 * 8, t
 real(kind=8)    :: T_max  = 10.0_8 * 3600.0_8 * 24.0_8, dt
 allocate(deg(1:2, 1:1))
-deg(1, 1) = 1
-deg(2, 1) = 2
+deg(1, 1) = 2
+deg(2, 1) = 1
 dt = T_max / Nt
 
-sbp21%name = 'sbp21'
-sbp42%name = 'sbp42'
-central2%name = 'cent2'
-central4%name = 'cent4'
+sbp21%name = 'sbp21_1'
+sbp42%name = 'sbp42_1'
+central2%name = 'cent2_1'
+central4%name = 'cent4_1'
 
 call domain%init(0.0_8, LX, 0, 128, 0.0_8, LY, 0, 128)
 call multi_domain%init(domain, 2, 1, deg)
