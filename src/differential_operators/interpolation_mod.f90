@@ -5,7 +5,7 @@ implicit none
 
 contains
 
-subroutine identity(in, out, direction)
+subroutine interp_identity(in, out, direction)
 
   type(field_t),     intent(inout) :: out
   type(field_t),     intent(in)    :: in
@@ -16,7 +16,7 @@ subroutine identity(in, out, direction)
       out%f(i, out%js) = in%f(i, in%js)
     end do
 
-end subroutine identity
+end subroutine interp_identity
 
 subroutine interp_1d_sbp21_2to1_ratio(in, out, direction)
 

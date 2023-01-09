@@ -1,5 +1,5 @@
 program timescheme_test
-use initial_conditions_mod,            only : swm_gaussian_hill
+use initial_conditions_mod,            only : set_swm_gaussian_hill
 use swe_advective_operator_mod,        only : swe_advective_operator_t
 use swe_vect_inv_operator_mod,         only : swe_vect_inv_operator_t
 use horizontal_advection_operator_mod, only : horizontal_advection_operator_t
@@ -41,7 +41,7 @@ call state%v%init(multi_domain)
 call op%init(sbp21, sbp21)
 
 call create_timescheme(timescheme, state, 'rk4')
-call swm_gaussian_hill(state, multi_domain, H_MEAN, 100.0_8, 100.0_8)
+call set_swm_gaussian_hill(state, multi_domain, H_MEAN, 100.0_8, 100.0_8)
 
 do t = 0, Nt
   print *, 'step: ',  t

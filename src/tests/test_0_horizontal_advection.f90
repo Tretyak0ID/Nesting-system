@@ -1,5 +1,5 @@
 program test_1_gaussian_hill
-use initial_conditions_mod,            only : swm_gaussian_hill, swm_rotor_velocity
+use initial_conditions_mod,            only : set_swm_gaussian_hill, set_swm_rotor_velocity
 use swe_advective_operator_mod,        only : swe_advective_operator_t
 use swe_vect_inv_operator_mod,         only : swe_vect_inv_operator_t
 use horizontal_advection_operator_mod, only : horizontal_advection_operator_t
@@ -27,6 +27,7 @@ implicit none
   class(timescheme_t), allocatable      :: timescheme
   integer(kind=4),     allocatable      :: deg(:, :)
 
+  !test constants
   real(kind=8)    :: LX = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii, H_MEAN = 10.0_8 ** 4.0_8
   real(kind=8)    :: T_max  = 20.0_8 * 3600.0_8 * 24.0_8, dt, max_v = 100.0_8, Kx = 2e3_8, Ky = 1e2_8
   integer(kind=4) :: Nt = 180 * 16, Nx = 128, Ny = 128, num_sub_x = 2, num_sub_y = 1
@@ -39,11 +40,11 @@ implicit none
     deg(2, 1) = 1
   end if
 
+  !domain and dynamic operator init
   sbp21%name = 'sbp21_1'
   sbp42%name = 'sbp42_1'
   central2%name = 'cent2_1'
   central4%name = 'cent4_1'
-
   call domain%init(0.0_8, LX, 0, Nx, 0.0_8, LY, 0, Ny)
   call multi_domain%init(domain, num_sub_x, num_sub_y, deg)
   call state%h%init(multi_domain)
@@ -51,9 +52,12 @@ implicit none
   call state%v%init(multi_domain)
   call op%init(sbp42, central4, multi_domain)
 
+  !time scheme init
   call create_timescheme(timescheme, state, 'rk4')
-  call swm_gaussian_hill(state, multi_domain, H_MEAN, Kx, Ky, 0)
-  call swm_rotor_velocity(state, multi_domain, max_v)
+
+  !set initial conditions
+  call set_swm_gaussian_hill(state, multi_domain, H_MEAN, Kx, Ky, 0)
+  call set_swm_rotor_velocity(state, multi_domain, max_v)
 
   do t = 0, Nt
     !step display

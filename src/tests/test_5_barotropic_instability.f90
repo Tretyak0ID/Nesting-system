@@ -1,5 +1,5 @@
 program test_5_barotropic_instability
-use initial_conditions_mod,            only : swm_baratropic_instability
+use initial_conditions_mod,            only : set_swm_baratropic_instability
 use swe_vect_inv_operator_mod,         only : swe_vect_inv_operator_t
 use swe_advective_operator_mod,        only : swe_advective_operator_t
 use diffusion_operator_mod,            only : diffusion_operator_t
@@ -74,7 +74,7 @@ implicit none
   call create_timescheme(explicit_Euler, state, 'explicit_Euler')
 
   !initial conditions init
-  call swm_baratropic_instability(state, multi_domain, H_MEAN, u0)
+  call set_swm_baratropic_instability(state, multi_domain, H_MEAN, u0)
 
   do t = 0, Nt
     !step display

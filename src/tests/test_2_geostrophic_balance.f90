@@ -1,5 +1,5 @@
 program test_2_geostriphic_balance
-use initial_conditions_mod,            only : swm_geostrophic_balance
+use initial_conditions_mod,            only : set_swm_geostrophic_balance
 use swe_vect_inv_operator_mod,         only : swe_vect_inv_operator_t
 use swe_advective_operator_mod,        only : swe_advective_operator_t
 use sbp_differential_operator_mod,     only : sbp21_t, sbp42_t
@@ -54,7 +54,7 @@ implicit none
   call create_timescheme(timescheme, state, 'rk4')
 
   !initial conditions
-  call swm_geostrophic_balance(state, multi_domain, H_MEAN, scale_h, scale_sigma)
+  call set_swm_geostrophic_balance(state, multi_domain, H_MEAN, scale_h, scale_sigma)
 
   do t = 0, Nt
     !step display

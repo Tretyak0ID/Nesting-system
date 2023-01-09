@@ -1,5 +1,5 @@
 program diffusion_test
-use initial_conditions_mod,            only : swm_gaussian_hill, swm_rotor_velocity
+use initial_conditions_mod,            only : set_swm_gaussian_hill, set_swm_rotor_velocity
 use diffusion_operator_mod,            only : diffusion_operator_t
 use sbp_differential_operator_mod,     only : sbp21_2_t
 use timescheme_mod,                    only : timescheme_t
@@ -47,7 +47,7 @@ coefs(2, 1) = 100000000.0_8
 call op%init(sbp21, coefs, multi_domain)
 
 call create_timescheme(timescheme, state, 'rk4')
-call swm_gaussian_hill(state, multi_domain, H_MEAN, 1000.0_8, 10000.0_8, 0)
+call set_swm_gaussian_hill(state, multi_domain, H_MEAN, 1000.0_8, 10000.0_8, 0)
 
 do t = 0, Nt
   if (mod(t, 100) == 0) print *, 'step: ',  t

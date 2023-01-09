@@ -1,5 +1,5 @@
 program test_3_geostriphic_cyclone_periodic
-use initial_conditions_mod,            only : swm_geostrophic_cyclone
+use initial_conditions_mod,            only : set_swm_geostrophic_cyclone
 use swe_vect_inv_operator_mod,         only : swe_vect_inv_operator_t
 use diffusion_operator_mod,            only : diffusion_operator_t
 use sbp_differential_operator_mod,     only : sbp21_t, sbp42_t, sbp21_2_t
@@ -73,7 +73,7 @@ implicit none
   call create_timescheme(explicit_Euler, state, 'explicit_Euler')
 
   !initial conditions init
-  call swm_geostrophic_cyclone(state, multi_domain, H_MEAN, scale_h, scale_sigma, h0, u0, v0, 'const_periodic')
+  call set_swm_geostrophic_cyclone(state, multi_domain, H_MEAN, scale_h, scale_sigma, h0, u0, v0, 'const_periodic')
 
   do t = 0, Nt
     !step display

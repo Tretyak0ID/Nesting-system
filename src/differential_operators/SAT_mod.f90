@@ -3,7 +3,7 @@ use domain_mod,           only : domain_t
 use field_mod,            only : field_t
 use multi_domain_mod,     only : multi_domain_t
 use multi_grid_field_mod, only : multi_grid_field_t
-use interpolation_mod,    only : interp_1d_sbp21_2to1_ratio, interp_1d_sbp42_2to1_ratio, identity
+use interpolation_mod,    only : interp_1d_sbp21_2to1_ratio, interp_1d_sbp42_2to1_ratio, interp_identity
 implicit none
 
 contains

@@ -10,7 +10,7 @@ implicit none
 
 contains
 
-  subroutine swm_rotor_velocity(state, multi_domain, velocity_scale)
+  subroutine set_swm_rotor_velocity(state, multi_domain, velocity_scale)
   !Sets one elongated "Gaussian hill" in the middle of each subdivision subdomain,
   !used in conjunction with the net transfer operator
     type(stvec_swe_t),    intent(inout) :: state
@@ -31,11 +31,11 @@ contains
       end do
     end do
 
-  end subroutine swm_rotor_velocity
+  end subroutine set_swm_rotor_velocity
 
 
 
-  subroutine swm_gaussian_hill(state, multi_domain, h_mean, kx, ky, one_hill)
+  subroutine set_swm_gaussian_hill(state, multi_domain, h_mean, kx, ky, one_hill)
   !Sets the Gaussian slide, the scale is adjusted by the parameters kx and ky
     type(stvec_swe_t),    intent(inout) :: state
     type(multi_domain_t), intent(in)    :: multi_domain
@@ -63,11 +63,11 @@ contains
       end do
     end do
 
-  end subroutine swm_gaussian_hill
+  end subroutine set_swm_gaussian_hill
 
 
 
-  subroutine swm_geostrophic_balance(state, multi_domain, h_mean, scale_h, scale_sigma)
+  subroutine set_swm_geostrophic_balance(state, multi_domain, h_mean, scale_h, scale_sigma)
   !Geostrophic balanced vortex of characteristic depth scale_h
   !and characteristic scale scale_sigma.
     type(stvec_swe_t),    intent(inout) :: state
@@ -99,11 +99,11 @@ contains
       end do
     end do
 
-  end subroutine swm_geostrophic_balance
+  end subroutine set_swm_geostrophic_balance
 
 
 
-  subroutine swm_geostrophic_cyclone(state, multi_domain, h_mean, scale_h, scale_sigma, h0_const, u0_const, v0_const, field_type)
+  subroutine set_swm_geostrophic_cyclone(state, multi_domain, h_mean, scale_h, scale_sigma, h0_const, u0_const, v0_const, field_type)
   !Geostrophic balanced cyclone in a constant velocity field
   !of characteristic depth scale_h and characteristic scale scale_sigma.
     type(stvec_swe_t),    intent(inout) :: state
@@ -151,9 +151,9 @@ contains
       end do
     end do
 
-  end subroutine swm_geostrophic_cyclone
+  end subroutine set_swm_geostrophic_cyclone
 
-  subroutine swm_baratropic_instability(state, multi_domain, h_mean, u0)
+  subroutine set_swm_baratropic_instability(state, multi_domain, h_mean, u0)
 
     type(stvec_swe_t),    intent(inout) :: state
     type(multi_domain_t), intent(in)    :: multi_domain
@@ -199,6 +199,6 @@ contains
       end do
     end do
 
-  end subroutine swm_baratropic_instability
+  end subroutine set_swm_baratropic_instability
 
 end module initial_conditions_mod
