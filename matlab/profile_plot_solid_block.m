@@ -1,12 +1,12 @@
 dim = 128;
-A = read_bin('../data/test5_128x128_curl_dynamic.dat', dim + 1, dim + 1);
+A = read_bin('../data/test5_128x128_curl.dat', dim + 1, dim + 1);
 
 x_fix = floor(length(Al(:, 1, 1)) / 2);
 y_fix = floor(length(Al(1, :, 1)) / 2);
 time_step = 2;
 
-xl = [0 : 1 : dim];
-yl = [0 : 1 : dim];
+x = [0 : 1 : dim];
+y = [0 : 1 : dim];
 
 %field
 hold on; grid on;

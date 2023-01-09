@@ -35,12 +35,12 @@ implicit none
 
   real(kind=8)    :: LX     = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii
   real(kind=8)    :: H_MEAN = 10.0_8 ** 4.0_8
-  integer(kind=4) :: Nt     = 180 * 64, t
-  real(kind=8)    :: T_max  = 40.0_8 * 3600.0_8 * 24.0_8, dt
+  integer(kind=4) :: Nt     = 180 * 64, t, Nx1 = 128, Nx2 = 128
+  real(kind=8)    :: T_max  = 30.0_8 * 3600.0_8 * 24.0_8, dt, courant
 
-  allocate(deg(1:2, 1:1))
+  allocate(deg(1:1, 1:1))
   deg(1, 1) = 1
-  deg(2, 1) = 1
+  !deg(2, 1) = 1
   dt = T_max / Nt
 
   sbp21%name    = 'sbp21_1'
@@ -49,18 +49,22 @@ implicit none
   central4%name = 'cent4_1'
   sbp21_2%name  = 'sbp21_2'
 
-  call domain%init(0.0_8, LX, 0, 64, 0.0_8, LY, 0, 64)
-  call multi_domain%init(domain, 2, 1, deg)
+  call domain%init(0.0_8, LX, 0, Nx1, 0.0_8, LY, 0, Nx2)
+  call multi_domain%init(domain, 1, 1, deg)
   call curl%init(multi_domain)
   call state%h%init(multi_domain)
   call state%u%init(multi_domain)
   call state%v%init(multi_domain)
   call op%init(sbp42, central4, multi_domain)
 
-  allocate(coefs(1:2, 1:1))
-  coefs(1, 1) = multi_domain%subdomains(1, 1)%dx ** 2.0_8 / dt / 4.0_8
-  coefs(2, 1) = multi_domain%subdomains(2, 1)%dx ** 2.0_8 / dt / 4.0_8
+  courant = dt / minval(multi_domain%subdomains%dx)
+
+  allocate(coefs(1:1, 1:1))
+  coefs(1, 1) = multi_domain%subdomains(1, 1)%dx ** 2.0_8 / dt
+  !coefs(2, 1) = multi_domain%subdomains(2, 1)%dx ** 2.0_8 / dt
   call diffusion%init(sbp21_2, coefs, multi_domain)
+
+  ! print *, multi_domain%subdomains(2, 1)%je / 2
 
   call create_timescheme(timescheme, state, 'rk4')
   call create_timescheme(explicit_Euler, state, 'explicit_Euler')
@@ -68,9 +72,9 @@ implicit none
 
   do t = 0, Nt
     if (mod(t, 100) == 0) print *, 'step: ',  t
-    if (mod(t, 25) == 0) call calc_curl(curl, state%u, state%v, multi_domain, sbp42, central4)
-    if (mod(t, 25) == 0) call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test5_64x64_curl_left.dat', t / 25 + 1)
-    if (mod(t, 25) == 0) call write_field(curl%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test5_64x64_curl_right.dat', t / 25 + 1)
+    call calc_curl(curl, state%u, state%v, multi_domain, sbp42, central4)
+    call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test5_128x128_curl.dat', t + 1)
+    !call write_field(curl%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test5_128x128_curl_right.dat', t + 1)
     call timescheme%step(state, op, multi_domain, dt)
     call explicit_Euler%step(state, diffusion, multi_domain, dt)
   end do
