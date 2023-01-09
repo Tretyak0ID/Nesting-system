@@ -192,7 +192,7 @@ contains
             d2%subfields(n, m)%f(i, j) = ((multi_domain%subdomains(n, m)%x(i) - 0.15_8 * lx) / lx) ** 2.0_8 + ((multi_domain%subdomains(n, m)%y(j) - 0.25_8 * ly) / ly) ** 2.0_8
             h_pret%subfields(n, m)%f(i, j) = 0.01_8 * h_mean * (exp(- c * d1%subfields(n, m)%f(i, j)) + exp(- c * d2%subfields(n, m)%f(i, j)))
 
-            !state%h%subfields(n, m)%f(i, j) = state%h%subfields(n, m)%f(i, j) + h_pret%subfields(n, m)%f(i, j)
+            state%h%subfields(n, m)%f(i, j) = state%h%subfields(n, m)%f(i, j) + h_pret%subfields(n, m)%f(i, j)
 
           end do
         end do

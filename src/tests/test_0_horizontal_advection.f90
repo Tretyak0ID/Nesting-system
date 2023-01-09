@@ -16,49 +16,60 @@ use const_mod,                         only : Earth_radii, Earth_grav, pcori, pi
 use read_write_mod,                    only : write_field
 implicit none
 
-type(domain_t)                        :: domain
-type(multi_domain_t)                  :: multi_domain
-type(stvec_swe_t)                     :: state
-type(horizontal_advection_operator_t) :: op
-type(sbp21_t)                         :: sbp21
-type(sbp42_t)                         :: sbp42
-type(central2_t)                      :: central2
-type(central4_t)                      :: central4
-class(timescheme_t), allocatable      :: timescheme
-integer(kind=4), allocatable          :: deg(:, :)
+  type(domain_t)                        :: domain
+  type(multi_domain_t)                  :: multi_domain
+  type(stvec_swe_t)                     :: state
+  type(horizontal_advection_operator_t) :: op
+  type(sbp21_t)                         :: sbp21
+  type(sbp42_t)                         :: sbp42
+  type(central2_t)                      :: central2
+  type(central4_t)                      :: central4
+  class(timescheme_t), allocatable      :: timescheme
+  integer(kind=4),     allocatable      :: deg(:, :)
 
-real(kind=8)    :: LX     = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii
-real(kind=8)    :: H_MEAN = 10.0_8 ** 4.0_8
-integer(kind=4) :: Nt     = 180 * 16, t, i, j, n, m
-real(kind=8)    :: T_max  = 20.0_8 * 3600.0_8 * 24.0_8, dt
+  real(kind=8)    :: LX = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii, H_MEAN = 10.0_8 ** 4.0_8
+  real(kind=8)    :: T_max  = 20.0_8 * 3600.0_8 * 24.0_8, dt, max_v = 100.0_8, Kx = 2e3_8, Ky = 1e2_8
+  integer(kind=4) :: Nt = 180 * 16, Nx = 128, Ny = 128, num_sub_x = 2, num_sub_y = 1
+  integer(kind=4) :: t, t_step_disp = 100, t_step_rec = 20
+  dt = T_max / Nt
 
-allocate(deg(1:2, 1:1))
-deg(1, 1) = 2
-deg(2, 1) = 1
-dt = T_max / Nt
+  allocate(deg(1:num_sub_x, 1:num_sub_y))
+  deg(1, 1) = 1
+  if (num_sub_x > 1) then
+    deg(2, 1) = 1
+  end if
 
-sbp21%name = 'sbp21_1'
-sbp42%name = 'sbp42_1'
-central2%name = 'cent2_1'
-central4%name = 'cent4_1'
+  sbp21%name = 'sbp21_1'
+  sbp42%name = 'sbp42_1'
+  central2%name = 'cent2_1'
+  central4%name = 'cent4_1'
 
-call domain%init(0.0_8, LX, 0, 128, 0.0_8, LY, 0, 128)
-call multi_domain%init(domain, 2, 1, deg)
-call state%h%init(multi_domain)
-call state%u%init(multi_domain)
-call state%v%init(multi_domain)
-call op%init(sbp42, central4, multi_domain)
+  call domain%init(0.0_8, LX, 0, Nx, 0.0_8, LY, 0, Ny)
+  call multi_domain%init(domain, num_sub_x, num_sub_y, deg)
+  call state%h%init(multi_domain)
+  call state%u%init(multi_domain)
+  call state%v%init(multi_domain)
+  call op%init(sbp42, central4, multi_domain)
 
-call create_timescheme(timescheme, state, 'rk4')
-call swm_gaussian_hill(state, multi_domain, H_MEAN, 2000.0_8, 100.0_8, 0)
-call swm_rotor_velocity(state, multi_domain, 100.0_8)
+  call create_timescheme(timescheme, state, 'rk4')
+  call swm_gaussian_hill(state, multi_domain, H_MEAN, Kx, Ky, 0)
+  call swm_rotor_velocity(state, multi_domain, max_v)
 
-do t = 0, Nt
-  if (mod(t, 100) == 0) print *, 'step: ',  t
-  if (mod(t, 20) == 0) call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test0h_left.dat', t/20 + 1)
-  if (mod(t, 20) == 0) call write_field(state%h%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test0h_right.dat', t/20 + 1)
-  call timescheme%step(state, op, multi_domain, dt)
-  if (t == Nt / 2) call swm_rotor_velocity(state, multi_domain, -100.0_8)
-end do
+  do t = 0, Nt
+    !step display
+    if (mod(t, t_step_disp) == 0) print *, 'step: ',  t
+
+    !recording
+    if (num_sub_x > 1) then 
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test0h_left.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test0h_right.dat', t / t_step_rec + 1)
+    else
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test0h.dat', t / t_step_rec + 1)
+    end if
+
+    !calculate
+    call timescheme%step(state, op, multi_domain, dt)
+    if (t == Nt / 2) call swm_rotor_velocity(state, multi_domain, -max_v)
+  end do
 
 end program test_1_gaussian_hill

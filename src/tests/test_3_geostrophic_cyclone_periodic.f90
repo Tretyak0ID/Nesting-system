@@ -32,46 +32,63 @@ implicit none
   integer(kind=4),     allocatable :: deg(:, :)
   real(kind=8),        allocatable :: coefs(:, :)
 
-  real(kind=8)    :: LX     = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii
-  real(kind=8)    :: H_MEAN = 10.0_8 ** 4.0_8
-  integer(kind=4) :: Nt     = 180 * 64, t
-  real(kind=8)    :: T_max  = 40.0_8 * 3600.0_8 * 24.0_8, dt
-
-  allocate(deg(1:2, 1:1))
-  deg(1, 1) = 2
-  deg(2, 1) = 1
+  !test constants
+  real(kind=8)    :: LX = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii, H_MEAN = 10.0_8 ** 4.0_8
+  real(kind=8)    :: T_max  = 40.0_8 * 3600.0_8 * 24.0_8, dt, scale_h = 22.0e-3_8, scale_sigma = 1e6_8, h0 = 0.0_8, u0 = 10.0_8, v0 = 0.0_8 
+  integer(kind=4) :: Nt = 180 * 64, Nx = 128, Ny = 128, num_sub_x = 2, num_sub_y = 1
+  integer(kind=4) :: t, n, m, t_step_disp = 100, t_step_rec = 50
   dt = T_max / Nt
 
+  allocate(deg(1:num_sub_x, 1:num_sub_y))
+  deg(1, 1) = 2
+  if (num_sub_x > 1) then
+    deg(2, 1) = 1
+  end if
+
+  !domain and dynamic operator init
   sbp21%name    = 'sbp21_1'
   sbp42%name    = 'sbp42_1'
   central2%name = 'cent2_1'
   central4%name = 'cent4_1'
   sbp21_2%name  = 'sbp21_2'
-
-  call domain%init(0.0_8, LX, 0, 128, 0.0_8, LY, 0, 128)
-  call multi_domain%init(domain, 2, 1, deg)
+  call domain%init(0.0_8, LX, 0, Nx, 0.0_8, LY, 0, Ny)
+  call multi_domain%init(domain, num_sub_x, num_sub_y, deg)
   call curl%init(multi_domain)
   call state%h%init(multi_domain)
   call state%u%init(multi_domain)
   call state%v%init(multi_domain)
   call op%init(sbp42, central4, multi_domain)
 
-  allocate(coefs(1:2, 1:1))
-  coefs(1, 1) = multi_domain%subdomains(1, 1)%dx ** 2.0_8 / dt / 2.0_8
-  coefs(2, 1) = multi_domain%subdomains(2, 1)%dx ** 2.0_8 / dt / 2.0_8
+  !diffusion operator init
+  allocate(coefs(1:num_sub_x, 1:num_sub_y))
+  do n = 1, num_sub_x
+    do m = 1, num_sub_y
+      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / dt / 2.0_8
+    end do
+  end do
   call diffusion%init(sbp21_2, coefs, multi_domain)
 
+  !time scheme init
   call create_timescheme(timescheme, state, 'rk4')
   call create_timescheme(explicit_Euler, state, 'explicit_Euler')
-  call swm_geostrophic_cyclone(state, multi_domain, H_MEAN, 22.0_8 * 10.0_8 ** (-3.0_8), 1000000.0_8, 0.0_8, 10.0_8, 0.0_8, 'const_periodic')
+
+  !initial conditions init
+  call swm_geostrophic_cyclone(state, multi_domain, H_MEAN, scale_h, scale_sigma, h0, u0, v0, 'const_periodic')
 
   do t = 0, Nt
-    if (mod(t, 100) == 0) print *, 'step: ',  t
-    if (mod(t, 50) == 0) call calc_curl(curl, state%u, state%v, multi_domain, sbp42, central4)
-    !call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test3h_left.dat', t + 1)
-    !call write_field(state%h%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test3h_right.dat', t + 1)
-    if (mod(t, 50) == 0) call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test3curl_left.dat', t / 50 + 1)
-    if (mod(t, 50) == 0) call write_field(curl%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test3curl_right.dat', t / 50 + 1)
+    !step display
+    if (mod(t, t_step_disp) == 0) print *, 'step: ',  t
+
+    !recording
+    if (mod(t, t_step_rec) == 0) call calc_curl(curl, state%u, state%v, multi_domain, sbp42, central4)
+    if (num_sub_x > 1) then 
+      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test3curl_left.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test3curl_right.dat', t / t_step_rec + 1)
+    else
+      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test3curl.dat', t / t_step_rec + 1)
+    end if
+
+    !calculate
     call timescheme%step(state, op, multi_domain, dt)
     call explicit_Euler%step(state, diffusion, multi_domain, dt)
   end do
