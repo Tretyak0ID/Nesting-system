@@ -7,7 +7,7 @@ use multi_grid_field_mod,      only: multi_grid_field_t
 use multi_domain_mod,          only: multi_domain_t
 use grad_mod,                  only: calc_grad
 use div_mod,                   only: calc_div
-use const_mod,                 only: Earth_grav, pcori
+use const_mod,                 only: Earth_grav
 implicit none
 
   type, public, extends(operator_t) :: swe_advective_operator_t
@@ -18,6 +18,7 @@ implicit none
     type(multi_grid_field_t) :: div, gx, gy, curl !for h field
     type(multi_grid_field_t) :: gux, guy, gvx, gvy !velocity field grad
     type(multi_grid_field_t) :: hu, hv, divmf !mass fluxes in continuty eq
+    real(kind=8)             :: pCori
 
   contains
 
@@ -28,10 +29,11 @@ implicit none
 
 contains
 
-  subroutine init_swe(this, diff_opx, diff_opy, multi_domain)
+  subroutine init_swe(this, diff_opx, diff_opy, pCori, multi_domain)
 
     class(swe_advective_operator_t), intent(inout) :: this
     class(differential_operator_t),  intent(in)    :: diff_opx, diff_opy
+    real(kind=8),                    intent(in)    :: pCori
     class(multi_domain_t),           intent(in)    :: multi_domain
 
     call this%div%init(multi_domain)
@@ -46,6 +48,7 @@ contains
 
     this%diff_opx = diff_opx
     this%diff_opy = diff_opy
+    this%pCori    = pCori
 
   end subroutine init_swe
 
@@ -73,12 +76,12 @@ contains
         call out%u%assign(-1.0_8, in%u, this%gux, multi_domain)
         call out%u%update(-1.0_8, in%v, this%guy, multi_domain)
         call out%u%update(-1.0_8 * Earth_grav, this%gx, multi_domain)
-        call out%u%update(pcori, in%v, multi_domain)
+        call out%u%update(this%pCori, in%v, multi_domain)
         !dvdt calculate
         call out%v%assign(-1.0_8, in%u, this%gvx, multi_domain)
         call out%v%update(-1.0_8, in%v, this%gvy, multi_domain)
         call out%v%update(-1.0_8 * Earth_grav, this%gy, multi_domain)
-        call out%v%update(-1.0_8 * pcori, in%u, multi_domain)
+        call out%v%update(-1.0_8 * this%pCori, in%u, multi_domain)
         !dhdt calculate
         call out%h%assign(1.0_8, this%div, multi_domain)
 

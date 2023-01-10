@@ -51,7 +51,7 @@ implicit none
   call state%h%init(multi_domain)
   call state%u%init(multi_domain)
   call state%v%init(multi_domain)
-  call op%init(sbp42, central4, multi_domain)
+  call op%init(sbp42, central4, pcori, multi_domain)
 
   !time scheme init
   call create_timescheme(timescheme, state, 'rk4')

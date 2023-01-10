@@ -27,7 +27,7 @@ implicit none
     end do
   end do
 
-  call calc_div(div, in_field, in_field, domain, sbp42, sbp42)
+  !call calc_div(div, in_field, in_field, domain, sbp42, sbp42) !test old model version
 
   print *, 'divergention error:', maxval(abs(div_field%f - div%f))
 

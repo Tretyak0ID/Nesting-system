@@ -8,7 +8,7 @@ use multi_domain_mod,          only: multi_domain_t
 use grad_mod,                  only: calc_grad
 use div_mod,                   only: calc_div
 use curl_mod,                  only: calc_curl
-use const_mod,                 only: Earth_grav, pcori
+use const_mod,                 only: Earth_grav
 implicit none
 
   type, public, extends(operator_t) :: swe_vect_inv_operator_t
@@ -19,6 +19,7 @@ implicit none
     type(multi_grid_field_t) :: div, gx, gy, curl !for h field
     type(multi_grid_field_t) :: kin_energy, gh_kin_energy
     type(multi_grid_field_t) :: hu, hv !mass fluxes in continuty eq
+    real(kind=8)             :: pCori
 
   contains
 
@@ -29,10 +30,11 @@ implicit none
 
 contains
 
-  subroutine init_vecinv(this, diff_opx, diff_opy, multi_domain)
+  subroutine init_vecinv(this, diff_opx, diff_opy, pCori, multi_domain)
 
     class(swe_vect_inv_operator_t), intent(inout) :: this
     class(differential_operator_t), intent(in)    :: diff_opx, diff_opy
+    real(kind=8),                   intent(in)    :: pCori
     class(multi_domain_t),          intent(in)    :: multi_domain
 
     call this%div%init(multi_domain)
@@ -46,6 +48,7 @@ contains
 
     this%diff_opx = diff_opx
     this%diff_opy = diff_opy
+    this%pCori    = pCori
 
   end subroutine init_vecinv
 
@@ -74,18 +77,18 @@ contains
 
         !u field
         call out%u%assign(-1.0_8, this%gx, multi_domain)
-        call out%u%update(pcori, in%v, multi_domain)
+        call out%u%update(this%pCori, in%v, multi_domain)
         call out%u%update(1.0_8, this%curl, in%v, multi_domain)
         !v field
         call out%v%assign(-1.0_8, this%gy, multi_domain)
-        call out%v%update(-pcori, in%u, multi_domain)
+        call out%v%update(-this%pCori, in%u, multi_domain)
         call out%v%update(-1.0_8, this%curl, in%u, multi_domain)
         !h field
         call out%h%assign(1.0_8, this%div, multi_domain)
 
         !forcing
-        !call out%u%update(-0.0_8 * pcori, multi_domain)
-        !call out%v%update( 10.0_8 * pcori, multi_domain)
+        !call out%u%update(-0.0_8 * this%pCori, multi_domain)
+        !call out%v%update( 10.0_8 * this%pCori, multi_domain)
 
       class default
       end select

@@ -62,7 +62,7 @@ implicit none
   call state%u%create_similar(guy)
   call state%v%create_similar(gvx)
   call state%v%create_similar(gvy)
-  call op%init(sbp42, central4, multi_domain)
+  call op%init(sbp42, central4, pcori, multi_domain)
 
   !diffusion operator init
   allocate(coefs(1:num_sub_x, 1:num_sub_y))

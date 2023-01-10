@@ -32,7 +32,7 @@ implicit none
   state1%v = v
   state1%h = h
 
-  call state1%create_similar(state2)
+  !call state1%create_similar(state2)
 
   print *, "u2 field: ", state2%u%subfields(2, 1)%f
   print *, "v2 field: ", state2%v%subfields(2, 1)%f

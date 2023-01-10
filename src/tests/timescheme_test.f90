@@ -38,10 +38,10 @@ call multi_domain%init(domain, 2, 1, deg)
 call state%h%init(multi_domain)
 call state%u%init(multi_domain)
 call state%v%init(multi_domain)
-call op%init(sbp21, sbp21)
+call op%init(sbp21, sbp21, pcori, multi_domain)
 
 call create_timescheme(timescheme, state, 'rk4')
-call set_swm_gaussian_hill(state, multi_domain, H_MEAN, 100.0_8, 100.0_8)
+call set_swm_gaussian_hill(state, multi_domain, H_MEAN, 100.0_8, 100.0_8, 0)
 
 do t = 0, Nt
   print *, 'step: ',  t

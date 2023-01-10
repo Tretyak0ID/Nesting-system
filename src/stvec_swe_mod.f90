@@ -54,6 +54,7 @@ subroutine create_similar(this, destination)
     call this%h%create_similar(destination%h)
     call this%u%create_similar(destination%u)
     call this%v%create_similar(destination%v)
+  class default
   end select
 
 end subroutine create_similar

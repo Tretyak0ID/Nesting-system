@@ -50,7 +50,7 @@ implicit none
   call state%h%init(multi_domain)
   call state%u%init(multi_domain)
   call state%v%init(multi_domain)
-  call op%init(sbp42, central4, multi_domain)
+  call op%init(sbp42, central4, pcori, multi_domain)
 
   !time scheme init
   call create_timescheme(timescheme, state, 'rk4')
@@ -73,7 +73,7 @@ implicit none
 
     !calculate
     call timescheme%step(state, op, multi_domain, dt)
-    if (t == Nt / 2) call swm_rotor_velocity(state, multi_domain, -max_v)
+    if (t == Nt / 2) call set_swm_rotor_velocity(state, multi_domain, -max_v)
   end do
 
 end program test_1_gaussian_hill

@@ -7,7 +7,7 @@ module horizontal_advection_operator_mod
   use multi_domain_mod,          only: multi_domain_t
   use grad_mod,                  only: calc_grad
   use div_mod,                   only: calc_div
-  use const_mod,                 only: Earth_grav, pcori
+  use const_mod,                 only: Earth_grav
 implicit none
 
 type, public, extends(operator_t) :: horizontal_advection_operator_t
@@ -16,6 +16,7 @@ type, public, extends(operator_t) :: horizontal_advection_operator_t
   class(differential_operator_t), allocatable :: diff_opy
   !work fields for operator
   type(multi_grid_field_t) :: div, gx, gy
+  real(kind=8)             :: pCori
 
 contains
 
@@ -26,14 +27,16 @@ end type horizontal_advection_operator_t
 
 contains
 
-  subroutine init_ha(this, diff_opx, diff_opy, multi_domain)
+  subroutine init_ha(this, diff_opx, diff_opy, pCori, multi_domain)
 
     class(horizontal_advection_operator_t), intent(inout) :: this
     class(differential_operator_t),         intent(in)    :: diff_opx, diff_opy
+    real(kind=8),                           intent(in)    :: pCori
     class(multi_domain_t),                  intent(in)    :: multi_domain
 
     this%diff_opx = diff_opx
     this%diff_opy = diff_opy
+    this%pCori    = pCori
 
     call this%gx%init(multi_domain)
     call this%gy%init(multi_domain)
