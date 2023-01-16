@@ -33,8 +33,8 @@ contains
 
     do n = 1, domain%num_sub_x
       do m = 1, domain%num_sub_y
-        do i = domain%subdomains(n, m)%is, domain%subdomains(n, m)%ie
-          do j = domain%subdomains(n, m)%js, domain%subdomains(n, m)%je
+        do j = domain%subdomains(n, m)%js, domain%subdomains(n, m)%je
+          do i = domain%subdomains(n, m)%is, domain%subdomains(n, m)%ie
             curl%subfields(n, m)%f(i, j) = gx_buff%subfields(n, m)%f(i, j) - gy_buff%subfields(n, m)%f(i, j)
           end do
         end do

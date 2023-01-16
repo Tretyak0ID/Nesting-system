@@ -87,8 +87,8 @@ contains
         call out%h%assign(1.0_8, this%div, multi_domain)
 
         !forcing
-        !call out%u%update(-0.0_8 * this%pCori, multi_domain)
-        !call out%v%update( 10.0_8 * this%pCori, multi_domain)
+        call out%u%update(-0.0_8 * this%pCori, multi_domain)
+        call out%v%update( 10.0_8 * this%pCori, multi_domain)
 
       class default
       end select

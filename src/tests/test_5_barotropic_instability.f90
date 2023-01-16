@@ -35,15 +35,15 @@ implicit none
 
   !test constants
   real(kind=8)    :: LX = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii, H_MEAN = 10.0_8 ** 4.0_8
-  real(kind=8)    :: T_max = 30.0_8 * 3600.0_8 * 24.0_8, dt, u0 = 50.0_8
+  real(kind=8)    :: T_max = 20.0_8 * 3600.0_8 * 24.0_8, dt, u0 = 50.0_8
   integer(kind=4) :: Nt = 180 * 64, Nx = 128, Ny = 128, num_sub_x = 2, num_sub_y = 1
-  integer(kind=4) :: t, n, m, t_step_disp = 100, t_step_rec = 50
+  integer(kind=4) :: t, n, m, t_step_disp = 500, t_step_rec = 50
   dt = T_max / Nt
 
   allocate(deg(1:num_sub_x, 1:num_sub_y))
   deg(1, 1) = 1
   if (num_sub_x > 1) then
-    deg(2, 1) = 1
+    deg(2, 1) = 2
   end if
 
   !domain and dynamic operator init
@@ -64,7 +64,7 @@ implicit none
   allocate(coefs(1:num_sub_x, 1:num_sub_y))
   do n = 1, num_sub_x
     do m = 1, num_sub_y
-      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / dt / 2.0_8
+      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / sqrt(dt) / 50.0_8 * (128.0_8 / Nx)
     end do
   end do
   call diffusion%init(sbp21_2, coefs, multi_domain)
@@ -93,5 +93,7 @@ implicit none
     call timescheme%step(state, op, multi_domain, dt)
     call explicit_Euler%step(state, diffusion, multi_domain, dt)
   end do
+
+  print *, 'test_5_barotropic_instability successfully completed'
 
 end program test_5_barotropic_instability

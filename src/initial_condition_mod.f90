@@ -50,8 +50,8 @@ contains
         do i = multi_domain%subdomains(n, m)%is, multi_domain%subdomains(n, m)%ie
           do j = multi_domain%subdomains(n, m)%js, multi_domain%subdomains(n, m)%je
             if (one_hill.eq.1) then
-              dx = (multi_domain%subdomains(n, m)%x(i) - 0.8_8 * (maxval(multi_domain%global_domain%x) - minval(multi_domain%global_domain%x)) / 2.0_8) / multi_domain%global_domain%x(multi_domain%global_domain%ie)
-              dy = (multi_domain%subdomains(n, m)%y(j) - 0.8_8 * (maxval(multi_domain%global_domain%y) - minval(multi_domain%global_domain%y)) / 2.0_8) / multi_domain%global_domain%y(multi_domain%global_domain%je)
+              dx = (multi_domain%subdomains(n, m)%x(i) - (maxval(multi_domain%global_domain%x) - minval(multi_domain%global_domain%x)) / 2.0_8) / multi_domain%global_domain%x(multi_domain%global_domain%ie)
+              dy = (multi_domain%subdomains(n, m)%y(j) - (maxval(multi_domain%global_domain%y) - minval(multi_domain%global_domain%y)) / 2.0_8) / multi_domain%global_domain%y(multi_domain%global_domain%je)
               state%h%subfields(n, m)%f(i, j) = h_mean + 0.1_8 * h_mean * exp(- kx * (dx ** 2.0_8) - ky * (dy ** 2.0_8))
             else
               dx = (multi_domain%subdomains(n, m)%x(i) - (maxval(multi_domain%subdomains(n, m)%x) + minval(multi_domain%subdomains(n, m)%x)) / 2.0_8) / multi_domain%global_domain%x(multi_domain%global_domain%ie)
@@ -85,7 +85,7 @@ contains
       do m = 1, multi_domain%num_sub_y
         do i = multi_domain%subdomains(n, m)%is, multi_domain%subdomains(n, m)%ie
           do j = multi_domain%subdomains(n, m)%js, multi_domain%subdomains(n, m)%je
-            dx = (multi_domain%subdomains(n, m)%x(i) - 0.98_8 * (maxval(multi_domain%global_domain%x) - minval(multi_domain%global_domain%x)) / 2.0_8)
+            dx = (multi_domain%subdomains(n, m)%x(i) - (maxval(multi_domain%global_domain%x) - minval(multi_domain%global_domain%x)) / 2.0_8)
             dy = (multi_domain%subdomains(n, m)%y(j) - (maxval(multi_domain%global_domain%y) - minval(multi_domain%global_domain%y)) / 2.0_8)
 
             dhdr%subfields(n, m)%f(i, j) = h_mean * exp( - (sqrt(dx ** 2.0_8 + dy ** 2.0_8) / scale_sigma) ** 2.0_8) * scale_h * 2.0_8 * sqrt(dx ** 2.0_8 + dy ** 2.0_8) / scale_sigma ** 2.0_8
@@ -184,6 +184,19 @@ contains
             else
               state%h%subfields(n, m)%f(i, j) = state%h%subfields(n, m)%f(i, multi_domain%subdomains(n, m)%je - j)
             end if
+
+            lx = abs(multi_domain%global_domain%xe - multi_domain%global_domain%xs)
+            ly = abs(multi_domain%global_domain%ye - multi_domain%global_domain%ys)
+
+          end do
+        end do
+      end do
+    end do
+
+    do n = 1, multi_domain%num_sub_x
+      do m = 1, multi_domain%num_sub_y
+        do i = multi_domain%subdomains(n, m)%is, multi_domain%subdomains(n, m)%ie
+          do j = multi_domain%subdomains(n, m)%js, multi_domain%subdomains(n, m)%je
 
             lx = abs(multi_domain%global_domain%xe - multi_domain%global_domain%xs)
             ly = abs(multi_domain%global_domain%ye - multi_domain%global_domain%ys)

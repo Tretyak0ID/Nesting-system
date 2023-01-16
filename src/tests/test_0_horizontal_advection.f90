@@ -29,15 +29,15 @@ implicit none
 
   !test constants
   real(kind=8)    :: LX = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii, H_MEAN = 10.0_8 ** 4.0_8
-  real(kind=8)    :: T_max  = 20.0_8 * 3600.0_8 * 24.0_8, dt, max_v = 100.0_8, Kx = 2e3_8, Ky = 1e2_8
+  real(kind=8)    :: T_max  = 20.0_8 * 3600.0_8 * 24.0_8, dt, max_v = 100.0_8, Kx = 1e3_8, Ky = 5e1_8
   integer(kind=4) :: Nt = 180 * 16, Nx = 128, Ny = 128, num_sub_x = 2, num_sub_y = 1
-  integer(kind=4) :: t, t_step_disp = 100, t_step_rec = 20
+  integer(kind=4) :: t, t_step_disp = 500, t_step_rec = 1
   dt = T_max / Nt
 
   allocate(deg(1:num_sub_x, 1:num_sub_y))
   deg(1, 1) = 1
   if (num_sub_x > 1) then
-    deg(2, 1) = 1
+    deg(2, 1) = 2
   end if
 
   !domain and dynamic operator init
@@ -75,5 +75,7 @@ implicit none
     call timescheme%step(state, op, multi_domain, dt)
     if (t == Nt / 2) call set_swm_rotor_velocity(state, multi_domain, -max_v)
   end do
+
+  print *, 'test_0_horizontal_advection successfully completed'
 
 end program test_1_gaussian_hill

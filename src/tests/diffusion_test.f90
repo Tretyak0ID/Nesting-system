@@ -47,7 +47,7 @@ coefs(2, 1) = 100000000.0_8
 call op%init(sbp21, coefs, multi_domain)
 
 call create_timescheme(timescheme, state, 'rk4')
-call set_swm_gaussian_hill(state, multi_domain, H_MEAN, 1000.0_8, 10000.0_8, 0)
+call set_swm_gaussian_hill(state, multi_domain, H_MEAN, 1000.0_8, 1000.0_8, 0)
 
 do t = 0, Nt
   if (mod(t, 100) == 0) print *, 'step: ',  t

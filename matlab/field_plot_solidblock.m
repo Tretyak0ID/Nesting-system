@@ -1,5 +1,5 @@
 dim = 128;
-A = read_bin('../data/test5_128x128_curl_dynamic.dat', dim + 1, dim + 1);
+A = read_bin('../data/test2h.dat', dim + 1, dim + 1);
 
 axis([0 dim 0 dim 0 10000])
 x = [0 : 1 : dim];
@@ -13,13 +13,14 @@ for i = 1:1:length(A(1, 1, :))
     surf(X, Y, A(:, :, i))
     hold on; grid on;
     shading flat
-    pause(0.1)
+    pause(0.2)
     if (i < length(A(1, 1, :)))
         cla;
     end
 end
 
 %difference
+%{
 figure;
 for i = 1:1:length(A(1, 1, :))
     %zlim([9000 11000])  %comment for 2d field
@@ -31,3 +32,4 @@ for i = 1:1:length(A(1, 1, :))
         cla;
     end
 end
+%}

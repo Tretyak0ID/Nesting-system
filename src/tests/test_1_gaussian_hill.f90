@@ -29,15 +29,15 @@ implicit none
 
   !test constants
   real(kind=8)    :: LX = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii, H_MEAN = 10.0_8 ** 4.0_8
-  real(kind=8)    :: T_max  = 10.0_8 * 3600.0_8 * 24.0_8, dt, Kx = 50.0_8, Ky = 50.0_8
-  integer(kind=4) :: Nt = 180 * 8, Nx = 128, Ny = 128, num_sub_x = 2, num_sub_y = 1
-  integer(kind=4) :: t, t_step_disp = 100, t_step_rec = 10
+  real(kind=8)    :: T_max  = 20.0_8 * 3600.0_8 * 24.0_8, dt, Kx = 50.0_8, Ky = 50.0_8
+  integer(kind=4) :: Nt = 180 * 32, Nx = 128, Ny = 128, num_sub_x = 2, num_sub_y = 1
+  integer(kind=4) :: t, t_step_disp = 500, t_step_rec = 4
   dt = T_max / Nt
 
   allocate(deg(1:num_sub_x, 1:num_sub_y))
-  deg(1, 1) = 2
+  deg(1, 1) = 1
   if (num_sub_x > 1) then
-    deg(2, 1) = 1
+    deg(2, 1) = 2
   end if
 
   !domain and dynamic operator init
@@ -74,5 +74,7 @@ implicit none
     !calculate
     call timescheme%step(state, op, multi_domain, dt)
   end do
+
+  print *, 'test_1_gaussian_hill successfully completed'
 
 end program test_1_gaussian_hill

@@ -453,6 +453,8 @@ $(DOBJ)test_2_geostrophic_balance.o: src/tests/test_2_geostrophic_balance.f90 \
 	$(DOBJ)initial_condition_mod.o \
 	$(DOBJ)swe_vect_inv_operator_mod.o \
 	$(DOBJ)swe_advective_operator_mod.o \
+	$(DOBJ)horizontal_advection_operator_mod.o \
+	$(DOBJ)diffusion_operator_mod.o \
 	$(DOBJ)sbp_differential_operator_mod.o \
 	$(DOBJ)central_differential_operator_mod.o \
 	$(DOBJ)timescheme_mod.o \
@@ -460,6 +462,7 @@ $(DOBJ)test_2_geostrophic_balance.o: src/tests/test_2_geostrophic_balance.f90 \
 	$(DOBJ)rk4_mod.o \
 	$(DOBJ)domain_mod.o \
 	$(DOBJ)multi_domain_mod.o \
+	$(DOBJ)multi_grid_field_mod.o \
 	$(DOBJ)stvec_swe_mod.o \
 	$(DOBJ)const_mod.o \
 	$(DOBJ)read_write_mod.o
