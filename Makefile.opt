@@ -536,7 +536,8 @@ $(DOBJ)sbp_operators_test.o: src/tests/sbp_operators_test.f90 \
 	$(DOBJ)sbp_differential_operator_mod.o \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o \
-	$(DOBJ)const_mod.o
+	$(DOBJ)const_mod.o \
+	$(DOBJ)read_write_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -617,12 +618,18 @@ $(DOBJ)explicit_euler_mod.o: src/timeschemes/explicit_Euler_mod.f90 \
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
-$(DOBJ)sat_mod.o: src/differential_operators/SAT_mod.f90 \
+$(DOBJ)sat_mod.o: src/SAT/SAT_mod.f90 \
 	$(DOBJ)domain_mod.o \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)multi_domain_mod.o \
 	$(DOBJ)multi_grid_field_mod.o \
 	$(DOBJ)interpolation_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)interpolation_mod.o: src/SAT/interpolation_mod.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)multi_grid_field_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -677,12 +684,6 @@ $(DOBJ)central_differential_operator_mod.o: src/differential_operators/central_d
 $(DOBJ)differential_operator_mod.o: src/differential_operators/differential_operator_mod.f90 \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC)  $< -o $@
-
-$(DOBJ)interpolation_mod.o: src/differential_operators/interpolation_mod.f90 \
-	$(DOBJ)field_mod.o \
-	$(DOBJ)multi_grid_field_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 

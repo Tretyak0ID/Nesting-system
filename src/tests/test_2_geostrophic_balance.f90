@@ -35,15 +35,22 @@ implicit none
 
   !test constants
   real(kind=8)    :: LX = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii, H_MEAN = 10.0_8 ** 4.0_8
-  real(kind=8)    :: T_max  = 20.0_8 * 3600.0_8 * 24.0_8, dt, scale_h = 22.0e-3_8, scale_sigma = 1.0e6_8
-  integer(kind=4) :: Nt = 180 * 32, Nx = 128, Ny = 128, num_sub_x = 2, num_sub_y = 1
+  real(kind=8)    :: T_max  = 30.0_8 * 3600.0_8 * 24.0_8, dt, scale_h = 22.0e-3_8, scale_sigma = 1.0e6_8
+  integer(kind=4) :: Nt = 180 * 32, Nx = 192, Ny = 192, num_sub_x = 3, num_sub_y = 3
   integer(kind=4) :: t, t_step_disp = 500, t_step_rec = 10, n, m
   dt = T_max / Nt
   
   allocate(deg(1:num_sub_x, 1:num_sub_y))
   deg(1, 1) = 1
-  if (num_sub_x > 1) then
-    deg(2, 1) = 2
+  if (num_sub_x > 1 .or. num_sub_y > 1) then
+    deg(1, 2) = 1
+    deg(1, 3) = 1
+    deg(2, 1) = 1
+    deg(2, 2) = 2
+    deg(2, 3) = 1
+    deg(3, 1) = 1
+    deg(3, 2) = 1
+    deg(3, 3) = 1
   end if
 
   !domain and dynamic operatior init
@@ -57,7 +64,7 @@ implicit none
   call state%h%init(multi_domain)
   call state%u%init(multi_domain)
   call state%v%init(multi_domain)
-  call op%init(sbp42, central4, pcori, multi_domain)
+  call op%init(sbp42, sbp42, pcori, multi_domain)
 
   !diffusion operator init
   allocate(coefs(1:num_sub_x, 1:num_sub_y))
@@ -75,30 +82,21 @@ implicit none
   !initial conditions
   call set_swm_geostrophic_balance(state, multi_domain, H_MEAN, scale_h, scale_sigma)
 
-  !---start---section---
-  call buff1%init(multi_domain)
-  call buff2%init(multi_domain)
-  call buff3%init(multi_domain)
-  !----end----section---
-
   do t = 0, Nt
     !step display
     if (mod(t, t_step_disp) == 0) print *, 'step: ',  t
 
     !recording
-    if (num_sub_x > 1) then 
-
-      !---start---section---
-      do n = 1, num_sub_x
-        do m = 1, num_sub_y
-          call sbp42%apply(buff1%subfields(n, m), op%hu%subfields(n, m), multi_domain%subdomains(n, m), 'x')
-          call central4%apply(buff2%subfields(n, m), op%hv%subfields(n, m), multi_domain%subdomains(n, m), 'y')
-        end do
-      end do
-      !----end----section---
-
-      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test2h_left.dat', t / t_step_rec + 1)
-      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test2h_right.dat', t / t_step_rec + 1)
+    if (num_sub_x > 1 .or. num_sub_y > 1) then 
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test23_11.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(1, 2), multi_domain%subdomains(1, 2), './data/test23_12.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(1, 3), multi_domain%subdomains(1, 3), './data/test23_13.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test23_21.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(2, 2), multi_domain%subdomains(2, 2), './data/test23_22.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(2, 3), multi_domain%subdomains(2, 3), './data/test23_23.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(3, 1), multi_domain%subdomains(3, 1), './data/test23_31.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(3, 2), multi_domain%subdomains(3, 2), './data/test23_32.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(3, 3), multi_domain%subdomains(3, 3), './data/test23_33.dat', t / t_step_rec + 1)
     else
       if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test2h.dat', t / t_step_rec + 1)
     end if

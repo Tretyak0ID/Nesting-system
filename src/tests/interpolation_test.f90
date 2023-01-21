@@ -2,7 +2,7 @@ program interpolation_test
 use field_mod,         only : field_t
 use read_write_mod,    only : write_field
 use domain_mod,        only : domain_t
-use interpolation_mod, only : interp_1d_sbp21_2to1_ratio, interp_1d_sbp42_2to1_ratio
+use interpolation_mod, only : interp_MC2order_2to1ratio, interp_MC4order_2to1ratio
 use const_mod,         only : pi
 implicit none
 
@@ -21,7 +21,7 @@ do i = 16, 20
   f1%f(i, 0) = 1.0_8
 end do
 
-call interp_1d_sbp42_2to1_ratio(f1, f2, 'coarse2fine')
+call interp_MC4order_2to1ratio(f1, f2, 'coarse2fine')
 
 call write_field(f1, domain1, './data/test_interp3.dat')
 call write_field(f2, domain2, './data/test_interp4.dat')

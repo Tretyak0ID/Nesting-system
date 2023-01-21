@@ -91,15 +91,15 @@ contains
 
     else if (direction == 'y') then
       do i = domain%is, domain%ie
-        out%f(i, 0) = (in%f(i, in%je - 1) - 2.0_8 * in%f(i, 0) + in%f(i, 1)) / domain%dy ** 2.0_8
+        out%f(i, 0) = (in%f(i, 0) - 2.0_8 * in%f(i, 1) + in%f(i, 2)) / domain%dy ** 2.0_8
       end do
       do j = domain%js + 1, domain%je - 1
         do i = domain%is, domain%ie
-          out%f(i, j) = (in%f(i, j - 1) - 2.0_8 * in%f(i, j) + in%f(i, j + 1)) / domain%dy ** 2.0_8
+          out%f(i, j) = (in%f(i, j + 1) - 2.0_8 * in%f(i, j) + in%f(i, j - 1)) / domain%dy ** 2.0_8
         end do
       end do
       do i = domain%is, domain%ie
-        out%f(i, out%je) = (in%f(i, in%je - 1) - 2.0_8 * in%f(i, in%je) + in%f(i, 1)) / domain%dy ** 2.0_8
+        out%f(i, out%je) = (in%f(i, domain%je - 2) - 2.0_8 * in%f(i, domain%je - 1) + in%f(i, domain%ie)) / domain%dy ** 2.0_8
       end do
 
     else

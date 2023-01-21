@@ -11,16 +11,16 @@ program multi_grid_field
   integer(kind=4), allocatable :: deg(:, :)
   integer(kind=4)              :: n, m
 
-  allocate(deg(1:2, 1:1))
+  allocate(deg(1:1, 1:2))
 
-  deg(1, 1) = 1
-  deg(2, 1) = 2
+  deg(1, 1) = 2
+  deg(1, 2) = 1
 
   call global_domain%init(-100.0_8, 100.0_8, -10, 10, -100.0_8, 100.0_8, -10, 10)
-  call multi_domain%init(global_domain, 2, 1, deg)
+  call multi_domain%init(global_domain, 1, 2, deg)
   call milti_grid_field%init(multi_domain)
 
   print *, 'left grid field : ',  milti_grid_field%subfields(1, 1)%f
-  print *, 'right grid field : ', milti_grid_field%subfields(2, 1)%f
+  print *, 'right grid field : ', milti_grid_field%subfields(1, 2)%f
 
 end program multi_grid_field

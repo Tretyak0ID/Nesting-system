@@ -86,7 +86,7 @@ implicit none
       if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test5curl_left.dat', t / t_step_rec + 1)
       if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test5curl_right.dat', t / t_step_rec + 1)
     else
-      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test5curl.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test5curl.dat', t / t_step_rec + 1)
     end if
 
     !calculate
