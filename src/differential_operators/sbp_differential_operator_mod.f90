@@ -28,6 +28,14 @@ implicit none
 
   end type sbp42_t
 
+  type, extends(differential_operator_t) :: sbp42_2_t
+
+  contains
+
+    procedure :: apply => apply_sbp42_2
+
+  end type sbp42_2_t
+
 contains
 
   subroutine apply_sbp21(this, out, in, domain, direction)
@@ -156,5 +164,54 @@ contains
       print *, 'Error in diff_sbp42. Wrong direction value'
     end if
   end subroutine apply_sbp42
+
+  subroutine apply_sbp42_2(this, out, in, domain, direction)
+    class    (sbp42_2_t),  intent(in)    :: this
+    type     (field_t),  intent(inout) :: out
+    type     (field_t),  intent(in)    :: in
+    type     (domain_t), intent(in)    :: domain
+    character(len=1),    intent(in)    :: direction
+    integer  (kind=8)                  :: i, j
+
+    if (direction == 'x') then
+      do j = domain%js, domain%je
+        do i = domain%is + 4, domain%ie - 3
+          out%f(i, j) = (- in%f(i - 2, j) + 16.0_8 * in%f(i - 1, j) - 30.0_8 * in%f(i, j) + 16.0_8 * in%f(i + 1, j) - in%f(i + 2, j)) / (12.0_8 * domain%dx ** 2.0_8)
+        end do
+      end do
+      do j = domain%js, domain%je
+        out%f(0, j) = (2.0_8 * in%f(domain%is, j) - 5.0_8 * in%f(domain%is + 1, j) + 4.0_8 * in%f(domain%is + 2, j) - in%f(domain%is + 3, j)) / (domain%dx ** 2.0_8)
+        out%f(1, j) = (in%f(domain%is, j) - 2.0_8 * in%f(domain%is + 1, j) + in%f(domain%is + 2, j)) / (domain%dx ** 2.0_8)
+        out%f(2, j) = (-4.0_8 * in%f(domain%is, j) + 59.0_8 * in%f(domain%is + 1, j) - 110.0_8 * in%f(domain%is + 2, j) + 59.0_8 * in%f(domain%is + 3, j) - 4.0_8 * in%f(domain%is + 4, j)) / (43.0_8 * domain%dx ** 2.0_8)
+        out%f(3, j) = (-1.0_8 * in%f(domain%is, j) + 59.0_8 * in%f(domain%is + 2, j) - 118.0_8 * in%f(domain%is + 3, j) + 64.0_8 * in%f(domain%is + 4, j) - 4.0_8 * in%f(domain%is + 5, j)) / (49.0_8 * domain%dx ** 2.0_8)
+
+        out%f(domain%ie, j)     = (-1.0_8 ) * (-2.0_8 * in%f(domain%ie, j) + 5.0_8 * in%f(domain%ie - 1, j) - 4.0_8 * in%f(domain%ie - 2, j) + in%f(domain%ie - 3, j)) / (domain%dx ** 2.0_8)
+        out%f(domain%ie - 1, j) = (-1.0_8 ) * (-in%f(domain%ie, j) + 2.0_8 * in%f(domain%ie - 1, j) - in%f(domain%ie - 2, j)) / (domain%dx ** 2.0_8)
+        out%f(domain%ie - 2, j) = (-1.0_8 ) * (4.0_8 * in%f(domain%ie, j) - 59.0_8 * in%f(domain%ie - 1, j) + 110.0_8 * in%f(domain%ie - 2, j) - 59.0_8 * in%f(domain%ie - 3, j) + 4.0_8 * in%f(domain%ie - 4, j)) / (43.0_8 * domain%dx ** 2.0_8)
+        out%f(domain%ie - 3, j) = (-1.0_8 ) * (1.0_8 * in%f(domain%ie, j) - 59.0_8 * in%f(domain%ie - 2, j) + 118.0_8 * in%f(domain%ie - 3, j) - 64.0_8 * in%f(domain%ie - 4, j) + 4.0_8 * in%f(domain%ie - 5, j)) / (49.0_8 * domain%dx ** 2.0_8)
+      end do
+
+    else if(direction == 'y') then
+      do j = domain%js + 4, domain%je - 3
+        do i = domain%is, domain%ie
+          out%f(i, j) = (- in%f(i, j - 2) + 16.0_8 * in%f(i, j - 1) - 30.0_8 * in%f(i, j) + 16.0_8 * in%f(i, j + 1) - in%f(i, j + 2)) / (12.0_8 * domain%dy ** 2.0_8)
+        end do
+      end do
+      do i = domain%is, domain%ie
+        out%f(i, 0) = (2.0_8 * in%f(i, domain%js) - 5.0_8 * in%f(i, domain%js + 1) + 4.0_8 * in%f(i, domain%js + 2) - in%f(i, domain%js + 3)) / (domain%dy ** 2.0_8)
+        out%f(i, 1) = (in%f(i, domain%js) - 2.0_8 * in%f(i, domain%js + 1) + in%f(i, domain%js + 2)) / (domain%dy ** 2.0_8)
+        out%f(i, 2) = (-4.0_8 * in%f(i, domain%js) + 59.0_8 * in%f(i, domain%js + 1) - 110.0_8 * in%f(i, domain%js + 2) + 59.0_8 * in%f(i, domain%js + 3) - 4.0_8 * in%f(i, domain%js + 4)) / (43.0_8 * domain%dy ** 2.0_8)
+        out%f(i, 3) = (-1.0_8 * in%f(i, domain%js) + 59.0_8 * in%f(i, domain%js + 2) - 118.0_8 * in%f(i, domain%js + 3) + 64.0_8 * in%f(i, domain%js + 4) - 4.0_8 * in%f(i, domain%js + 5)) / (49.0_8 * domain%dy ** 2.0_8)
+
+        out%f(i, domain%je) = (-1.0_8 ) * (-2.0_8 * in%f(i, domain%je) + 5.0_8 * in%f(i, domain%je - 1) - 4.0_8 * in%f(i, domain%je - 2) + in%f(i, domain%je - 3)) / (domain%dy ** 2.0_8)
+        out%f(i, domain%je - 1) = (-1.0_8 ) * (-in%f(i, domain%je) + 2.0_8 * in%f(i, domain%je - 1) - in%f(i, domain%je - 2)) / (domain%dy ** 2.0_8)
+        out%f(i, domain%je - 2) = (-1.0_8 ) * (4.0_8 * in%f(i, domain%je) - 59.0_8 * in%f(i, domain%je - 1) + 110.0_8 * in%f(i, domain%je - 2) - 59.0_8 * in%f(i, domain%je - 3) + 4.0_8 * in%f(i, domain%je - 4)) / (43.0_8 * domain%dy ** 2.0_8)
+        out%f(i, domain%je - 3) = (-1.0_8 ) * (1.0_8 * in%f(i, domain%je) - 59.0_8 * in%f(i, domain%je - 2) + 118.0_8 * in%f(i, domain%je - 3) - 64.0_8 * in%f(i, domain%je - 4) + 4.0_8 * in%f(i, domain%je - 5)) / (49.0_8 * domain%dy ** 2.0_8)
+      end do
+
+    else
+      print *, 'Error in diff_sbp42. Wrong direction value'
+    end if
+  end subroutine apply_sbp42_2
 
 end module sbp_differential_operator_mod

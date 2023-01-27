@@ -648,7 +648,15 @@ $(DOBJ)sat_mod.o: src/SAT/SAT_mod.f90 \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)multi_domain_mod.o \
 	$(DOBJ)multi_grid_field_mod.o \
-	$(DOBJ)interpolation_mod.o
+	$(DOBJ)interpolation_mod.o \
+	$(DOBJ)boundary_methods_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)boundary_methods_mod.o: src/SAT/boundary_methods_mod.f90 \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_grid_field_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
