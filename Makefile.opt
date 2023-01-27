@@ -65,6 +65,11 @@ $(DEXE)FIELD_TEST: $(MKDIRS) $(DOBJ)field_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) FIELD_TEST
+$(DEXE)TEST_6_TWO_CYCLONES: $(MKDIRS) $(DOBJ)test_6_two_cyclones.o
+	@rm -f $(filter-out $(DOBJ)test_6_two_cyclones.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) TEST_6_TWO_CYCLONES
 $(DEXE)INTERPOLATION_TEST: $(MKDIRS) $(DOBJ)interpolation_test.o
 	@rm -f $(filter-out $(DOBJ)interpolation_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -367,6 +372,26 @@ $(DOBJ)sbp21_2_test.o: src/tests/sbp21_2_test.f90 \
 $(DOBJ)field_test.o: src/tests/field_test.f90 \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)test_6_two_cyclones.o: src/tests/test_6_two_cyclones.f90 \
+	$(DOBJ)initial_condition_mod.o \
+	$(DOBJ)swe_vect_inv_operator_mod.o \
+	$(DOBJ)diffusion_operator_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)curl_mod.o \
+	$(DOBJ)timescheme_mod.o \
+	$(DOBJ)timesheme_factory_mod.o \
+	$(DOBJ)rk4_mod.o \
+	$(DOBJ)field_mod.o \
+	$(DOBJ)multi_grid_field_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_domain_mod.o \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)const_mod.o \
+	$(DOBJ)read_write_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 

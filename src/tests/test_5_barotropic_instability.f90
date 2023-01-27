@@ -36,14 +36,18 @@ implicit none
   !test constants
   real(kind=8)    :: LX = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii, H_MEAN = 10.0_8 ** 4.0_8
   real(kind=8)    :: T_max = 20.0_8 * 3600.0_8 * 24.0_8, dt, u0 = 50.0_8
-  integer(kind=4) :: Nt = 180 * 64, Nx = 128, Ny = 128, num_sub_x = 2, num_sub_y = 1
+  integer(kind=4) :: Nt = 180 * 64, Nx = 192, Ny = 192, num_sub_x = 3, num_sub_y = 2
   integer(kind=4) :: t, n, m, t_step_disp = 500, t_step_rec = 50
   dt = T_max / Nt
 
   allocate(deg(1:num_sub_x, 1:num_sub_y))
   deg(1, 1) = 1
-  if (num_sub_x > 1) then
-    deg(2, 1) = 2
+  if (num_sub_x > 1 .or. num_sub_y > 1) then
+    deg(1, 2) = 2
+    deg(2, 1) = 1
+    deg(2, 2) = 1
+    deg(3, 1) = 1
+    deg(3, 2) = 1
   end if
 
   !domain and dynamic operator init
@@ -58,7 +62,7 @@ implicit none
   call state%h%init(multi_domain)
   call state%u%init(multi_domain)
   call state%v%init(multi_domain)
-  call op%init(sbp42, central4, pcori, multi_domain)
+  call op%init(sbp42, sbp42, pcori, multi_domain)
 
   !diffusion operator init
   allocate(coefs(1:num_sub_x, 1:num_sub_y))
@@ -81,10 +85,14 @@ implicit none
     if (mod(t, t_step_disp) == 0) print *, 'step: ',  t
 
     !recording
-    if (mod(t, t_step_rec) == 0) call calc_curl(curl, state%u, state%v, multi_domain, sbp42, central4)
-    if (num_sub_x > 1) then 
-      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test5curl_left.dat', t / t_step_rec + 1)
-      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test5curl_right.dat', t / t_step_rec + 1)
+    if (mod(t, t_step_rec) == 0) call calc_curl(curl, state%u, state%v, multi_domain, sbp42, sbp42)
+    if (num_sub_x > 1 .or. num_sub_y > 1) then 
+      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test56_11.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(1, 2), multi_domain%subdomains(1, 2), './data/test56_12.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test56_21.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(2, 2), multi_domain%subdomains(2, 2), './data/test56_22.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(3, 1), multi_domain%subdomains(3, 1), './data/test56_31.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(3, 2), multi_domain%subdomains(3, 2), './data/test56_32.dat', t / t_step_rec + 1)
     else
       if (mod(t, t_step_rec) == 0) call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test5curl.dat', t / t_step_rec + 1)
     end if

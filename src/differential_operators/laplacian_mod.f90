@@ -30,7 +30,8 @@ contains
 
     !call out%assign(coefs(1, 1), dinx, coefs(1, 1), diny, multi_domain)
 
-    call sbp_SAT_penalty_two_block_diffusion(out, in, multi_domain, coefs, diff2_op%name)
+    call sbp_SAT_penalty_two_block_diffusion(out, in, multi_domain, coefs, 'x', diff2_op%name)
+    call sbp_SAT_penalty_two_block_diffusion(out, in, multi_domain, coefs, 'y', diff2_op%name)
 
   end subroutine calc_laplacian
 
