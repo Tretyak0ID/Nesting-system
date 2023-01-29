@@ -5,7 +5,7 @@ CFLAGS=" -c -traceback -init=snan -init=arrays -check all -ftrapuv -fpp -fp-mode
 LFLAGS=" -traceback -init=snan -init=arrays -check all -ftrapuv -fpp -fp-model strict "$LMKL
 
 CFLAGS_OPT=" -c -traceback -O3"
-LFLAGS_OPT=" -traceback -O3"$LMKL
+LFLAGS_OPT=" -traceback -O3 "$LMKL
 
 FoBiS.py build -s ./src -m Makefile -compiler intel -fc "ifort" -lflags "$LFLAGS" -cflags "$CFLAGS"
 

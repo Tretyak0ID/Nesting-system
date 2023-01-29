@@ -30,9 +30,9 @@ implicit none
     end do
   end do
 
-  call calc_grad(gx, gy, in_field, domain, sbp42, sbp42)
+  !call calc_grad(gx, gy, in_field, domain, sbp42, sbp42)
 
-  print *, 'grad gx:', abs(gx_field%f(10, :) - gx%f(10, :))
-  print *, 'grad gy:', abs(gy_field%f(:, 10) - gy%f(:, 10))
+  !print *, 'grad gx:', abs(gx_field%f(10, :) - gx%f(10, :))
+  !print *, 'grad gy:', abs(gy_field%f(:, 10) - gy%f(:, 10))
 
 end program grad_test

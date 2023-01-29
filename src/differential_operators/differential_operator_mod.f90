@@ -5,6 +5,8 @@ implicit none
 
   type, abstract :: differential_operator_t
 
+      character(len=7), public :: name
+
     contains
 
       procedure(apply_i), deferred :: apply

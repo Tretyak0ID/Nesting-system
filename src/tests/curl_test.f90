@@ -27,8 +27,8 @@ implicit none
     end do
   end do
 
-  call calc_curl(curl, in_field, domain, sbp42, sbp42)
+  !call calc_curl(curl, in_field, domain, sbp42, sbp42)
 
-  print *, 'divergention error:', maxval(abs(curl_field%f - curl%f))
+  !print *, 'divergention error:', maxval(abs(curl_field%f - curl%f))
 
 end program curl_test

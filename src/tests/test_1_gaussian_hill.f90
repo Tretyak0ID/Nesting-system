@@ -1,45 +1,94 @@
 program test_1_gaussian_hill
-use initial_conditions_mod,            only : swm_gaussian_hill
+use initial_conditions_mod,            only : set_swm_gaussian_hill
 use swe_advective_operator_mod,        only : swe_advective_operator_t
 use swe_vect_inv_operator_mod,         only : swe_vect_inv_operator_t
 use horizontal_advection_operator_mod, only : horizontal_advection_operator_t
+use sbp_differential_operator_mod,     only : sbp21_t, sbp42_t
 use central_differential_operator_mod, only : central2_t, central4_t
 use timescheme_mod,                    only : timescheme_t
 use timescheme_factory_mod,            only : create_timescheme
 use rk4_mod,                           only : rk4_t
 use explicit_Euler_mod,                only : explicit_Euler_t
 use domain_mod,                        only : domain_t
+use multi_domain_mod,                  only : multi_domain_t
 use stvec_swe_mod,                     only : stvec_swe_t
 use const_mod,                         only : Earth_radii, Earth_grav, pcori, pi
 use read_write_mod,                    only : write_field
 implicit none
 
-type(domain_t)                   :: domain
-type(stvec_swe_t)                :: state
-type(swe_advective_operator_t)   :: op
-type(central2_t)                 :: central2
-type(central4_t)                 :: central4
-class(timescheme_t), allocatable :: timescheme
+  type(domain_t)                   :: domain
+  type(multi_domain_t)             :: multi_domain
+  type(stvec_swe_t)                :: state
+  type(swe_vect_inv_operator_t)   :: op
+  type(sbp21_t)                    :: sbp21
+  type(central2_t)                 :: central2
+  type(central4_t)                 :: central4
+  type(sbp42_t)                    :: sbp42
+  class(timescheme_t), allocatable :: timescheme
+  integer(kind=4), allocatable :: deg(:, :)
 
-real(kind=8)    :: LX     = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii
-real(kind=8)    :: H_MEAN = 10.0_8 ** 4.0_8
-integer(kind=4) :: Nt     = 180 * 2, t
-real(kind=8)    :: T_max  = 5.0_8 * 3600.0_8 * 24.0_8, dt
-dt = T_max / Nt
+  !test constants
+  real(kind=8)    :: LX = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii, H_MEAN = 10.0_8 ** 4.0_8
+  real(kind=8)    :: T_max  = 20.0_8 * 3600.0_8 * 24.0_8, dt, Kx = 50.0_8, Ky = 50.0_8
+  integer(kind=4) :: Nt = 180 * 32, Nx = 192, Ny = 192, num_sub_x = 3, num_sub_y = 3
+  integer(kind=4) :: t, t_step_disp = 500, t_step_rec = 4
+  dt = T_max / Nt
 
-call domain%init(0.0_8, LX, 0, 128, 0.0_8, LY, 0, 128)
-call state%h%init_on_domain(domain)
-call state%u%init_on_domain(domain)
-call state%v%init_on_domain(domain)
-call op%init(central4, central4)
+  allocate(deg(1:num_sub_x, 1:num_sub_y))
+  deg(1, 1) = 1
+  if (num_sub_x > 1 .or. num_sub_y > 1) then
+    deg(1, 2) = 1
+    deg(1, 3) = 1
+    deg(2, 1) = 1
+    deg(2, 2) = 2
+    deg(2, 3) = 1
+    deg(3, 1) = 1
+    deg(3, 2) = 1
+    deg(3, 3) = 1
+  end if
 
-call create_timescheme(timescheme, state, 'rk4')
-call swm_gaussian_hill(state, domain, H_MEAN, 100.0_8, 100.0_8)
+  !domain and dynamic operator init
+  sbp21%name = 'sbp21_1'
+  sbp42%name = 'sbp42_1'
+  central2%name = 'cent2_1'
+  central4%name = 'cent4_1'
 
-do t = 0, Nt
-  if (mod(t, 100) == 0) print *, 'step: ',  t
-  call write_field(state%h, domain, './data/test1h.dat', t + 1)
-  call timescheme%step(state, op, domain, dt)
-end do
+  call domain%init(0.0_8, LX, 0, Nx, 0.0_8, LY, 0, Ny)
+  call multi_domain%init(domain, num_sub_x, num_sub_y, deg)
+  call state%h%init(multi_domain)
+  call state%u%init(multi_domain)
+  call state%v%init(multi_domain)
+  call op%init(sbp42, sbp42, 0.0_8, multi_domain)
+
+  !time scheme init
+  call create_timescheme(timescheme, state, 'rk4')
+
+  !set initial conditions
+  call set_swm_gaussian_hill(state, multi_domain, H_MEAN, Kx, Ky, 1)
+
+  do t = 0, Nt
+    !step display
+    if (mod(t, t_step_disp) == 0) print *, 'step: ',  t
+
+    !recording
+    if (num_sub_x > 1 .or. num_sub_y > 1) then 
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test1h_11.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(1, 2), multi_domain%subdomains(1, 2), './data/test1h_12.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(1, 3), multi_domain%subdomains(1, 3), './data/test1h_13.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test1h_21.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(2, 2), multi_domain%subdomains(2, 2), './data/test1h_22.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(2, 3), multi_domain%subdomains(2, 3), './data/test1h_23.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(3, 1), multi_domain%subdomains(3, 1), './data/test1h_31.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(3, 2), multi_domain%subdomains(3, 2), './data/test1h_32.dat', t / t_step_rec + 1)
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(3, 3), multi_domain%subdomains(3, 3), './data/test1h_33.dat', t / t_step_rec + 1)
+    else
+      if (mod(t, t_step_rec) == 0) call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test1h.dat', t / t_step_rec + 1)
+    end if
+
+    !calculate
+    call timescheme%step(state, op, multi_domain, dt)
+  end do
+
+  print *, 'test_1_gaussian_hill successfully completed'
 
 end program test_1_gaussian_hill

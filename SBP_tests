@@ -1,0 +1,31 @@
+#!/bin/bash
+#bash script for executing all SBP-SAT method tests
+
+echo -n "compiling and run tests? 1/0: "
+read flag
+
+if [[ $flag -eq 1 ]]
+then
+	. /opt/intel/oneapi/setvars.sh
+	make clean
+	./genMakefile.sh
+
+	#compiling tests
+	make -f Makefile.opt TEST_0_HORIZONTAL_ADVECTION
+	make -f Makefile.opt TEST_1_GAUSSIAN_HILL
+	make -f Makefile.opt TEST_2_GEOSTROPHIC_BALANCE
+	make -f Makefile.opt TEST_3_GEOSTROPHIC_CYCLONE_PERIODIC
+	make -f Makefile.opt TEST_4_GEOSTROPHIC_CYCLONE_DISCONTINUUM
+	make -f Makefile.opt TEST_5_BAROTROPIC_INSTABILITY
+
+	#tests run
+	./TEST_0_HORIZONTAL_ADVECTION
+	./TEST_1_GAUSSIAN_HILL
+	./TEST_2_GEOSTROPHIC_BALANCE
+	./TEST_3_GEOSTROPHIC_CYCLONE_PERIODIC
+	./TEST_4_GEOSTROPHIC_CYCLONE_DISCONTINUUM
+	./TEST_5_BAROTROPIC_INSTABILITY
+fi
+#matlab
+cd matlab
+/Applications/programms/MATLAB_R2022b.app/bin/matlab -nodisplay -minimize -r "plot_l1norm('test4curl', 'test4lcurl', 'test4rcurl', 128, 256) ,plot_l1norm('test3curl', 'test3lcurl', 'test3rcurl', 128, 256); plotSBPx2multiblok('test0h', 128, 256, 1);plotSBPx2multiblok('test1h', 128, 256, 1);plotSBPx2multiblok('test2h', 128, 256, 1);plotSBPx2multiblok('test3curl', 128, 256, 0);plotSBPx2multiblok('test4curl', 128, 256, 0);plotSBPx2multiblok('test5curl', 128, 256, 0);exit"
