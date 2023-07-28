@@ -38,7 +38,7 @@ implicit none
   !test constants
   real(kind=8)    :: LX = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii, H_MEAN = 10.0_8 ** 4.0_8
   real(kind=8)    :: T_max  = 30.0_8 * 3600.0_8 * 24.0_8, dt, scale_h = 22.0e-3_8, scale_sigma = 1e6_8, h0 = 0.0_8, u0 = 10.0_8, v0 = 10.0_8 
-  integer(kind=4) :: Nt = 180 * 32, Nx = 192, Ny = 192, num_sub_x = 3, num_sub_y = 3
+  integer(kind=4) :: Nt = 180 * 32, Nx = 192 * 2, Ny = 192 * 2, num_sub_x = 1, num_sub_y = 1
   integer(kind=4) :: t, n, m, t_step_disp = 500, t_step_rec = 50
   dt = T_max / Nt
 

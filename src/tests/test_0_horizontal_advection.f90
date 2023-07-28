@@ -14,11 +14,12 @@ use multi_domain_mod,                  only : multi_domain_t
 use stvec_swe_mod,                     only : stvec_swe_t
 use const_mod,                         only : Earth_radii, Earth_grav, pcori, pi
 use read_write_mod,                    only : write_field
+use vec_math_mod,                      only : calc_sqrt_l2_norm_domain, calc_c_norm_domain, calc_l1_norm_domain
 implicit none
 
   type(domain_t)                        :: domain
   type(multi_domain_t)                  :: multi_domain
-  type(stvec_swe_t)                     :: state
+  type(stvec_swe_t)                     :: state, diff_state
   type(horizontal_advection_operator_t) :: op
   type(sbp21_t)                         :: sbp21
   type(sbp42_t)                         :: sbp42
@@ -26,11 +27,12 @@ implicit none
   type(central4_t)                      :: central4
   class(timescheme_t), allocatable      :: timescheme
   integer(kind=4),     allocatable      :: deg(:, :)
+  real(kind=8)                          :: l2, c, l1
 
   !test constants
   real(kind=8)    :: LX = 2.0_8 * pi * Earth_radii, LY = 2.0_8 * pi * Earth_radii, H_MEAN = 10.0_8 ** 4.0_8
   real(kind=8)    :: T_max  = 20.0_8 * 3600.0_8 * 24.0_8, dt, max_v = 100.0_8, Kx = 1e3_8, Ky = 5e1_8
-  integer(kind=4) :: Nt = 180 * 16, Nx = 128, Ny = 128, num_sub_x = 2, num_sub_y = 1
+  integer(kind=4) :: Nt = 180 * 16 + 2, Nx = 128, Ny = 128, num_sub_x = 2, num_sub_y = 1
   integer(kind=4) :: t, t_step_disp = 500, t_step_rec = 1
   dt = T_max / Nt
 
@@ -50,14 +52,19 @@ implicit none
   call state%h%init(multi_domain)
   call state%u%init(multi_domain)
   call state%v%init(multi_domain)
+  call diff_state%h%init(multi_domain)
+  call diff_state%u%init(multi_domain)
+  call diff_state%v%init(multi_domain)
   call op%init(sbp42, central4, pcori, multi_domain)
 
   !time scheme init
   call create_timescheme(timescheme, state, 'rk4')
 
   !set initial conditions
-  call set_swm_gaussian_hill(state, multi_domain, H_MEAN, Kx, Ky, 0)
+  call set_swm_gaussian_hill(state, multi_domain, H_MEAN, Kx, Ky, 1)
+  call set_swm_gaussian_hill(diff_state, multi_domain, H_MEAN, Kx, Ky, 1)
   call set_swm_rotor_velocity(state, multi_domain, max_v)
+  call set_swm_rotor_velocity(diff_state, multi_domain, max_v)
 
   do t = 0, Nt
     !step display
@@ -73,9 +80,15 @@ implicit none
 
     !calculate
     call timescheme%step(state, op, multi_domain, dt)
-    if (t == Nt / 2) call set_swm_rotor_velocity(state, multi_domain, -max_v)
+    if (t == (Nt-2)/2) call set_swm_rotor_velocity(state, multi_domain, -max_v)
   end do
 
+  call diff_state%update(-1.0_8, state, multi_domain)
+  l2 = calc_sqrt_l2_norm_domain(diff_state%h, multi_domain)
+  c  = calc_c_norm_domain(diff_state%h, multi_domain)
+
   print *, 'test_0_horizontal_advection successfully completed'
+  print *, 'l2-norm: ', l2
+  print *, 'c-norm: ', c
 
 end program test_1_gaussian_hill

@@ -34,8 +34,8 @@ implicit none
   real(kind=8),        allocatable :: coefs(:, :)
 
   real(kind=8),    parameter :: LX = 4000e3_8, LY = 4000e3_8
-  integer(kind=4), parameter :: Nx = 192, Ny = 192
-  integer(kind=8), parameter :: num_sub_x = 3, num_sub_y = 3
+  integer(kind=4), parameter :: Nx = 192 * 2, Ny = 192 * 2
+  integer(kind=8), parameter :: num_sub_x = 1, num_sub_y = 1
   real(kind=8),    parameter :: H_MEAN = 1e4_8
   real(kind=8),    parameter :: T_max  = 256.0_8*3600.0_8, dt = 25.0_8, tau_wr = 3600.0_8
   integer(kind=4), parameter :: Nt     = int(T_max/dt)
@@ -92,28 +92,28 @@ implicit none
         !call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/two_cyclones_h.dat', irec)
         call calc_curl(curl, state%u, state%v, multi_domain, sbp42, sbp42)
         if (num_sub_x > 1 .or. num_sub_y > 1) then
-          call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_192_11_curl.dat', irec)
-          call write_field(curl%subfields(1, 2), multi_domain%subdomains(1, 2), './data/test6_192_12_curl.dat', irec)
-          call write_field(curl%subfields(1, 3), multi_domain%subdomains(1, 3), './data/test6_192_13_curl.dat', irec)
-          call write_field(curl%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test6_192_21_curl.dat', irec)
-          call write_field(curl%subfields(2, 2), multi_domain%subdomains(2, 2), './data/test6_192_22_curl.dat', irec)
-          call write_field(curl%subfields(2, 3), multi_domain%subdomains(2, 3), './data/test6_192_23_curl.dat', irec)
-          call write_field(curl%subfields(3, 1), multi_domain%subdomains(3, 1), './data/test6_192_31_curl.dat', irec)
-          call write_field(curl%subfields(3, 2), multi_domain%subdomains(3, 2), './data/test6_192_32_curl.dat', irec)
-          call write_field(curl%subfields(3, 3), multi_domain%subdomains(3, 3), './data/test6_192_33_curl.dat', irec)
+          call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_96_11_curl.dat', irec)
+          call write_field(curl%subfields(1, 2), multi_domain%subdomains(1, 2), './data/test6_96_12_curl.dat', irec)
+          call write_field(curl%subfields(1, 3), multi_domain%subdomains(1, 3), './data/test6_96_13_curl.dat', irec)
+          call write_field(curl%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test6_96_21_curl.dat', irec)
+          call write_field(curl%subfields(2, 2), multi_domain%subdomains(2, 2), './data/test6_96_22_curl.dat', irec)
+          call write_field(curl%subfields(2, 3), multi_domain%subdomains(2, 3), './data/test6_96_23_curl.dat', irec)
+          call write_field(curl%subfields(3, 1), multi_domain%subdomains(3, 1), './data/test6_96_31_curl.dat', irec)
+          call write_field(curl%subfields(3, 2), multi_domain%subdomains(3, 2), './data/test6_96_32_curl.dat', irec)
+          call write_field(curl%subfields(3, 3), multi_domain%subdomains(3, 3), './data/test6_96_33_curl.dat', irec)
 
-          call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_192_11_h.dat', irec)
-          call write_field(state%h%subfields(1, 2), multi_domain%subdomains(1, 2), './data/test6_192_12_h.dat', irec)
-          call write_field(state%h%subfields(1, 3), multi_domain%subdomains(1, 3), './data/test6_192_13_h.dat', irec)
-          call write_field(state%h%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test6_192_21_h.dat', irec)
-          call write_field(state%h%subfields(2, 2), multi_domain%subdomains(2, 2), './data/test6_192_22_h.dat', irec)
-          call write_field(state%h%subfields(2, 3), multi_domain%subdomains(2, 3), './data/test6_192_23_h.dat', irec)
-          call write_field(state%h%subfields(3, 1), multi_domain%subdomains(3, 1), './data/test6_192_31_h.dat', irec)
-          call write_field(state%h%subfields(3, 2), multi_domain%subdomains(3, 2), './data/test6_192_32_h.dat', irec)
-          call write_field(state%h%subfields(3, 3), multi_domain%subdomains(3, 3), './data/test6_192_33_h.dat', irec)
+          call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_96_11_h.dat', irec)
+          call write_field(state%h%subfields(1, 2), multi_domain%subdomains(1, 2), './data/test6_96_12_h.dat', irec)
+          call write_field(state%h%subfields(1, 3), multi_domain%subdomains(1, 3), './data/test6_96_13_h.dat', irec)
+          call write_field(state%h%subfields(2, 1), multi_domain%subdomains(2, 1), './data/test6_96_21_h.dat', irec)
+          call write_field(state%h%subfields(2, 2), multi_domain%subdomains(2, 2), './data/test6_96_22_h.dat', irec)
+          call write_field(state%h%subfields(2, 3), multi_domain%subdomains(2, 3), './data/test6_96_23_h.dat', irec)
+          call write_field(state%h%subfields(3, 1), multi_domain%subdomains(3, 1), './data/test6_96_31_h.dat', irec)
+          call write_field(state%h%subfields(3, 2), multi_domain%subdomains(3, 2), './data/test6_96_32_h.dat', irec)
+          call write_field(state%h%subfields(3, 3), multi_domain%subdomains(3, 3), './data/test6_96_33_h.dat', irec)
         else
-          call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_96_curl.dat', irec)
-          call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_96_h.dat', irec)
+          call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_384_curl.dat', irec)
+          call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_384_h.dat', irec)
         end if
     end if
     call timescheme%step(state, op, multi_domain, dt)

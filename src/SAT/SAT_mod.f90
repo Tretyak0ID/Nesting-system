@@ -56,22 +56,22 @@ subroutine sbp_SAT_penalty_two_block(tend, in, direction, domains, diff_method)
             call interp_identity(le, interp_le, 'coarse2fine')
             call interp_identity(rs, interp_rs, 'fine2coarse')
           else if (2 * domains%subdomains(n - 1, m)%ny == domains%subdomains(n, m)%ny) then
-            call interp_MC2order_2to1ratio(le, interp_le, 'coarse2fine')
-            call interp_MC2order_2to1ratio(rs, interp_rs, 'fine2coarse')
+            call interp_MC2order_2to1ratio_periodic(le, interp_le, 'coarse2fine')
+            call interp_MC2order_2to1ratio_periodic(rs, interp_rs, 'fine2coarse')
           else if (domains%subdomains(n - 1, m)%ny == 2 * domains%subdomains(n, m)%ny) then
-            call interp_MC2order_2to1ratio(le, interp_le, 'fine2coarse')
-            call interp_MC2order_2to1ratio(rs, interp_rs, 'coarse2fine')
+            call interp_MC2order_2to1ratio_periodic(le, interp_le, 'fine2coarse')
+            call interp_MC2order_2to1ratio_periodic(rs, interp_rs, 'coarse2fine')
           end if
         else if (diff_method == 'sbp42_1') then
           if (domains%subdomains(n - 1, m)%ny == domains%subdomains(n, m)%ny) then
             call interp_identity(le, interp_le, 'coarse2fine')
             call interp_identity(rs, interp_rs, 'fine2coarse')
           else if (2 * domains%subdomains(n - 1, m)%ny == domains%subdomains(n, m)%ny) then
-            call interp_MC4order_2to1ratio(le, interp_le, 'coarse2fine')
-            call interp_MC4order_2to1ratio(rs, interp_rs, 'fine2coarse')
+            call interp_MC4order_2to1ratio_periodic(le, interp_le, 'coarse2fine')
+            call interp_MC4order_2to1ratio_periodic(rs, interp_rs, 'fine2coarse')
           else if (domains%subdomains(n - 1, m)%ny == 2 * domains%subdomains(n, m)%ny) then
-            call interp_MC4order_2to1ratio(le, interp_le, 'fine2coarse')
-            call interp_MC4order_2to1ratio(rs, interp_rs, 'coarse2fine')
+            call interp_MC4order_2to1ratio_periodic(le, interp_le, 'fine2coarse')
+            call interp_MC4order_2to1ratio_periodic(rs, interp_rs, 'coarse2fine')
           end if
         else
           exit
@@ -107,22 +107,22 @@ subroutine sbp_SAT_penalty_two_block(tend, in, direction, domains, diff_method)
           call interp_identity(s1,   interp_s1,   'coarse2fine')
           call interp_identity(eNx,  interp_eNx,  'fine2coarse')
         else if (2 * domains%subdomains(1, m)%ny == domains%subdomains(domains%num_sub_x, m)%ny) then
-          call interp_MC2order_2to1ratio(s1,  interp_s1,  'coarse2fine')
-          call interp_MC2order_2to1ratio(eNx, interp_eNx, 'fine2coarse')
+          call interp_MC2order_2to1ratio_periodic(s1,  interp_s1,  'coarse2fine')
+          call interp_MC2order_2to1ratio_periodic(eNx, interp_eNx, 'fine2coarse')
         else if (domains%subdomains(1, m)%ny == 2 * domains%subdomains(domains%num_sub_x, m)%ny) then
-          call interp_MC2order_2to1ratio(s1,  interp_s1,  'fine2coarse')
-          call interp_MC2order_2to1ratio(eNx, interp_eNx, 'coarse2fine')
+          call interp_MC2order_2to1ratio_periodic(s1,  interp_s1,  'fine2coarse')
+          call interp_MC2order_2to1ratio_periodic(eNx, interp_eNx, 'coarse2fine')
         end if
       else if (diff_method == 'sbp42_1') then
         if (domains%subdomains(1, m)%ny == domains%subdomains(domains%num_sub_x, m)%ny) then
           call interp_identity(s1,   interp_s1,   'coarse2fine')
           call interp_identity(eNx,  interp_eNx,  'fine2coarse')
         else if (2 * domains%subdomains(1, m)%ny == domains%subdomains(domains%num_sub_x, m)%ny) then
-          call interp_MC4order_2to1ratio(s1,  interp_s1,  'coarse2fine')
-          call interp_MC4order_2to1ratio(eNx, interp_eNx, 'fine2coarse')
+          call interp_MC4order_2to1ratio_periodic(s1,  interp_s1,  'coarse2fine')
+          call interp_MC4order_2to1ratio_periodic(eNx, interp_eNx, 'fine2coarse')
         else if (domains%subdomains(1, m)%ny == 2 * domains%subdomains(domains%num_sub_x, m)%ny) then
-          call interp_MC4order_2to1ratio(s1,  interp_s1,  'fine2coarse')
-          call interp_MC4order_2to1ratio(eNx, interp_eNx, 'coarse2fine')
+          call interp_MC4order_2to1ratio_periodic(s1,  interp_s1,  'fine2coarse')
+          call interp_MC4order_2to1ratio_periodic(eNx, interp_eNx, 'coarse2fine')
         end if
       else
         exit
@@ -163,22 +163,22 @@ subroutine sbp_SAT_penalty_two_block(tend, in, direction, domains, diff_method)
             call interp_identity(le, interp_le, 'coarse2fine')
             call interp_identity(rs, interp_rs, 'fine2coarse')
           else if (2 * domains%subdomains(n, m - 1)%ny == domains%subdomains(n, m)%ny) then
-            call interp_MC2order_2to1ratio(le, interp_le, 'coarse2fine')
-            call interp_MC2order_2to1ratio(rs, interp_rs, 'fine2coarse')
+            call interp_MC2order_2to1ratio_periodic(le, interp_le, 'coarse2fine')
+            call interp_MC2order_2to1ratio_periodic(rs, interp_rs, 'fine2coarse')
           else if (domains%subdomains(n, m - 1)%ny == 2 * domains%subdomains(n, m)%ny) then
-            call interp_MC2order_2to1ratio(le, interp_le, 'fine2coarse')
-            call interp_MC2order_2to1ratio(rs, interp_rs, 'coarse2fine')
+            call interp_MC2order_2to1ratio_periodic(le, interp_le, 'fine2coarse')
+            call interp_MC2order_2to1ratio_periodic(rs, interp_rs, 'coarse2fine')
           end if
         else if (diff_method == 'sbp42_1') then
           if (domains%subdomains(n, m - 1)%ny == domains%subdomains(n, m)%ny) then
             call interp_identity(le, interp_le, 'coarse2fine')
             call interp_identity(rs, interp_rs, 'fine2coarse')
           else if (2 * domains%subdomains(n, m - 1)%ny == domains%subdomains(n, m)%ny) then
-            call interp_MC4order_2to1ratio(le, interp_le, 'coarse2fine')
-            call interp_MC4order_2to1ratio(rs, interp_rs, 'fine2coarse')
+            call interp_MC4order_2to1ratio_periodic(le, interp_le, 'coarse2fine')
+            call interp_MC4order_2to1ratio_periodic(rs, interp_rs, 'fine2coarse')
           else if (domains%subdomains(n, m - 1)%ny == 2 * domains%subdomains(n, m)%ny) then
-            call interp_MC4order_2to1ratio(le, interp_le, 'fine2coarse')
-            call interp_MC4order_2to1ratio(rs, interp_rs, 'coarse2fine')
+            call interp_MC4order_2to1ratio_periodic(le, interp_le, 'fine2coarse')
+            call interp_MC4order_2to1ratio_periodic(rs, interp_rs, 'coarse2fine')
           end if
         else
           exit
@@ -214,22 +214,22 @@ subroutine sbp_SAT_penalty_two_block(tend, in, direction, domains, diff_method)
           call interp_identity(s1,   interp_s1,   'coarse2fine')
           call interp_identity(eNx,  interp_eNx,  'fine2coarse')
         else if (2 * domains%subdomains(n, 1)%ny == domains%subdomains(n, domains%num_sub_y)%ny) then
-          call interp_MC2order_2to1ratio(s1,  interp_s1,  'coarse2fine')
-          call interp_MC2order_2to1ratio(eNx, interp_eNx, 'fine2coarse')
+          call interp_MC2order_2to1ratio_periodic(s1,  interp_s1,  'coarse2fine')
+          call interp_MC2order_2to1ratio_periodic(eNx, interp_eNx, 'fine2coarse')
         else if (domains%subdomains(n, 1)%ny == 2 * domains%subdomains(n, domains%num_sub_y)%ny) then
-          call interp_MC2order_2to1ratio(s1,  interp_s1,  'fine2coarse')
-          call interp_MC2order_2to1ratio(eNx, interp_eNx, 'coarse2fine')
+          call interp_MC2order_2to1ratio_periodic(s1,  interp_s1,  'fine2coarse')
+          call interp_MC2order_2to1ratio_periodic(eNx, interp_eNx, 'coarse2fine')
         end if
       else if (diff_method == 'sbp42_1') then
         if (domains%subdomains(n, 1)%ny == domains%subdomains(n, domains%num_sub_y)%ny) then
           call interp_identity(s1,   interp_s1,   'coarse2fine')
           call interp_identity(eNx,  interp_eNx,  'fine2coarse')
         else if (2 * domains%subdomains(n, 1)%ny == domains%subdomains(n, domains%num_sub_y)%ny) then
-          call interp_MC4order_2to1ratio(s1,  interp_s1,  'coarse2fine')
-          call interp_MC4order_2to1ratio(eNx, interp_eNx, 'fine2coarse')
+          call interp_MC4order_2to1ratio_periodic(s1,  interp_s1,  'coarse2fine')
+          call interp_MC4order_2to1ratio_periodic(eNx, interp_eNx, 'fine2coarse')
         else if (domains%subdomains(n, 1)%ny == 2 * domains%subdomains(n, domains%num_sub_y)%ny) then
-          call interp_MC4order_2to1ratio(s1,  interp_s1,  'fine2coarse')
-          call interp_MC4order_2to1ratio(eNx, interp_eNx, 'coarse2fine')
+          call interp_MC4order_2to1ratio_periodic(s1,  interp_s1,  'fine2coarse')
+          call interp_MC4order_2to1ratio_periodic(eNx, interp_eNx, 'coarse2fine')
         end if
       else
         exit
@@ -300,22 +300,22 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
             call interp_identity(le, interp_le, 'coarse2fine')
             call interp_identity(rs, interp_rs, 'fine2coarse')
           else if (2 * domains%subdomains(n - 1, m)%ny == domains%subdomains(n, m)%ny) then
-            call interp_MC2order_2to1ratio(le, interp_le, 'coarse2fine')
-            call interp_MC2order_2to1ratio(rs, interp_rs, 'fine2coarse')
+            call interp_MC2order_2to1ratio_periodic(le, interp_le, 'coarse2fine')
+            call interp_MC2order_2to1ratio_periodic(rs, interp_rs, 'fine2coarse')
           else if (domains%subdomains(n - 1, m)%ny == 2 * domains%subdomains(n, m)%ny) then
-            call interp_MC2order_2to1ratio(le, interp_le, 'fine2coarse')
-            call interp_MC2order_2to1ratio(rs, interp_rs, 'coarse2fine')
+            call interp_MC2order_2to1ratio_periodic(le, interp_le, 'fine2coarse')
+            call interp_MC2order_2to1ratio_periodic(rs, interp_rs, 'coarse2fine')
           end if
         else if (diff_method == 'sbp42_2') then
           if (domains%subdomains(n - 1, m)%ny == domains%subdomains(n, m)%ny) then
             call interp_identity(le, interp_le, 'coarse2fine')
             call interp_identity(rs, interp_rs, 'fine2coarse')
           else if (2 * domains%subdomains(n - 1, m)%ny == domains%subdomains(n, m)%ny) then
-            call interp_MC4order_2to1ratio(le, interp_le, 'coarse2fine')
-            call interp_MC4order_2to1ratio(rs, interp_rs, 'fine2coarse')
+            call interp_MC4order_2to1ratio_periodic(le, interp_le, 'coarse2fine')
+            call interp_MC4order_2to1ratio_periodic(rs, interp_rs, 'fine2coarse')
           else if (domains%subdomains(n - 1, m)%ny == 2 * domains%subdomains(n, m)%ny) then
-            call interp_MC4order_2to1ratio(le, interp_le, 'fine2coarse')
-            call interp_MC4order_2to1ratio(rs, interp_rs, 'coarse2fine')
+            call interp_MC4order_2to1ratio_periodic(le, interp_le, 'fine2coarse')
+            call interp_MC4order_2to1ratio_periodic(rs, interp_rs, 'coarse2fine')
           end if
         else
           exit
@@ -354,22 +354,22 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
           call interp_identity(s1,   interp_s1,   'coarse2fine')
           call interp_identity(eNx,  interp_eNx,  'fine2coarse')
         else if (2 * domains%subdomains(1, m)%ny == domains%subdomains(domains%num_sub_x, m)%ny) then
-          call interp_MC2order_2to1ratio(s1,  interp_s1,  'coarse2fine')
-          call interp_MC2order_2to1ratio(eNx, interp_eNx, 'fine2coarse')
+          call interp_MC2order_2to1ratio_periodic(s1,  interp_s1,  'coarse2fine')
+          call interp_MC2order_2to1ratio_periodic(eNx, interp_eNx, 'fine2coarse')
         else if (domains%subdomains(1, m)%ny == 2 * domains%subdomains(domains%num_sub_x, m)%ny) then
-          call interp_MC2order_2to1ratio(s1,  interp_s1,  'fine2coarse')
-          call interp_MC2order_2to1ratio(eNx, interp_eNx, 'coarse2fine')
+          call interp_MC2order_2to1ratio_periodic(s1,  interp_s1,  'fine2coarse')
+          call interp_MC2order_2to1ratio_periodic(eNx, interp_eNx, 'coarse2fine')
         end if
       else if (diff_method == 'sbp42_2') then
         if (domains%subdomains(1, m)%ny == domains%subdomains(domains%num_sub_x, m)%ny) then
           call interp_identity(s1,   interp_s1,   'coarse2fine')
           call interp_identity(eNx,  interp_eNx,  'fine2coarse')
         else if (2 * domains%subdomains(1, m)%ny == domains%subdomains(domains%num_sub_x, m)%ny) then
-          call interp_MC4order_2to1ratio(s1,  interp_s1,  'coarse2fine')
-          call interp_MC4order_2to1ratio(eNx, interp_eNx, 'fine2coarse')
+          call interp_MC4order_2to1ratio_periodic(s1,  interp_s1,  'coarse2fine')
+          call interp_MC4order_2to1ratio_periodic(eNx, interp_eNx, 'fine2coarse')
         else if (domains%subdomains(1, m)%ny == 2 * domains%subdomains(domains%num_sub_x, m)%ny) then
-          call interp_MC4order_2to1ratio(s1,  interp_s1,  'fine2coarse')
-          call interp_MC4order_2to1ratio(eNx, interp_eNx, 'coarse2fine')
+          call interp_MC4order_2to1ratio_periodic(s1,  interp_s1,  'fine2coarse')
+          call interp_MC4order_2to1ratio_periodic(eNx, interp_eNx, 'coarse2fine')
         end if
       else
         exit
@@ -412,22 +412,22 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
             call interp_identity(le, interp_le, 'coarse2fine')
             call interp_identity(rs, interp_rs, 'fine2coarse')
           else if (2 * domains%subdomains(n, m - 1)%nx == domains%subdomains(n, m)%nx) then
-            call interp_MC2order_2to1ratio(le, interp_le, 'coarse2fine')
-            call interp_MC2order_2to1ratio(rs, interp_rs, 'fine2coarse')
+            call interp_MC2order_2to1ratio_periodic(le, interp_le, 'coarse2fine')
+            call interp_MC2order_2to1ratio_periodic(rs, interp_rs, 'fine2coarse')
           else if (domains%subdomains(n, m - 1)%nx == 2 * domains%subdomains(n, m)%nx) then
-            call interp_MC2order_2to1ratio(le, interp_le, 'fine2coarse')
-            call interp_MC2order_2to1ratio(rs, interp_rs, 'coarse2fine')
+            call interp_MC2order_2to1ratio_periodic(le, interp_le, 'fine2coarse')
+            call interp_MC2order_2to1ratio_periodic(rs, interp_rs, 'coarse2fine')
           end if
         else if (diff_method == 'sbp42_2') then
           if (domains%subdomains(n, m - 1)%nx == domains%subdomains(n, m)%nx) then
             call interp_identity(le, interp_le, 'coarse2fine')
             call interp_identity(rs, interp_rs, 'fine2coarse')
           else if (2 * domains%subdomains(n, m - 1)%nx == domains%subdomains(n, m)%nx) then
-            call interp_MC4order_2to1ratio(le, interp_le, 'coarse2fine')
-            call interp_MC4order_2to1ratio(rs, interp_rs, 'fine2coarse')
+            call interp_MC4order_2to1ratio_periodic(le, interp_le, 'coarse2fine')
+            call interp_MC4order_2to1ratio_periodic(rs, interp_rs, 'fine2coarse')
           else if (domains%subdomains(n, m - 1)%nx == 2 * domains%subdomains(n, m)%nx) then
-            call interp_MC4order_2to1ratio(le, interp_le, 'fine2coarse')
-            call interp_MC4order_2to1ratio(rs, interp_rs, 'coarse2fine')
+            call interp_MC4order_2to1ratio_periodic(le, interp_le, 'fine2coarse')
+            call interp_MC4order_2to1ratio_periodic(rs, interp_rs, 'coarse2fine')
           end if
         else
           exit
@@ -467,22 +467,22 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
           call interp_identity(s1,   interp_s1,   'coarse2fine')
           call interp_identity(eNx,  interp_eNx,  'fine2coarse')
         else if (2 * domains%subdomains(n, 1)%nx == domains%subdomains(n, domains%num_sub_y)%nx) then
-          call interp_MC2order_2to1ratio(s1,  interp_s1,  'coarse2fine')
-          call interp_MC2order_2to1ratio(eNx, interp_eNx, 'fine2coarse')
+          call interp_MC2order_2to1ratio_periodic(s1,  interp_s1,  'coarse2fine')
+          call interp_MC2order_2to1ratio_periodic(eNx, interp_eNx, 'fine2coarse')
         else if (domains%subdomains(n, 1)%nx == 2 * domains%subdomains(n, domains%num_sub_y)%nx) then
-          call interp_MC2order_2to1ratio(s1,  interp_s1,  'fine2coarse')
-          call interp_MC2order_2to1ratio(eNx, interp_eNx, 'coarse2fine')
+          call interp_MC2order_2to1ratio_periodic(s1,  interp_s1,  'fine2coarse')
+          call interp_MC2order_2to1ratio_periodic(eNx, interp_eNx, 'coarse2fine')
         end if
       else if (diff_method == 'sbp42_2') then
         if (domains%subdomains(n, 1)%nx == domains%subdomains(n, domains%num_sub_y)%nx) then
           call interp_identity(s1,   interp_s1,   'coarse2fine')
           call interp_identity(eNx,  interp_eNx,  'fine2coarse')
         else if (2 * domains%subdomains(n, 1)%nx == domains%subdomains(n, domains%num_sub_y)%nx) then
-          call interp_MC4order_2to1ratio(s1,  interp_s1,  'coarse2fine')
-          call interp_MC4order_2to1ratio(eNx, interp_eNx, 'fine2coarse')
+          call interp_MC4order_2to1ratio_periodic(s1,  interp_s1,  'coarse2fine')
+          call interp_MC4order_2to1ratio_periodic(eNx, interp_eNx, 'fine2coarse')
         else if (domains%subdomains(n, 1)%nx == 2 * domains%subdomains(n, domains%num_sub_y)%nx) then
-          call interp_MC4order_2to1ratio(s1,  interp_s1,  'fine2coarse')
-          call interp_MC4order_2to1ratio(eNx, interp_eNx, 'coarse2fine')
+          call interp_MC4order_2to1ratio_periodic(s1,  interp_s1,  'fine2coarse')
+          call interp_MC4order_2to1ratio_periodic(eNx, interp_eNx, 'coarse2fine')
         end if
       else
         exit
@@ -569,27 +569,27 @@ end module SAT_mod
 
 !           if (diff_method == 'sbp21_2') then
 !             if (2 * domains%subdomains(n - 1, m)%ny == domains%subdomains(n, m)%ny) then
-!               call interp_MC4order_2to1ratio(layer_ls, interp_layer_ls, 'coarse2fine')
-!               call interp_MC4order_2to1ratio(layer_le, interp_layer_le, 'coarse2fine')
-!               call interp_MC4order_2to1ratio(layer_rs, interp_layer_rs, 'fine2coarse')
-!               call interp_MC4order_2to1ratio(layer_re, interp_layer_re, 'fine2coarse')
+!               call interp_MC4order_2to1ratio_periodic(layer_ls, interp_layer_ls, 'coarse2fine')
+!               call interp_MC4order_2to1ratio_periodic(layer_le, interp_layer_le, 'coarse2fine')
+!               call interp_MC4order_2to1ratio_periodic(layer_rs, interp_layer_rs, 'fine2coarse')
+!               call interp_MC4order_2to1ratio_periodic(layer_re, interp_layer_re, 'fine2coarse')
 !             else if (domains%subdomains(n - 1, m)%ny == 2 * domains%subdomains(n, m)%ny) then
-!               call interp_MC4order_2to1ratio(layer_ls, interp_layer_ls, 'fine2coarse')
-!               call interp_MC4order_2to1ratio(layer_le, interp_layer_le, 'fine2coarse')
-!               call interp_MC4order_2to1ratio(layer_rs, interp_layer_rs, 'coarse2fine')
-!               call interp_MC4order_2to1ratio(layer_re, interp_layer_re, 'coarse2fine')
+!               call interp_MC4order_2to1ratio_periodic(layer_ls, interp_layer_ls, 'fine2coarse')
+!               call interp_MC4order_2to1ratio_periodic(layer_le, interp_layer_le, 'fine2coarse')
+!               call interp_MC4order_2to1ratio_periodic(layer_rs, interp_layer_rs, 'coarse2fine')
+!               call interp_MC4order_2to1ratio_periodic(layer_re, interp_layer_re, 'coarse2fine')
 !             end if
 !           else if (diff_method == 'sbp42_2') then
 !             if (2 * domains%subdomains(n - 1, m)%ny == domains%subdomains(n, m)%ny) then
-!               call interp_MC4order_2to1ratio(layer_ls, interp_layer_ls, 'coarse2fine')
-!               call interp_MC4order_2to1ratio(layer_le, interp_layer_le, 'coarse2fine')
-!               call interp_MC4order_2to1ratio(layer_rs, interp_layer_rs, 'fine2coarse')
-!               call interp_MC4order_2to1ratio(layer_re, interp_layer_re, 'fine2coarse')
+!               call interp_MC4order_2to1ratio_periodic(layer_ls, interp_layer_ls, 'coarse2fine')
+!               call interp_MC4order_2to1ratio_periodic(layer_le, interp_layer_le, 'coarse2fine')
+!               call interp_MC4order_2to1ratio_periodic(layer_rs, interp_layer_rs, 'fine2coarse')
+!               call interp_MC4order_2to1ratio_periodic(layer_re, interp_layer_re, 'fine2coarse')
 !             else if (domains%subdomains(n - 1, m)%ny == 2 * domains%subdomains(n, m)%ny) then
-!               call interp_MC4order_2to1ratio(layer_ls, interp_layer_ls, 'fine2coarse')
-!               call interp_MC4order_2to1ratio(layer_le, interp_layer_le, 'fine2coarse')
-!               call interp_MC4order_2to1ratio(layer_rs, interp_layer_rs, 'coarse2fine')
-!               call interp_MC4order_2to1ratio(layer_re, interp_layer_re, 'coarse2fine')
+!               call interp_MC4order_2to1ratio_periodic(layer_ls, interp_layer_ls, 'fine2coarse')
+!               call interp_MC4order_2to1ratio_periodic(layer_le, interp_layer_le, 'fine2coarse')
+!               call interp_MC4order_2to1ratio_periodic(layer_rs, interp_layer_rs, 'coarse2fine')
+!               call interp_MC4order_2to1ratio_periodic(layer_re, interp_layer_re, 'coarse2fine')
 !             end if
 !           else
 !             exit

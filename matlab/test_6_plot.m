@@ -1,20 +1,21 @@
-dim1 = 192;
-dim2 = 192 * 2;
+dim1 = 96;
+dim2 = 96 * 2;
+dim3 = 96;
 
-A11 = read_bin('../data/test6_192_11_h.dat', dim1 / 3 + 1, dim1 / 3 + 1);
-A12 = read_bin('../data/test6_192_12_h.dat', dim1 / 3 + 1, dim1 / 3 + 1);
-A13 = read_bin('../data/test6_192_13_h.dat', dim1 / 3 + 1, dim1 / 3 + 1);
-A21 = read_bin('../data/test6_192_21_h.dat', dim1 / 3 + 1, dim1 / 3 + 1);
-A22 = read_bin('../data/test6_192_22_h.dat', dim2 / 3 + 1, dim2 / 3 + 1);
-A23 = read_bin('../data/test6_192_23_h.dat', dim1 / 3 + 1, dim1 / 3 + 1);
-A31 = read_bin('../data/test6_192_31_h.dat', dim1 / 3 + 1, dim1 / 3 + 1);
-A32 = read_bin('../data/test6_192_32_h.dat', dim1 / 3 + 1, dim1 / 3 + 1);
-A33 = read_bin('../data/test6_192_33_h.dat', dim1 / 3 + 1, dim1 / 3 + 1);
+A11 = read_bin('../data/test6_96_11_curl.dat', dim1 / 3 + 1, dim1 / 3 + 1);
+A12 = read_bin('../data/test6_96_12_curl.dat', dim1 / 3 + 1, dim1 / 3 + 1);
+A13 = read_bin('../data/test6_96_13_curl.dat', dim1 / 3 + 1, dim1 / 3 + 1);
+A21 = read_bin('../data/test6_96_21_curl.dat', dim1 / 3 + 1, dim1 / 3 + 1);
+A22 = read_bin('../data/test6_96_22_curl.dat', dim2 / 3 + 1, dim2 / 3 + 1);
+A23 = read_bin('../data/test6_96_23_curl.dat', dim1 / 3 + 1, dim1 / 3 + 1);
+A31 = read_bin('../data/test6_96_31_curl.dat', dim1 / 3 + 1, dim1 / 3 + 1);
+A32 = read_bin('../data/test6_96_32_curl.dat', dim1 / 3 + 1, dim1 / 3 + 1);
+A33 = read_bin('../data/test6_96_33_curl.dat', dim1 / 3 + 1, dim1 / 3 + 1);
 xa_track = zeros(1, length(A11(1,1,:)));
 ya_track = zeros(1, length(A11(1,1,:)));
 
-B = read_bin('../data/test6_192_h.dat', dim1 + 1, dim1 + 1);
-C = read_bin('../data/test6_384_curl.dat', dim2 + 1, dim2 + 1);
+B = read_bin('../data/test6_96_h.dat', dim1 + 1, dim1 + 1);
+C = read_bin('../data/test6_192_h.dat', dim2 + 1, dim2 + 1);
 xb_track = zeros(1, length(B(1,1,:)));
 yb_track = zeros(1, length(B(1,1,:)));
 xc_track = zeros(1, length(C(1,1,:)));

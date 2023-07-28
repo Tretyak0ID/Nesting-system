@@ -1,0 +1,220 @@
+{\rtf1\ansi\ansicpg1251\cocoartf2707
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%                                                                  %%%\
+%%% This is a sample LaTeX file of the article submitted to RJNAMM   %%%\
+%%%                                                                  %%%\
+%%% DO NOT EDIT AFTER THIS LINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+\\documentclass[12pt,a4paper]\{article\}                                %%%\
+%%% Standard packages will be used by the Publisher:                 %%%\
+\\usepackage\{authblk,amsmath,amsfonts,amssymb,amsthm,graphicx\}        %%%\
+% \\usepackage[textwidth=205mm,textheight=240mm]\{geometry\}            %%%\
+%                                                                    %%%\
+%%% Special commands:                                                %%%\
+\\newcommand\\Jcomm[2]\{\\par\\medskip\\noindent\{\\bfseries #1: \} #2\\par\}   %%%\
+\\newcommand\\keywords[1]\{\\Jcomm\{Keywords\}\{#1\}\}                        %%%\
+\\newcommand\\received[1]\{\\Jcomm\{Received\}\{#1\}\}                        %%%\
+\\newcommand\\revised[1]\{\\Jcomm\{Revised\}\{#1\}\}                          %%%\
+\\newcommand\\classification[1]\{\\Jcomm\{MSC 2010\}\{#1\}\}                  %%%\
+\\newcommand\\acknowledgement[1]\{\\Jcomm\{Acknowledgement\}\{#1\}\}          %%%\
+\\newcommand\\funding[1]\{\\Jcomm\{Funding\}\{#1\}\}                          %%%\
+%                                                                    %%%\
+%%% Theorem styles:                                                  %%%\
+\\numberwithin\{equation\}\{section\}                                     %%%\
+\\theoremstyle\{plain\}                                                 %%%\
+  \\newtheorem\{theorem\}\{Theorem\}[section]                             %%%\
+  \\newtheorem\{lemma\}\{Lemma\}[section]                                 %%%\
+  \\newtheorem\{proposition\}\{Proposition\}[section]                     %%%\
+\\theoremstyle\{definition\}                                            %%%\
+  \\newtheorem\{definition\}\{Definition\}[section]                       %%%\
+  \\newtheorem\{remark\}\{Remark\}[section]                               %%%\
+  \\newtheorem\{corollary\}\{Corollary\}[section]                         %%%\
+  \\newtheorem\{example\}\{Example\}%[section]                            %%%\
+%                                                                    %%%\
+%%% Greek letters:                                                   %%%\
+\\let\\epsilon=\\varepsilon                                             %%%\
+\\let\\kappa=\\varkappa                                                 %%%\
+\\let\\phi=\\varphi                                                     %%%\
+\\let\\theta=\\vartheta                                                 %%%\
+%                                                                    %%%\
+\\date\{\} %%% don't want date printed                                  %%%\
+\\renewcommand\\Authands\{, \}                                           %%%\
+%%% DO NOT EDIT BEFORE THIS LINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+\
+%%% Specify russian language and russian encoding if required\
+% \\usepackage[T1,T2A]\{fontenc\}\
+% \\usepackage[utf8x]\{inputenc\} %%% specify cp866, cp1251, or koi8-r instead of utf8x if required\
+% \\usepackage[english,russian]\{babel\}\
+\
+\\begin\{document\}\
+\
+\\title\{Multiresolution approximation for shallow water equations using SBP-SAT\}\
+\\author[1]\{Ilya D. Tretyak\} %%% Specify Name and Family name of each author\
+\\author[1]\{Gordey S. Goyman\}\
+\\author[1]\{Vladimir V. Shashkin\}\
+\\affil[1]\{G.I. Marchuk Institute of Numerical Mathematics, RAS, 8, Gubkina st., Moscow, Russia\} %%% Specify the affiliation address of each author\
+%\\affil[2]\{The second affiliation address...\}\
+\\affil[ ]\{E-mail: Tretyak0ID@gmail.com\} %%% Specify email address if required\
+\
+\\maketitle\
+\
+\\abstract\{Text of the abstract...\} %%% Specify 3-5-7 phrases on your article\
+\\keywords\{Text of the keywords...\} %%% Specify 3-5 keywords\
+\\classification\{65A01, 65B02,...\}  %%% Specify 1-2-3 indices of MSC 2010 classification from http://www.ams.org/msc\
+\\received\{Date...\} %%% Specify the first date of sending article to the Aditorial Board of the Journal\
+%\\revised\{Date...\} %%% Specify the date of the article revision (if required)\
+\
+\\bigskip\
+\
+%------------------------------------------------\
+%-------------------1--CAPTURE-------------------\
+%------------------------------------------------\
+\
+\\section\{Introduction\}\\label\{sec1\}\
+\
+\
+%------------------------------------------------\
+%-------------------2--CAPTURE-------------------\
+%------------------------------------------------\
+\
+\\section\{SBP-SAT Methodology\}\\label\{sec2\}\
+\
+\\subsection\{One dimensional SBP FD method\}\
+\
+\\subsection\{Two-dimensional version\}\
+\
+\\subsection\{Multi-resolution SBP-SAT method\}\
+\
+%------------------------------------------------\
+%-------------------3--CAPTURE-------------------\
+%------------------------------------------------\
+\\section\{Model formulation\}\\label\{sec3\}\
+\
+\\subsection\{Shallow water equations\}\
+\
+\\subsection\{Spatial discretization\}\
+\
+%------------------------------------------------\
+%-------------------4--CAPTURE-------------------\
+%------------------------------------------------\
+\\section\{Mimetic properties\}\\label\{sec4\}\
+\
+\\subsection\{Stability of the linearized system\}\
+\
+\\subsection\{Mass-conservation\}\
+\
+\\subsection\{Total energy conservation\}\
+\
+\\subsection\{Zero vorticity of gradients\}\
+\
+%------------------------------------------------\
+%-------------------5--CAPTURE-------------------\
+%------------------------------------------------\
+\\section\{Numerical tests\}\\label\{sec5\}\
+\
+\\subsection\{Geostrophic balance\}\
+\
+\\subsection\{Kelvin-Helmholtz instability\}\
+\
+\\subsection\{Interacting tropical cyclones\}\
+\
+%------------------------------------------------\
+%-------------------6--CAPTURE-------------------\
+%------------------------------------------------\
+\
+\\section\{Conclusion\}\\label\{sec6\}\
+\
+Text of the first subsection...\
+\
+The first equation:\
+\\begin\{equation\}\\label\{eq1\}\
+A x = b\
+\\end\{equation\}\
+and the second one:\
+\\begin\{equation\}\\label\{eq2\}\
+\\int_0^1 f dx = 0.\
+\\end\{equation\}\
+\
+The paragraph after equation with an indent.\
+The same equation in text mode: $\\int_0^1 f dx = 0$.\
+The axample of bold mathematical symbols with \\verb"\\mbox\\boldmath" command: $Ab\\Sigma\\Delta\\alpha\\beta\\gamma\\delta-\\mbox\{\\boldmath$\{Bb\\Delta\\alpha\\beta\\gamma\\delta+12345\}$\}+CcDd\\cdot 12345$.\
+\
+\\begin\{table\}\
+\\def\\z\{ABC\}\\def\\T\{ABCdef123\\alpha\\beta\\gamma\}\
+\\caption\{The example of different mathematical fonts.\}\\label\{tab0\}\
+\\begin\{tabular\}\{llc\}\
+\\hline\
+Mathematical symbols & How to type it \\\\ \\hline\
+  $\\T$                   & \\verb"$...$"                   \\\\\
+  $\\mathrm\{\\T\}$          & \\verb"$\\mathrm\{...\}$"          \\\\\
+  $\\mathit\{\\T\}$          & \\verb"$\\mathit\{...\}$"          \\\\\
+  $\\mathsf\{\\T\}$          & \\verb"$\\mathsf\{...\}$"          \\\\\
+  $\\mathtt\{\\T\}$          & \\verb"$\\mathtt\{...\}$"          \\\\\
+  $\\mathbf\{\\T\}$          & \\verb"$\\mathbf\{...\}$"          \\\\\
+  $\\mbox\{\\boldmath$\\T$\}$ & \\verb"$\\mbox\{\\boldmath$...$\}$" \\\\\
+  $\\mathcal\{\\z\}$         & \\verb"$\\mathcal\{...\}$"         \\\\\
+  $\\mathbb\{\\z\}$          & \\verb"$\\mathbb\{...\}$"          \\\\\
+  $\\mathfrak\{\\z\}$        & \\verb"$\\mathfrak\{...\}$"        \\\\\
+\\hline\
+\\end\{tabular\}\
+\\end\{table\}\
+\
+The example of some mathematical symbols: $a\\leq b\\geq c$ (using `$\\backslash$leq'\
+and `$\\backslash$geq'), $d\\neq e\\ne f$ (using `$\\backslash$neq').\
+\
+\\begin\{definition\}\\label\{def1\}\
+Text of the definition typed in a normal font...\
+\\end\{definition\}\
+Text after the definition...\
+\
+\\begin\{theorem\}\\label\{th1\}\
+Text of the theorem typed in italic... With formulas \\eqref\{eq1\}, \\eqref\{eq2\} from \\cite\{b1,b2\}\
+specified in Definition \\ref\{def1\}.\
+\\end\{theorem\}\
+Text after the theorem...\
+\
+\\begin\{proof\}\
+Text of the proof...\
+\\end\{proof\}\
+Text after the proof...\
+\
+\\begin\{figure\}[t]\
+\\framebox(200,100)\{\\parbox\{100\\unitlength\}\{ The sample figure...\}\}\
+\\caption\{Text of the figure caption...\}\\label\{fig1\}\
+\\end\{figure\}\
+\
+\\begin\{table\}\
+\\caption\{Text of the table caption...\
+The table should contain minimal number of horizontal and vertical lines...\}\\label\{tab1\}\
+\\begin\{tabular\}\{lcc\}\
+\\hline\
+Col1 & Col2 & Col3 \\\\ \\hline\
+val1 & val2 & val3 \\\\\
+$1.1\\cdot10^1$ & $2.2\\cdot10^2$ & $3.3\\cdot10^3$ \\\\\
+$ABCdef123\\alpha\\beta\\gamma$ & $-\\sum_\{i=0\}^n A^2_\{\\alpha+\}$ & --- \\\\\
+\\hline\
+\\end\{tabular\}\
+\\end\{table\}\
+\
+For the problem formulation see equations (\\ref\{eq1\})--(\\ref\{eq2\}),\
+Section \\ref\{sec1\}, Definition \\ref\{def1\}, Theorem \\ref\{th1\},\
+Figure \\ref\{fig1\}, Table \\ref\{tab1\}, and papers \\cite\{b1,b2,b3\}.\
+\
+\\acknowledgement\{Text of the acknowledgement...\} %%% Specify text of acknowledgement to other persons if required...\
+\
+\\funding\{The research was supported by...\} %%% Specify the organizations and/or grants if required...\
+\
+\\bibliographystyle\{plain\}\
+\\begin\{thebibliography\}\{99\} %%% The refences should be ordered by the authors\
+\\bibitem\{b1\} A. Aaaa, \{\\em Title of the book\}. Publisher, City, 2001.\
+\\bibitem\{b2\} B. Bbbb, Title of the article. \{\\em Title of the Journal\} \{\\bf 22\} (2002), 22-33.\
+\\bibitem\{b3\} C. Cccc, Title of the article. In: \{\\em Proc. of the Conference.\} 2003, pp. 301-333.\
+\\end\{thebibliography\}\
+\
+\\end\{document\}\
+}
