@@ -37,7 +37,7 @@ implicit none
   integer(kind=4), parameter :: Nx = 96, Ny = 96
   integer(kind=8), parameter :: num_sub_x = 3, num_sub_y = 3
   real(kind=8),    parameter :: H_MEAN = 1e4_8
-  real(kind=8),    parameter :: T_max  = 256.0_8*3600.0_8, dt = 50.0_8, tau_wr = 3600.0_8
+  real(kind=8),    parameter :: T_max  = 256.0_8*3600.0_8, dt = 25.0_8, tau_wr = 3600.0_8
   integer(kind=4), parameter :: Nt     = int(T_max/dt)
   integer(kind=4)            :: t, nzap, irec, n, m
 

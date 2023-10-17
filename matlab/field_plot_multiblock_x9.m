@@ -87,15 +87,15 @@ hold on; grid on;
 c = colorbar;
 %zlim([min(min(min(A22(:, :, :)))) max(max(max(A22(:,:,:))))])  %for 3d field
 %c.Limits = [9200 10100];
-pcolor(X11, Y11, A11(:, :, 20)')
-pcolor(X12, Y12, A12(:, :, 20)')
-pcolor(X13, Y13, A13(:, :, 20)')
-pcolor(X21, Y21, A21(:, :, 20)')
-pcolor(X22, Y22, A22(:, :, 20)')
-pcolor(X23, Y23, A23(:, :, 20)')
-pcolor(X31, Y31, A31(:, :, 20)')
-pcolor(X32, Y32, A32(:, :, 20)')
-pcolor(X33, Y33, A33(:, :, 20)')
+pcolor(X11, Y11, A11(:, :, 75)')
+pcolor(X12, Y12, A12(:, :, 75)')
+pcolor(X13, Y13, A13(:, :, 75)')
+pcolor(X21, Y21, A21(:, :, 75)')
+pcolor(X22, Y22, A22(:, :, 75)')
+pcolor(X23, Y23, A23(:, :, 75)')
+pcolor(X31, Y31, A31(:, :, 75)')
+pcolor(X32, Y32, A32(:, :, 75)')
+pcolor(X33, Y33, A33(:, :, 75)')
 %caxis([9200 10100]);
 shading interp;
 xlabel('x, km')
