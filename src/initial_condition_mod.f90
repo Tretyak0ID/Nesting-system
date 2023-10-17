@@ -103,6 +103,36 @@ contains
 
 
 
+  subroutine set_swm_velocity_base_geostrophic_balance(state, multi_domain, h_mean, pcori)
+    type(stvec_swe_t),    intent(inout) :: state
+    type(multi_domain_t), intent(in)    :: multi_domain
+    real(kind=8),         intent(in)    :: h_mean, pcori
+
+    integer(kind=8)          :: i, j, n, m
+    real(kind=8)             :: u0, LX, LY, AX, AY
+
+    LX = (maxval(multi_domain%global_domain%x) - minval(multi_domain%global_domain%x))
+    LY = (maxval(multi_domain%global_domain%y) - minval(multi_domain%global_domain%y))
+    AX = LX / sqrt(LX ** 2.0_8 + LY ** 2.0_8)
+    AY = LY / sqrt(LX ** 2.0_8 + LY ** 2.0_8)
+
+    u0 = 50.0_8
+    do n = 1, multi_domain%num_sub_x
+      do m = 1, multi_domain%num_sub_y
+        do i = multi_domain%subdomains(n, m)%is, multi_domain%subdomains(n, m)%ie
+          do j = multi_domain%subdomains(n, m)%js, multi_domain%subdomains(n, m)%je
+            state%u%subfields(n, m)%f(i, j) = u0 * AX * ( cos(2.0_8 * pi * multi_domain%subdomains(n, m)%x(i) / LX)*cos(2.0_8 * pi * multi_domain%subdomains(n, m)%y(j) / LY) - sin(2.0_8 * pi * multi_domain%subdomains(n, m)%x(i) / LX)*sin(2.0_8 * pi * (multi_domain%subdomains(n, m)%y(j)) / LY))
+            state%v%subfields(n, m)%f(i, j) = u0 * AY * (-cos(2.0_8 * pi * multi_domain%subdomains(n, m)%x(i) / LX)*cos(2.0_8 * pi * multi_domain%subdomains(n, m)%y(j) / LY) + sin(2.0_8 * pi * multi_domain%subdomains(n, m)%x(i) / LX)*sin(2.0_8 * pi * (multi_domain%subdomains(n, m)%y(j)) / LY))
+            state%h%subfields(n, m)%f(i, j) = h_mean - u0 * pcori / Earth_grav * LY * AX / 2.0_8 / pi * (sin(2.0_8 * pi * multi_domain%subdomains(n, m)%x(i) / LX)*cos(2.0_8 * pi * multi_domain%subdomains(n, m)%y(j) / LY) + sin(2.0_8 * pi * multi_domain%subdomains(n, m)%y(j) / LY) * cos(2.0_8 * pi * multi_domain%subdomains(n, m)%x(i) / LX))  
+          end do
+        end do
+      end do
+    end do
+
+  end subroutine set_swm_velocity_base_geostrophic_balance
+
+
+
   subroutine set_swm_geostrophic_cyclone(state, multi_domain, h_mean, scale_h, scale_sigma, h0_const, u0_const, v0_const, field_type)
   !Geostrophic balanced cyclone in a constant velocity field
   !of characteristic depth scale_h and characteristic scale scale_sigma.

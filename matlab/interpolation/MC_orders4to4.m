@@ -1,7 +1,7 @@
 function [IC2F,IF2C] = MC_orders4to4(M_C)
 % Input: M_C = number of grid points in the coarse domain
 
-M_F=M_C*2-1;
+M_F=M_C*2;
 
 % Coarse to fine
 I1=zeros(M_F,M_C);

@@ -1,7 +1,7 @@
 program diffusion_test
 use initial_conditions_mod,            only : set_swm_gaussian_hill, set_swm_rotor_velocity
 use diffusion_operator_mod,            only : diffusion_operator_t
-use sbp_differential_operator_mod,     only : sbp21_2_t
+use sbp_differential_operator_mod,     only : sbp21_2_t, sbp42_2_t
 use timescheme_mod,                    only : timescheme_t
 use timescheme_factory_mod,            only : create_timescheme
 use rk4_mod,                           only : rk4_t
@@ -17,7 +17,7 @@ type(domain_t)                        :: domain
 type(multi_domain_t)                  :: multi_domain
 type(stvec_swe_t)                     :: state
 type(diffusion_operator_t)            :: op
-type(sbp21_2_t)                       :: sbp21
+type(sbp42_2_t)                       :: sbp42
 class(timescheme_t), allocatable      :: timescheme
 integer(kind=4),     allocatable      :: deg(:, :)
 real(kind=8),        allocatable      :: coefs(:, :)
@@ -33,7 +33,7 @@ deg(1, 1) = 2
 deg(2, 1) = 1
 dt = T_max / Nt
 
-sbp21%name = 'sbp21_2'
+sbp42%name = 'sbp42_2'
 
 call domain%init(0.0_8, LX, 0, 128, 0.0_8, LY, 0, 128)
 call multi_domain%init(domain, 2, 1, deg)
@@ -41,10 +41,13 @@ call state%h%init(multi_domain)
 call state%u%init(multi_domain)
 call state%v%init(multi_domain)
 
-coefs(1, 1) = 100000000.0_8
-coefs(2, 1) = 100000000.0_8
+do n = 1, 2
+    do m = 1, 1
+      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / sqrt(dt) / 50.0_8
+    end do
+  end do
 
-call op%init(sbp21, coefs, multi_domain)
+call op%init(sbp42, coefs, multi_domain)
 
 call create_timescheme(timescheme, state, 'rk4')
 call set_swm_gaussian_hill(state, multi_domain, H_MEAN, 1000.0_8, 1000.0_8, 0)

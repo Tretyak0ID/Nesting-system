@@ -38,7 +38,7 @@ end subroutine copy_stvec
 subroutine create_similar_stvec(this, destination)
 
   class(stvec_t), intent(in)    :: this
-  class(stvec_t), intent(inout) :: destination
+  class(stvec_t), allocatable, intent(inout) :: destination
 
 end subroutine create_similar_stvec
 

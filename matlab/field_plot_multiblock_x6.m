@@ -1,3 +1,15 @@
+close all;
+clear all;
+
+list_factory = fieldnames(get(groot,'factory'));
+index_interpreter = find(contains(list_factory,'Interpreter'));
+for i = 1:length(index_interpreter)
+    default_name = strrep(list_factory{index_interpreter(i)},'factory','default');
+    set(groot, default_name,'latex');
+end
+%--------------------------------------------------------------------------
+
+
 dim1 = 128;
 dim22 = dim1 * 2;
 L_max = 40000;
@@ -28,42 +40,37 @@ y22 = [L_max / 2 : L_max / dim1 / 2 : L_max];
 %[X31, Y31] = meshgrid(x3, y1);
 %[X32, Y32] = meshgrid(x3, y2);
 
-for i = 1:1:length(A11(1,1,:))
-    %zlim([min(min(min(A32(:, :, :)))) max(max(max(A31(:,:,:))))])  %for 3d field
-    %zlim([9000 11000])  %for 3d field
-    surf(X11, Y11, A11(:, :, i)')
-    hold on; grid on;
-    surf(X12, Y12, A12(:, :, i)')
-    surf(X21, Y21, A21(:, :, i)')
-    surf(X22, Y22, A22(:, :, i)')
-    surf(X31, Y31, A31(:, :, i)')
-    surf(X32, Y32, A32(:, :, i)')
-    colormap turbo;
-    pause(0.1)
-    if (i < length(A11(1,1,:)))
-        cla;
-    end
-end
-cla;
+% for i = 1:1:length(A11(1,1,:))
+%     %zlim([min(min(min(A32(:, :, :)))) max(max(max(A31(:,:,:))))])  %for 3d field
+%     %zlim([9000 11000])  %for 3d field
+%     surf(X11, Y11, A11(:, :, i)')
+%     hold on; grid on;
+%     surf(X12, Y12, A12(:, :, i)')
+%     surf(X21, Y21, A21(:, :, i)')
+%     surf(X22, Y22, A22(:, :, i)')
+%     colormap turbo;
+%     pause(0.1)
+%     if (i < length(A11(1,1,:)))
+%         cla;
+%     end
+% end
 hold on; grid on;
+caxis([-5e-5 5e-5]);
 c = colorbar;
-c.Limits = [-5e-5 5e-5];
 xlim([0 L_max])
 ylim([0 L_max])
-contourf(X11, Y11, A11(:, :, 144)', 8)
-caxis([-5e-5 5e-5]);
-contourf(X12, Y12, A12(:, :, 144)', 8)
-caxis([-5e-5 5e-5]);
-contourf(X21, Y21, A21(:, :, 144)', 8)
-caxis([-5e-5 5e-5]);
-contourf(X22, Y22, A22(:, :, 144)', 8)
-caxis([-5e-5 5e-5]);
-colormap jet;
+pcolor(X11, Y11, A11(:, :, 173)')
+%caxis([-5e-5 5e-5]);
+pcolor(X12, Y12, A12(:, :, 173)')
+%caxis([-5e-5 5e-5]);
+pcolor(X21, Y21, A21(:, :, 173)')
+%caxis([-5e-5 5e-5]);
+pcolor(X22, Y22, A22(:, :, 173)')
+%caxis([-5e-5 5e-5]);
 shading flat;
-save_file_name = strcat('../data/', test_name, '_10_diff.png');
-saveas(gcf, save_file_name);
-xlabel('x, км')
-ylabel('y, км')
+xlabel('x, km')
+ylabel('y, km')
+title("t = 15 days, $\Delta x_{max}$ = 312 km")
 
 % cla;
 % hold on; grid on;
@@ -100,3 +107,9 @@ ylabel('y, км')
 % shading flat;
 % save_file_name = strcat('../data/', test_name, '_15.png');
 % saveas(gcf, save_file_name);
+
+
+%--------------------------------------------------------------------------
+set(gca, 'FontSize', 20)
+
+exportgraphics(gcf,'Kelhelmref12.pdf')

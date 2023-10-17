@@ -6,56 +6,95 @@ implicit none
 
 contains
 
-	subroutine apply_sbp21_2_boundary_method(outs, oute, in, domain, direction)
-		type(field_t),     intent(inout) :: outs, oute
+	subroutine apply_sbp21_2_boundary_method(out, in, domain, direction, sten)
+		type(field_t),     intent(inout) :: out
   		type(field_t),     intent(in)    :: in
   		type(domain_t),	   intent(in)    :: domain
   		character(len=1),  intent(in)	 :: direction
+  		character(len=1),  intent(in)    :: sten
 
   		integer(kind=8) :: i
 
   		if (direction == 'x') then
-	  		do i = outs%is, outs%ie
-	  			outs%f(i, outs%js) = (3.0_8 * in%f(in%is, i) - 4.0_8 * in%f(in%is + 1, i) + in%f(in%is + 2, i)) / 2.0_8 / domain%dx
-	  		end do
-	  		do i = oute%is, oute%ie
-	  			oute%f(i, outs%js) = (3.0_8 * in%f(in%ie, i) - 4.0_8 * in%f(in%ie - 1, i) + in%f(in%ie - 2, i)) / 2.0_8 / domain%dx
-	  		end do
+  			if (sten == 'start') then
+	  			do i = out%is, out%ie
+	  				out%f(i, out%js) = (3.0_8 * in%f(in%is, i) - 4.0_8 * in%f(in%is + 1, i) + in%f(in%is + 2, i)) / 2.0_8 / domain%dx
+	  			end do
+	  		else if (sten == 'end') then
+	  			do i = out%is, out%ie
+	  				out%f(i, out%js) = (3.0_8 * in%f(in%ie, i) - 4.0_8 * in%f(in%ie - 1, i) + in%f(in%ie - 2, i)) / 2.0_8 / domain%dx
+	  			end do
+	  		end if
 	  	else if (direction == 'y') then
-	  		do i = outs%is, outs%ie
-	  			outs%f(i, outs%js) = (3.0_8 * in%f(i, in%js) - 4.0_8 * in%f(i, in%js + 1) + in%f(i, in%js + 2)) / 2.0_8 / domain%dy
-	  		end do
-	  		do i = oute%is, oute%ie
-	  			oute%f(i, outs%js) = (3.0_8 * in%f(i, in%je) - 4.0_8 * in%f(i, in%je - 1) + in%f(i, in%je - 2)) / 2.0_8 / domain%dy
-	  		end do
+	  		if (sten == 'start') then
+	  			do i = out%is, out%ie
+	  				out%f(i, out%js) = (3.0_8 * in%f(i, in%js) - 4.0_8 * in%f(i, in%js + 1) + in%f(i, in%js + 2)) / 2.0_8 / domain%dy
+	  			end do
+	  		else if (sten == 'end') then
+	  			do i = out%is, out%ie
+	  				out%f(i, out%js) = (3.0_8 * in%f(i, in%je) - 4.0_8 * in%f(i, in%je - 1) + in%f(i, in%je - 2)) / 2.0_8 / domain%dy
+	  			end do
+	  		end if
 	  	end if
   		
 	end subroutine apply_sbp21_2_boundary_method
 
-	subroutine apply_sbp42_2_boundary_method(outs, oute, in, domain, direction)
-		type(field_t),     intent(inout) :: outs, oute
+	subroutine apply_sbp42_2_boundary_method(out, in, domain, direction, sten)
+		type(field_t),     intent(inout) :: out
   		type(field_t),     intent(in)    :: in
   		type(domain_t),	   intent(in)    :: domain
   		character(len=1),  intent(in)	 :: direction
+  		character(len=1),  intent(in)    :: sten
 
   		integer(kind=8) :: i
 
   		if (direction == 'x') then
-	  		do i = outs%is, outs%ie
-	  			outs%f(i, outs%js) = (11.0_8 * in%f(in%is, i) - 18.0_8 * in%f(in%is + 1, i) + 9.0_8 * in%f(in%is + 2, i) - 2.0_8 * in%f(in%is + 3, i) ) / 6.0_8 / domain%dx
-	  		end do
-	  		do i = oute%is, oute%ie
-	  			oute%f(i, outs%js) = (11.0_8 * in%f(in%ie, i) - 18.0_8 * in%f(in%ie - 1, i) + 9.0_8 * in%f(in%ie - 2, i) - 2.0_8 * in%f(in%ie - 3, i)) / 6.0_8 / domain%dx
-	  		end do
+  			if (sten == 's') then 
+	  			do i = out%is, out%ie
+	  				out%f(i, out%js) = (11.0_8 * in%f(in%is, i) - 18.0_8 * in%f(in%is + 1, i) + 9.0_8 * in%f(in%is + 2, i) - 2.0_8 * in%f(in%is + 3, i) ) / 6.0_8 / domain%dx
+	  			end do
+	  		else if (sten == 'e') then
+	  			do i = out%is, out%ie
+	  				out%f(i, out%js) = (11.0_8 * in%f(in%ie, i) - 18.0_8 * in%f(in%ie - 1, i) + 9.0_8 * in%f(in%ie - 2, i) - 2.0_8 * in%f(in%ie - 3, i)) / 6.0_8 / domain%dx
+	  			end do
+	  		end if
 	  	else if (direction == 'y') then
-	  		do i = outs%is, outs%ie
-	  			outs%f(i, outs%js) = (11.0_8 * in%f(i, in%js) - 18.0_8 * in%f(i, in%js + 1) + 9.0_8 * in%f(i, in%js + 2) - 2.0_8 * in%f(i, in%js + 3) ) / 6.0_8 / domain%dy
-	  		end do
-	  		do i = oute%is, oute%ie
-	  			oute%f(i, outs%js) = (11.0_8 * in%f(i, in%je) - 18.0_8 * in%f(i, in%je - 1) + 9.0_8 * in%f(i, in%je - 2) - 2.0_8 * in%f(i, in%je - 3)) / 6.0_8 / domain%dy
-	  		end do
+	  		if (sten == 's') then 
+	  			do i = out%is, out%ie
+	  				out%f(i, out%js) = (11.0_8 * in%f(i, in%js) - 18.0_8 * in%f(i, in%js + 1) + 9.0_8 * in%f(i, in%js + 2) - 2.0_8 * in%f(i, in%js + 3) ) / 6.0_8 / domain%dy
+	  			end do
+	  		else if (sten == 'e') then
+	  			do i = out%is, out%ie
+	  				out%f(i, out%js) = (11.0_8 * in%f(i, in%je) - 18.0_8 * in%f(i, in%je - 1) + 9.0_8 * in%f(i, in%je - 2) - 2.0_8 * in%f(i, in%je - 3)) / 6.0_8 / domain%dy
+	  			end do
+	  		end if
 	  	end if
   		
 	end subroutine apply_sbp42_2_boundary_method
+
+	subroutine apply_sbp42_2_boundary_method_second_terms(out, in, domain, sten)
+		type(field_t),     intent(inout) :: out
+  		type(field_t),     intent(in)    :: in
+  		type(domain_t),	   intent(in)    :: domain
+  		character(len=1),  intent(in)	 :: sten
+
+  		integer(kind=8) :: i
+  		if (sten == 's') then
+  			do i = out%is, out%ie
+  				out%f(i, out%js)     =  11.0_8 * in%f(i, 0) / 6.0_8 / domain%dx ** 2.0_8 / 17.0_8 * 48.0_8
+  				out%f(i, out%js + 1) = -18.0_8 * in%f(i, 0) / 6.0_8 / domain%dx ** 2.0_8 / 59.0_8 * 48.0_8
+  				out%f(i, out%js + 2) =   9.0_8 * in%f(i, 0) / 6.0_8 / domain%dx ** 2.0_8 / 43.0_8 * 48.0_8
+  				out%f(i, out%js + 3) = - 2.0_8 * in%f(i, 0) / 6.0_8 / domain%dx ** 2.0_8 / 49.0_8 * 48.0_8
+  			end do
+  		else if (sten == 'e') then
+  			do i = out%is, out%ie
+  				out%f(i, out%js)     = -11.0_8 * in%f(i, 0) / 6.0_8 / domain%dx ** 2.0_8 / 17.0_8 * 48.0_8
+  				out%f(i, out%js + 1) =  18.0_8 * in%f(i, 0) / 6.0_8 / domain%dx ** 2.0_8 / 59.0_8 * 48.0_8
+  				out%f(i, out%js + 2) = - 9.0_8 * in%f(i, 0) / 6.0_8 / domain%dx ** 2.0_8 / 43.0_8 * 48.0_8
+  				out%f(i, out%js + 3) =   2.0_8 * in%f(i, 0) / 6.0_8 / domain%dx ** 2.0_8 / 49.0_8 * 48.0_8
+  			end do
+  		end if
+
+	end subroutine apply_sbp42_2_boundary_method_second_terms
 
 end module boundary_methods_mod

@@ -20,6 +20,11 @@ COTEXT  = "Compiling $(<F)"
 LITEXT  = "Assembling $@"
 
 #building rules
+$(DEXE)TEST_7_ORDER_APPROXIMATION: $(MKDIRS) $(DOBJ)test_7_order_approximation.o
+	@rm -f $(filter-out $(DOBJ)test_7_order_approximation.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) TEST_7_ORDER_APPROXIMATION
 $(DEXE)TEST_0_HORIZONTAL_ADVECTION: $(MKDIRS) $(DOBJ)test_0_horizontal_advection.o
 	@rm -f $(filter-out $(DOBJ)test_0_horizontal_advection.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -130,6 +135,11 @@ $(DEXE)GRAD_TEST: $(MKDIRS) $(DOBJ)grad_test.o
 	@echo $(LITEXT)
 	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
 EXES := $(EXES) GRAD_TEST
+$(DEXE)ZERO_VORTICITY_GRADIENT_TEST: $(MKDIRS) $(DOBJ)zero_vorticity_gradient_test.o
+	@rm -f $(filter-out $(DOBJ)zero_vorticity_gradient_test.o,$(EXESOBJ))
+	@echo $(LITEXT)
+	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
+EXES := $(EXES) ZERO_VORTICITY_GRADIENT_TEST
 $(DEXE)CURL_TEST: $(MKDIRS) $(DOBJ)curl_test.o
 	@rm -f $(filter-out $(DOBJ)curl_test.o,$(EXESOBJ))
 	@echo $(LITEXT)
@@ -283,6 +293,27 @@ $(DOBJ)diffusion_operator_mod.o: src/operators/diffusion_operator_mod.f90 \
 	$(DOBJ)stvec_swe_mod.o \
 	$(DOBJ)multi_grid_field_mod.o \
 	$(DOBJ)laplacian_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)test_7_order_approximation.o: src/tests/test_7_order_approximation.f90 \
+	$(DOBJ)initial_condition_mod.o \
+	$(DOBJ)swe_vect_inv_operator_mod.o \
+	$(DOBJ)swe_advective_operator_mod.o \
+	$(DOBJ)horizontal_advection_operator_mod.o \
+	$(DOBJ)diffusion_operator_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)timescheme_mod.o \
+	$(DOBJ)timesheme_factory_mod.o \
+	$(DOBJ)rk4_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_domain_mod.o \
+	$(DOBJ)multi_grid_field_mod.o \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)const_mod.o \
+	$(DOBJ)read_write_mod.o \
+	$(DOBJ)vec_math_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 
@@ -562,6 +593,29 @@ $(DOBJ)grad_test.o: src/tests/components/grad_test.f90 \
 	$(DOBJ)field_mod.o \
 	$(DOBJ)domain_mod.o \
 	$(DOBJ)const_mod.o
+	@echo $(COTEXT)
+	@$(FC) $(OPTSC)  $< -o $@
+
+$(DOBJ)zero_vorticity_gradient_test.o: src/tests/components/zero_vorticity_gradient_test.f90 \
+	$(DOBJ)initial_condition_mod.o \
+	$(DOBJ)swe_advective_operator_mod.o \
+	$(DOBJ)swe_vect_inv_operator_mod.o \
+	$(DOBJ)horizontal_advection_operator_mod.o \
+	$(DOBJ)central_differential_operator_mod.o \
+	$(DOBJ)sbp_differential_operator_mod.o \
+	$(DOBJ)timescheme_mod.o \
+	$(DOBJ)timesheme_factory_mod.o \
+	$(DOBJ)rk4_mod.o \
+	$(DOBJ)explicit_euler_mod.o \
+	$(DOBJ)domain_mod.o \
+	$(DOBJ)multi_domain_mod.o \
+	$(DOBJ)stvec_swe_mod.o \
+	$(DOBJ)const_mod.o \
+	$(DOBJ)read_write_mod.o \
+	$(DOBJ)vec_math_mod.o \
+	$(DOBJ)grad_mod.o \
+	$(DOBJ)curl_mod.o \
+	$(DOBJ)multi_grid_field_mod.o
 	@echo $(COTEXT)
 	@$(FC) $(OPTSC)  $< -o $@
 

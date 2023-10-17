@@ -34,10 +34,10 @@ implicit none
   real(kind=8),        allocatable :: coefs(:, :)
 
   real(kind=8),    parameter :: LX = 4000e3_8, LY = 4000e3_8
-  integer(kind=4), parameter :: Nx = 192 * 2, Ny = 192 * 2
-  integer(kind=8), parameter :: num_sub_x = 1, num_sub_y = 1
+  integer(kind=4), parameter :: Nx = 96, Ny = 96
+  integer(kind=8), parameter :: num_sub_x = 3, num_sub_y = 3
   real(kind=8),    parameter :: H_MEAN = 1e4_8
-  real(kind=8),    parameter :: T_max  = 256.0_8*3600.0_8, dt = 25.0_8, tau_wr = 3600.0_8
+  real(kind=8),    parameter :: T_max  = 256.0_8*3600.0_8, dt = 50.0_8, tau_wr = 3600.0_8
   integer(kind=4), parameter :: Nt     = int(T_max/dt)
   integer(kind=4)            :: t, nzap, irec, n, m
 
@@ -74,7 +74,7 @@ implicit none
   allocate(coefs(1:num_sub_x, 1:num_sub_y))
   do n = 1, num_sub_x
     do m = 1, num_sub_y
-      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / sqrt(dt) / 50.0_8 * (192.0_8 / Nx)
+      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / sqrt(dt) / 50.0_8
     end do
   end do
   call diffusion%init(sbp42_2, coefs, multi_domain)
@@ -112,8 +112,8 @@ implicit none
           call write_field(state%h%subfields(3, 2), multi_domain%subdomains(3, 2), './data/test6_96_32_h.dat', irec)
           call write_field(state%h%subfields(3, 3), multi_domain%subdomains(3, 3), './data/test6_96_33_h.dat', irec)
         else
-          call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_384_curl.dat', irec)
-          call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_384_h.dat', irec)
+          call write_field(curl%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_96_curl.dat', irec)
+          call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/test6_96_h.dat', irec)
         end if
     end if
     call timescheme%step(state, op, multi_domain, dt)
