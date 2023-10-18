@@ -72,6 +72,40 @@ contains
   		
 	end subroutine apply_sbp42_2_boundary_method
 
+	subroutine apply_sbp21_2_boundary_method_second_terms(out, in, domain, direction, sten)
+		type(field_t),     intent(inout) :: out
+  		type(field_t),     intent(in)    :: in
+  		type(domain_t),	   intent(in)    :: domain
+  		character(len=1),  intent(in)	 :: direction
+  		character(len=1),  intent(in)	 :: sten
+
+  		real(kind=8) :: dx
+  		integer(kind=8) :: i
+
+  		if (direction == 'x') then
+  			dx = domain%dx
+  		else if (direction == 'y') then
+  			dx = domain%dy
+  		end if
+
+  		if (sten == 's') then
+  			do i = out%is, out%ie
+  				out%f(i, out%js)     =  3.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8) * 2.0_8
+  				out%f(i, out%js + 1) = -4.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8)
+  				out%f(i, out%js + 2) =  1.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8)
+  				out%f(i, out%js + 3) =  0.0_8
+  			end do
+  		else if (sten == 'e') then
+  			do i = out%is, out%ie
+  				out%f(i, out%js)     = -3.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8) * 2.0_8
+  				out%f(i, out%js + 1) =  4.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8)
+  				out%f(i, out%js + 2) = -1.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8)
+  				out%f(i, out%js + 3) =  0.0_8
+  			end do
+  		end if
+
+	end subroutine apply_sbp21_2_boundary_method_second_terms
+
 	subroutine apply_sbp42_2_boundary_method_second_terms(out, in, domain, direction, sten)
 		type(field_t),     intent(inout) :: out
   		type(field_t),     intent(in)    :: in
@@ -90,17 +124,17 @@ contains
 
   		if (sten == 's') then
   			do i = out%is, out%ie
-  				out%f(i, out%js)     =  11.0_8 * in%f(i, 0) / 6.0_8 / dx ** 2.0_8 / 17.0_8 * 48.0_8
-  				out%f(i, out%js + 1) = -18.0_8 * in%f(i, 0) / 6.0_8 / dx ** 2.0_8 / 59.0_8 * 48.0_8
-  				out%f(i, out%js + 2) =   9.0_8 * in%f(i, 0) / 6.0_8 / dx ** 2.0_8 / 43.0_8 * 48.0_8
-  				out%f(i, out%js + 3) = - 2.0_8 * in%f(i, 0) / 6.0_8 / dx ** 2.0_8 / 49.0_8 * 48.0_8
+  				out%f(i, out%js)     =  11.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 17.0_8
+  				out%f(i, out%js + 1) = -18.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 59.0_8
+  				out%f(i, out%js + 2) =   9.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 43.0_8
+  				out%f(i, out%js + 3) = - 2.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 49.0_8
   			end do
   		else if (sten == 'e') then
   			do i = out%is, out%ie
-  				out%f(i, out%js)     = -11.0_8 * in%f(i, 0) / 6.0_8 / dx ** 2.0_8 / 17.0_8 * 48.0_8
-  				out%f(i, out%js + 1) =  18.0_8 * in%f(i, 0) / 6.0_8 / dx ** 2.0_8 / 59.0_8 * 48.0_8
-  				out%f(i, out%js + 2) = - 9.0_8 * in%f(i, 0) / 6.0_8 / dx ** 2.0_8 / 43.0_8 * 48.0_8
-  				out%f(i, out%js + 3) =   2.0_8 * in%f(i, 0) / 6.0_8 / dx ** 2.0_8 / 49.0_8 * 48.0_8
+  				out%f(i, out%js)     = -11.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 17.0_8
+  				out%f(i, out%js + 1) =  18.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 59.0_8
+  				out%f(i, out%js + 2) = - 9.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 43.0_8
+  				out%f(i, out%js + 3) =   2.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 49.0_8
   			end do
   		end if
 
