@@ -59,54 +59,14 @@ caxis([-5e-5 5e-5]);
 c = colorbar;
 xlim([0 L_max])
 ylim([0 L_max])
-pcolor(X11, Y11, A11(:, :, 173)')
-%caxis([-5e-5 5e-5]);
-pcolor(X12, Y12, A12(:, :, 173)')
-%caxis([-5e-5 5e-5]);
-pcolor(X21, Y21, A21(:, :, 173)')
-%caxis([-5e-5 5e-5]);
-pcolor(X22, Y22, A22(:, :, 173)')
-%caxis([-5e-5 5e-5]);
+pcolor(X11, Y11, A11(:, :, 70)')
+pcolor(X12, Y12, A12(:, :, 70)')
+pcolor(X21, Y21, A21(:, :, 70)')
+pcolor(X22, Y22, A22(:, :, 70)')
 shading flat;
 xlabel('x, km')
 ylabel('y, km')
 title("t = 15 days, $\Delta x_{max}$ = 312 km")
-
-% cla;
-% hold on; grid on;
-% c = colorbar;
-% c.Limits = [-5e-5 5e-5];
-% 
-% contourf(X11, Y11, A11(:, :, 144)', 8)
-% caxis([-5e-5 5e-5]);
-% contourf(X12, Y12, A12(:, :, 144)', 8)
-% caxis([-5e-5 5e-5]);
-% contourf(X21, Y21, A21(:, :, 144)', 8)
-% caxis([-5e-5 5e-5]);
-% contourf(X22, Y22, A22(:, :, 144)', 8)
-% caxis([-5e-5 5e-5]);
-% colormap jet;
-% shading flat;
-% save_file_name = strcat('../data/', test_name, '_12.png');
-% saveas(gcf, save_file_name);
-% 
-% cla;
-% hold on; grid on;
-% c = colorbar;
-% c.Limits = [-5e-5 5e-5];
-
-% contourf(X11, Y11, A11(:, :, 173)', 8)
-% caxis([-5e-5 5e-5]);
-% contourf(X12, Y12, A12(:, :, 173)', 8)
-% caxis([-5e-5 5e-5]);
-% contourf(X21, Y21, A21(:, :, 173)', 8)
-% caxis([-5e-5 5e-5]);
-% contourf(X22, Y22, A22(:, :, 173)', 8)
-% caxis([-5e-5 5e-5]);
-% colormap jet;
-% shading flat;
-% save_file_name = strcat('../data/', test_name, '_15.png');
-% saveas(gcf, save_file_name);
 
 
 %--------------------------------------------------------------------------
