@@ -18,7 +18,7 @@ subroutine sbp_SAT_penalty_two_block(tend, in, direction, domains, diff_method)
   character(len=7),         intent(in)    :: diff_method
 
   type(field_t) :: s1, eNx !boundary layers
-  type(field_t) :: interp_s1, interp_eNx !interpolation buffers for boundary layers 
+  type(field_t) :: interp_s1, interp_eNx !interpolation buffers for boundary layers
   type(field_t) :: le, rs !intermediate layers
   type(field_t) :: interp_le, interp_rs !interpolation buffers intermediate layers
 
@@ -268,14 +268,14 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
   integer(kind=4) :: n, m, k, flag = 1
   real(kind=8)    :: ft_df, h0
 
-  if      (diff_method == 'sbp21_2') then 
+  if      (diff_method == 'sbp21_2') then
     h0 =  1.0_8 / 2.0_8
-  else if (diff_method == 'sbp42_2') then 
+  else if (diff_method == 'sbp42_2') then
     h0 = 17.0_8 / 48.0_8
-  else                                    
+  else
     h0 = 0.0_8
   end if
-  
+
   if (direction == 'x') then
     do m = 1, domains%num_sub_y
     do n = 2, domains%num_sub_x
@@ -367,19 +367,19 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
 
 !apply xi
         do k = ft_le%is, ft_le%ie
-          ft_df = (coefs(n - 1, m) * ft_le%f(k, 0) - coefs(n, m) * ft_irs%f(k, 0)) / (domains%subdomains(n - 1, m)%dx * h0)
-          tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie, k) = tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie, k) + ft_df / 2.0_8 - coefs(n - 1, m) * stl%f(k, 1) / 2.0_8
+          ft_df = (coefs(n - 1, m) * ft_le%f(k, 0) + coefs(n, m) * ft_irs%f(k, 0)) / (domains%subdomains(n - 1, m)%dx * h0)
+          tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie, k) = tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie, k) - ft_df / 2.0_8 - coefs(n - 1, m) * stl%f(k, 1) / 2.0_8
           tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie - 1, k) = tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie - 1, k) - coefs(n - 1, m) * stl%f(k, 2) / 2.0_8
           tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie - 2, k) = tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie - 2, k) - coefs(n - 1, m) * stl%f(k, 3) / 2.0_8
           tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie - 3, k) = tend%subfields(n - 1, m)%f(tend%subfields(n - 1, m)%ie - 3, k) - coefs(n - 1, m) * stl%f(k, 4) / 2.0_8
         end do
 
         do k = ft_rs%is, ft_rs%ie
-          ft_df = (coefs(n, m) * ft_rs%f(k, 0) - coefs(n - 1, m) * ft_ile%f(k, 0)) / (domains%subdomains(n, m)%dx * h0)
-          tend%subfields(n, m)%f(tend%subfields(n, m)%is, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%is, k) - ft_df / 2.0_8 + coefs(n, m) * str%f(k, 1) / 2.0_8
-          tend%subfields(n, m)%f(tend%subfields(n, m)%is + 1, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%is + 1, k) + coefs(n, m) * str%f(k, 2) / 2.0_8
-          tend%subfields(n, m)%f(tend%subfields(n, m)%is + 2, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%is + 2, k) + coefs(n, m) * str%f(k, 3) / 2.0_8
-          tend%subfields(n, m)%f(tend%subfields(n, m)%is + 3, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%is + 3, k) + coefs(n, m) * str%f(k, 4) / 2.0_8
+          ft_df = (coefs(n, m) * ft_rs%f(k, 0) + coefs(n - 1, m) * ft_ile%f(k, 0)) / (domains%subdomains(n, m)%dx * h0)
+          tend%subfields(n, m)%f(tend%subfields(n, m)%is, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%is, k) - ft_df / 2.0_8 - coefs(n, m) * str%f(k, 1) / 2.0_8
+          tend%subfields(n, m)%f(tend%subfields(n, m)%is + 1, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%is + 1, k) - coefs(n, m) * str%f(k, 2) / 2.0_8
+          tend%subfields(n, m)%f(tend%subfields(n, m)%is + 2, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%is + 2, k) - coefs(n, m) * str%f(k, 3) / 2.0_8
+          tend%subfields(n, m)%f(tend%subfields(n, m)%is + 3, k) = tend%subfields(n, m)%f(tend%subfields(n, m)%is + 3, k) - coefs(n, m) * str%f(k, 4) / 2.0_8
         end do
     end do
     !bound
@@ -391,8 +391,8 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
         call ft_re%create_similar(ft_ils)
         call st_ls%create_similar(st_ire)
         call st_re%create_similar(st_ils)
-        call stlb%init(domains%subdomains(1, m)%is, domains%subdomains(1, m)%ie, 1, 4)
-        call strb%init(domains%subdomains(domains%num_sub_x, m)%is, domains%subdomains(domains%num_sub_x, m)%ie, 1, 4)
+        call stlb%init(domains%subdomains(1, m)%js, domains%subdomains(1, m)%je, 1, 4)
+        call strb%init(domains%subdomains(domains%num_sub_x, m)%js, domains%subdomains(domains%num_sub_x, m)%je, 1, 4)
         !feeling
         do k = ft_ls%is, ft_ls%ie
           ft_ls%f(k, 0) = in%subfields(1, m)%f(in%subfields(1, m)%is, k)
@@ -404,11 +404,11 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
         end do
         !boundary method
         if (diff_method == 'sbp21_2') then
-          call apply_sbp21_2_boundary_method(ft_ls, in%subfields(1, m), domains%subdomains(1, m), direction, 'e')
-          call apply_sbp21_2_boundary_method(ft_re, in%subfields(domains%num_sub_x, m), domains%subdomains(domains%num_sub_x, m), direction, 's')
+          call apply_sbp21_2_boundary_method(ft_ls, in%subfields(1, m), domains%subdomains(1, m), direction, 's')
+          call apply_sbp21_2_boundary_method(ft_re, in%subfields(domains%num_sub_x, m), domains%subdomains(domains%num_sub_x, m), direction, 'e')
         else if (diff_method == 'sbp42_2') then
-          call apply_sbp42_2_boundary_method(ft_ls, in%subfields(1, m), domains%subdomains(1, m), direction, 'e')
-          call apply_sbp42_2_boundary_method(ft_re, in%subfields(domains%num_sub_x, m), domains%subdomains(domains%num_sub_x, m), direction, 's')
+          call apply_sbp42_2_boundary_method(ft_ls, in%subfields(1, m), domains%subdomains(1, m), direction, 's')
+          call apply_sbp42_2_boundary_method(ft_re, in%subfields(domains%num_sub_x, m), domains%subdomains(domains%num_sub_x, m), direction, 'e')
         end if
         !interpolation
         if (diff_method == 'sbp21_2') then
@@ -464,15 +464,15 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
         end if
 !apply xb
         do k = ft_ls%is, ft_ls%ie
-          ft_df = (coefs(1, m) * ft_ls%f(k, 0) - coefs(domains%num_sub_x, m) * ft_ire%f(k, 0)) / (domains%subdomains(1, m)%dx * h0)
-          tend%subfields(1, m)%f(tend%subfields(1, m)%is, k) = tend%subfields(1, m)%f(tend%subfields(1, m)%is, k) - ft_df / 2.0_8 + coefs(1, m) * stlb%f(k ,1) / 2.0_8
-          tend%subfields(1, m)%f(tend%subfields(1, m)%is + 1, k) = tend%subfields(1, m)%f(tend%subfields(1, m)%is + 1, k) + coefs(1, m) * stlb%f(k, 2) / 2.0_8
-          tend%subfields(1, m)%f(tend%subfields(1, m)%is + 2, k) = tend%subfields(1, m)%f(tend%subfields(1, m)%is + 2, k) + coefs(1, m) * stlb%f(k, 3) / 2.0_8
-          tend%subfields(1, m)%f(tend%subfields(1, m)%is + 3, k) = tend%subfields(1, m)%f(tend%subfields(1, m)%is + 3, k) + coefs(1, m) * stlb%f(k, 4) / 2.0_8
+          ft_df = (coefs(1, m) * ft_ls%f(k, 0) + coefs(domains%num_sub_x, m) * ft_ire%f(k, 0)) / (domains%subdomains(1, m)%dx * h0)
+          tend%subfields(1, m)%f(tend%subfields(1, m)%is, k) = tend%subfields(1, m)%f(tend%subfields(1, m)%is, k) - ft_df / 2.0_8 - coefs(1, m) * stlb%f(k ,1) / 2.0_8
+          tend%subfields(1, m)%f(tend%subfields(1, m)%is + 1, k) = tend%subfields(1, m)%f(tend%subfields(1, m)%is + 1, k) - coefs(1, m) * stlb%f(k, 2) / 2.0_8
+          tend%subfields(1, m)%f(tend%subfields(1, m)%is + 2, k) = tend%subfields(1, m)%f(tend%subfields(1, m)%is + 2, k) - coefs(1, m) * stlb%f(k, 3) / 2.0_8
+          tend%subfields(1, m)%f(tend%subfields(1, m)%is + 3, k) = tend%subfields(1, m)%f(tend%subfields(1, m)%is + 3, k) - coefs(1, m) * stlb%f(k, 4) / 2.0_8
         end do
         do k = ft_re%is, ft_re%ie
-          ft_df = (coefs(domains%num_sub_x, m) * ft_re%f(k, 0) - coefs(1, m) * ft_ils%f(k, 0)) / (domains%subdomains(domains%num_sub_x, m)%dx * h0)
-          tend%subfields(domains%num_sub_x, m)%f(tend%subfields(domains%num_sub_x, m)%ie, k) = tend%subfields(domains%num_sub_x, m)%f(tend%subfields(domains%num_sub_x, m)%ie, k) + ft_df / 2.0_8 - coefs(domains%num_sub_x, m) * strb%f(k, 1) / 2.0_8
+          ft_df = (coefs(domains%num_sub_x, m) * ft_re%f(k, 0) + coefs(1, m) * ft_ils%f(k, 0)) / (domains%subdomains(domains%num_sub_x, m)%dx * h0)
+          tend%subfields(domains%num_sub_x, m)%f(tend%subfields(domains%num_sub_x, m)%ie, k) = tend%subfields(domains%num_sub_x, m)%f(tend%subfields(domains%num_sub_x, m)%ie, k) - ft_df / 2.0_8 - coefs(domains%num_sub_x, m) * strb%f(k, 1) / 2.0_8
           tend%subfields(domains%num_sub_x, m)%f(tend%subfields(domains%num_sub_x, m)%ie - 1, k) = tend%subfields(domains%num_sub_x, m)%f(tend%subfields(domains%num_sub_x, m)%ie - 1, k) - coefs(domains%num_sub_x, m) * strb%f(k, 2) / 2.0_8
           tend%subfields(domains%num_sub_x, m)%f(tend%subfields(domains%num_sub_x, m)%ie - 2, k) = tend%subfields(domains%num_sub_x, m)%f(tend%subfields(domains%num_sub_x, m)%ie - 2, k) - coefs(domains%num_sub_x, m) * strb%f(k, 3) / 2.0_8
           tend%subfields(domains%num_sub_x, m)%f(tend%subfields(domains%num_sub_x, m)%ie - 3, k) = tend%subfields(domains%num_sub_x, m)%f(tend%subfields(domains%num_sub_x, m)%ie - 3, k) - coefs(domains%num_sub_x, m) * strb%f(k, 4) / 2.0_8
@@ -566,18 +566,18 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
 
 !apply yi
         do k = ft_le%is, ft_le%ie
-          ft_df = (coefs(n, m - 1) * ft_le%f(k, 0) - coefs(n, m) * ft_irs%f(k, 0)) / (domains%subdomains(n, m - 1)%dy * h0)
-          tend%subfields(n, m - 1)%f(k, tend%subfields(n, m - 1)%je) = tend%subfields(n, m - 1)%f(k, tend%subfields(n, m - 1)%je) + ft_df / 2.0_8 - coefs(n, m - 1) * stl%f(k, 1) / 2.0_8
+          ft_df = (coefs(n, m - 1) * ft_le%f(k, 0) + coefs(n, m) * ft_irs%f(k, 0)) / (domains%subdomains(n, m - 1)%dy * h0)
+          tend%subfields(n, m - 1)%f(k, tend%subfields(n, m - 1)%je) = tend%subfields(n, m - 1)%f(k, tend%subfields(n, m - 1)%je) - ft_df / 2.0_8 - coefs(n, m - 1) * stl%f(k, 1) / 2.0_8
           tend%subfields(n, m - 1)%f(k, tend%subfields(n, m - 1)%je - 1) = tend%subfields(n, m - 1)%f(k, tend%subfields(n, m - 1)%je - 1) - coefs(n, m - 1) * stl%f(k, 2) / 2.0_8
           tend%subfields(n, m - 1)%f(k, tend%subfields(n, m - 1)%je - 2) = tend%subfields(n, m - 1)%f(k, tend%subfields(n, m - 1)%je - 2) - coefs(n, m - 1) * stl%f(k, 3) / 2.0_8
           tend%subfields(n, m - 1)%f(k, tend%subfields(n, m - 1)%je - 3) = tend%subfields(n, m - 1)%f(k, tend%subfields(n, m - 1)%je - 3) - coefs(n, m - 1) * stl%f(k, 4) / 2.0_8
         end do
         do k = ft_rs%is, ft_rs%ie
-          ft_df = (coefs(n, m) * ft_rs%f(k, 0) - coefs(n, m - 1) * ft_ile%f(k, 0)) / (domains%subdomains(n, m)%dy * h0)
-          tend%subfields(n, m)%f(k, tend%subfields(n, m)%js) = tend%subfields(n, m)%f(k, tend%subfields(n, m)%js) - ft_df / 2.0_8 + coefs(n, m) * str%f(k, 1) / 2.0_8
-          tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 1) = tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 1) + coefs(n, m) * str%f(k, 2) / 2.0_8
-          tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 2) = tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 2) + coefs(n, m) * str%f(k, 3) / 2.0_8
-          tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 3) = tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 3) + coefs(n, m) * str%f(k, 4) / 2.0_8
+          ft_df = (coefs(n, m) * ft_rs%f(k, 0) + coefs(n, m - 1) * ft_ile%f(k, 0)) / (domains%subdomains(n, m)%dy * h0)
+          tend%subfields(n, m)%f(k, tend%subfields(n, m)%js) = tend%subfields(n, m)%f(k, tend%subfields(n, m)%js) - ft_df / 2.0_8 - coefs(n, m) * str%f(k, 1) / 2.0_8
+          tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 1) = tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 1) - coefs(n, m) * str%f(k, 2) / 2.0_8
+          tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 2) = tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 2) - coefs(n, m) * str%f(k, 3) / 2.0_8
+          tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 3) = tend%subfields(n, m)%f(k, tend%subfields(n, m)%js + 3) - coefs(n, m) * str%f(k, 4) / 2.0_8
         end do
     end do
         !bound
@@ -602,11 +602,11 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
         end do
         !boundary method
         if (diff_method == 'sbp21_2') then
-          call apply_sbp21_2_boundary_method(ft_ls, in%subfields(n, 1), domains%subdomains(n, 1), direction, 'e')
-          call apply_sbp21_2_boundary_method(ft_re, in%subfields(n, domains%num_sub_y), domains%subdomains(n, domains%num_sub_y), direction, 's')
+          call apply_sbp21_2_boundary_method(ft_ls, in%subfields(n, 1), domains%subdomains(n, 1), direction, 's')
+          call apply_sbp21_2_boundary_method(ft_re, in%subfields(n, domains%num_sub_y), domains%subdomains(n, domains%num_sub_y), direction, 'e')
         else if (diff_method == 'sbp42_2') then
-          call apply_sbp42_2_boundary_method(ft_ls, in%subfields(n, 1), domains%subdomains(n, 1), direction, 'e')
-          call apply_sbp42_2_boundary_method(ft_re, in%subfields(n, domains%num_sub_y), domains%subdomains(n, domains%num_sub_y), direction, 's')
+          call apply_sbp42_2_boundary_method(ft_ls, in%subfields(n, 1), domains%subdomains(n, 1), direction, 's')
+          call apply_sbp42_2_boundary_method(ft_re, in%subfields(n, domains%num_sub_y), domains%subdomains(n, domains%num_sub_y), direction, 'e')
         end if
         !interpolation
         if (diff_method == 'sbp21_2') then
@@ -662,15 +662,15 @@ subroutine sbp_SAT_penalty_two_block_diffusion(tend, in, domains, coefs, directi
         end if
 !apply yb
         do k = ft_ls%is, ft_ls%ie
-          ft_df = (coefs(n, 1) * ft_ls%f(k, 0) - coefs(n, domains%num_sub_y) * ft_ire%f(k, 0)) / (domains%subdomains(n, 1)%dy * h0)
-          tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js) = tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js) - ft_df / 2.0_8 + coefs(n, 1) * stlb%f(k, 1) / 2.0_8
-          tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 1) = tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 1) + coefs(n, 1) * stlb%f(k, 2) / 2.0_8
-          tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 2) = tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 2) + coefs(n, 1) * stlb%f(k, 3) / 2.0_8
-          tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 3) = tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 3) + coefs(n, 1) * stlb%f(k, 4) / 2.0_8
+          ft_df = (coefs(n, 1) * ft_ls%f(k, 0) + coefs(n, domains%num_sub_y) * ft_ire%f(k, 0)) / (domains%subdomains(n, 1)%dy * h0)
+          tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js) = tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js) - ft_df / 2.0_8 - coefs(n, 1) * stlb%f(k, 1) / 2.0_8
+          tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 1) = tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 1) - coefs(n, 1) * stlb%f(k, 2) / 2.0_8
+          tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 2) = tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 2) - coefs(n, 1) * stlb%f(k, 3) / 2.0_8
+          tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 3) = tend%subfields(n, 1)%f(k, tend%subfields(n, 1)%js + 3) - coefs(n, 1) * stlb%f(k, 4) / 2.0_8
         end do
         do k = ft_re%is, ft_re%ie
-          ft_df = (coefs(n, domains%num_sub_y) * ft_re%f(k, 0) - coefs(n, 1) * ft_ils%f(k, 0)) / (domains%subdomains(n, domains%num_sub_y)%dy * h0)
-          tend%subfields(n, domains%num_sub_y)%f(k, tend%subfields(n, domains%num_sub_y)%je) = tend%subfields(n, domains%num_sub_y)%f(k, tend%subfields(n, domains%num_sub_y)%je) + ft_df / 2.0_8 - coefs(n, domains%num_sub_y) * strb%f(k, 1) / 2.0_8
+          ft_df = (coefs(n, domains%num_sub_y) * ft_re%f(k, 0) + coefs(n, 1) * ft_ils%f(k, 0)) / (domains%subdomains(n, domains%num_sub_y)%dy * h0)
+          tend%subfields(n, domains%num_sub_y)%f(k, tend%subfields(n, domains%num_sub_y)%je) = tend%subfields(n, domains%num_sub_y)%f(k, tend%subfields(n, domains%num_sub_y)%je) - ft_df / 2.0_8 - coefs(n, domains%num_sub_y) * strb%f(k, 1) / 2.0_8
           tend%subfields(n, domains%num_sub_y)%f(k, tend%subfields(n, domains%num_sub_y)%je - 1) = tend%subfields(n, domains%num_sub_y)%f(k, tend%subfields(n, domains%num_sub_y)%je - 1) - coefs(n, domains%num_sub_y) * strb%f(k, 2) / 2.0_8
           tend%subfields(n, domains%num_sub_y)%f(k, tend%subfields(n, domains%num_sub_y)%je - 2) = tend%subfields(n, domains%num_sub_y)%f(k, tend%subfields(n, domains%num_sub_y)%je - 2) - coefs(n, domains%num_sub_y) * strb%f(k, 3) / 2.0_8
           tend%subfields(n, domains%num_sub_y)%f(k, tend%subfields(n, domains%num_sub_y)%je - 3) = tend%subfields(n, domains%num_sub_y)%f(k, tend%subfields(n, domains%num_sub_y)%je - 3) - coefs(n, domains%num_sub_y) * strb%f(k, 4) / 2.0_8
@@ -692,7 +692,7 @@ end subroutine sbp_SAT_penalty_two_block_diffusion
 !   character(len=7),         intent(in)    :: diff_method
 
 !   type(field_t) :: s1, sNx, e1, eNx !boundary layers
-!   type(field_t) :: interp_s1, interp_eNx !interpolation buffers for boundary layers 
+!   type(field_t) :: interp_s1, interp_eNx !interpolation buffers for boundary layers
 
 !   type(field_t) :: ls, le, rs, re, st_le, st_rs, st_ls, st_re !intermediate layers
 !   type(field_t) :: interp_le, interp_rs, st_interp_le, st_interp_rs, st_interp_ls, st_interp_re !interpolation buffers intermediate layers
@@ -759,7 +759,7 @@ end subroutine sbp_SAT_penalty_two_block_diffusion
 !         do k = domains%subdomains(n, m)%js, domains%subdomains(n, m)%je
 !           st_rs%f(k, 0) = st_rs%f(k, 0) - st_interp_le%f(k, 0)
 !         end do
-        
+
 !         !-end-second-boundaty-terms-eimplementation-
 
 
@@ -866,7 +866,7 @@ end subroutine sbp_SAT_penalty_two_block_diffusion
 !       do k = domains%subdomains(domains%num_sub_x, m)%js, domains%subdomains(domains%num_sub_x, m)%je
 !         st_re%f(k, 0) = st_re%f(k, 0) - st_interp_ls%f(k, 0)
 !       end do
-      
+
 !       !-end-second-boundaty-terms-eimplementation-
 
 !       if (diff_method == 'sbp21_2') then
@@ -938,7 +938,7 @@ end subroutine sbp_SAT_penalty_two_block_diffusion
 !           call apply_sbp21_2_boundary_method(rs, re, in%subfields(n, m), domains%subdomains(n, m), direction)
 !         else if (diff_method == 'sbp42_2') then
 !           call apply_sbp42_2_boundary_method(ls, le, in%subfields(n, m - 1), domains%subdomains(n, m - 1), direction)
-!           call apply_sbp42_2_boundary_method(rs, re, in%subfields(n, m), domains%subdomains(n, m), direction) 
+!           call apply_sbp42_2_boundary_method(rs, re, in%subfields(n, m), domains%subdomains(n, m), direction)
 !         end if
 
 !         if (diff_method == 'sbp21_2') then

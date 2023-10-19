@@ -43,12 +43,12 @@ y22 = [L_max / 2 : L_max / dim1 / 2 : L_max];
 % for i = 1:1:length(A11(1,1,:))
 %     %zlim([min(min(min(A32(:, :, :)))) max(max(max(A31(:,:,:))))])  %for 3d field
 %     %zlim([9000 11000])  %for 3d field
-%     surf(X11, Y11, A11(:, :, i)')
 %     hold on; grid on;
-%     surf(X12, Y12, A12(:, :, i)')
-%     surf(X21, Y21, A21(:, :, i)')
-%     surf(X22, Y22, A22(:, :, i)')
-%     colormap turbo;
+%     c = colorbar;
+%     pcolor(X11, Y11, A11(:, :, i)')
+%     pcolor(X12, Y12, A12(:, :, i)')
+%     pcolor(X21, Y21, A21(:, :, i)')
+%     pcolor(X22, Y22, A22(:, :, i)')
 %     pause(0.1)
 %     if (i < length(A11(1,1,:)))
 %         cla;
@@ -59,10 +59,10 @@ caxis([-5e-5 5e-5]);
 c = colorbar;
 xlim([0 L_max])
 ylim([0 L_max])
-pcolor(X11, Y11, A11(:, :, 70)')
-pcolor(X12, Y12, A12(:, :, 70)')
-pcolor(X21, Y21, A21(:, :, 70)')
-pcolor(X22, Y22, A22(:, :, 70)')
+pcolor(X11, Y11, A11(:, :, 30)')
+pcolor(X12, Y12, A12(:, :, 30)')
+pcolor(X21, Y21, A21(:, :, 30)')
+pcolor(X22, Y22, A22(:, :, 30)')
 shading flat;
 xlabel('x, km')
 ylabel('y, km')

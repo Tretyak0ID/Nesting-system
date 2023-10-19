@@ -36,7 +36,7 @@ contains
 	  			end do
 	  		end if
 	  	end if
-  		
+
 	end subroutine apply_sbp21_2_boundary_method
 
 	subroutine apply_sbp42_2_boundary_method(out, in, domain, direction, sten)
@@ -49,7 +49,7 @@ contains
   		integer(kind=8) :: i
 
   		if (direction == 'x') then
-  			if (sten == 's') then 
+  			if (sten == 's') then
 	  			do i = out%is, out%ie
 	  				out%f(i, out%js) = (11.0_8 * in%f(in%is, i) - 18.0_8 * in%f(in%is + 1, i) + 9.0_8 * in%f(in%is + 2, i) - 2.0_8 * in%f(in%is + 3, i) ) / 6.0_8 / domain%dx
 	  			end do
@@ -59,7 +59,7 @@ contains
 	  			end do
 	  		end if
 	  	else if (direction == 'y') then
-	  		if (sten == 's') then 
+	  		if (sten == 's') then
 	  			do i = out%is, out%ie
 	  				out%f(i, out%js) = (11.0_8 * in%f(i, in%js) - 18.0_8 * in%f(i, in%js + 1) + 9.0_8 * in%f(i, in%js + 2) - 2.0_8 * in%f(i, in%js + 3) ) / 6.0_8 / domain%dy
 	  			end do
@@ -69,7 +69,7 @@ contains
 	  			end do
 	  		end if
 	  	end if
-  		
+
 	end subroutine apply_sbp42_2_boundary_method
 
 	subroutine apply_sbp21_2_boundary_method_second_terms(out, in, domain, direction, sten)
@@ -97,9 +97,9 @@ contains
   			end do
   		else if (sten == 'e') then
   			do i = out%is, out%ie
-  				out%f(i, out%js)     = -3.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8) * 2.0_8
-  				out%f(i, out%js + 1) =  4.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8)
-  				out%f(i, out%js + 2) = -1.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8)
+  				out%f(i, out%js)     =  3.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8) * 2.0_8
+  				out%f(i, out%js + 1) = -4.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8)
+  				out%f(i, out%js + 2) =  1.0_8 * in%f(i, 0) / 2.0_8 / (dx ** 2.0_8)
   				out%f(i, out%js + 3) =  0.0_8
   			end do
   		end if
@@ -131,10 +131,10 @@ contains
   			end do
   		else if (sten == 'e') then
   			do i = out%is, out%ie
-  				out%f(i, out%js)     = -11.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 17.0_8
-  				out%f(i, out%js + 1) =  18.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 59.0_8
-  				out%f(i, out%js + 2) = - 9.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 43.0_8
-  				out%f(i, out%js + 3) =   2.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 49.0_8
+  				out%f(i, out%js)     =  11.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 17.0_8
+  				out%f(i, out%js + 1) = -18.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 59.0_8
+  				out%f(i, out%js + 2) =   9.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 43.0_8
+  				out%f(i, out%js + 3) =  -2.0_8 * in%f(i, 0) * 48.0_8 / 6.0_8 / (dx ** 2.0_8) / 49.0_8
   			end do
   		end if
 

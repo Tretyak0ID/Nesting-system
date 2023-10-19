@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.3)  23 JUN 2023 08:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.3)  19 OCT 2023 14:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -749,10 +749,6 @@ Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
 (/usr/local/texlive/2022/texmf-dist/tex/latex/ucs/data/uni-4.def
 File: uni-4.def 2013/05/13 UCS: Unicode data U+0400..U+04FF
 )
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 12.
-
 (/usr/local/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count336
@@ -795,31 +791,31 @@ LaTeX Warning: Label `fig:mpr' multiply defined.
 )
 \openout1 = `MIPT_conf.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 33.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 32.
 LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 3
-3.
+2.
  (/usr/local/texlive/2022/texmf-dist/tex/latex/cyrillic/t2acmr.fd
 File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 )
-LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    ... okay on input line 32.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -885,7 +881,7 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 33.
+Package hyperref Info: Link coloring OFF on input line 32.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
@@ -899,65 +895,65 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count343
 )
-LaTeX Info: Redefining \ref on input line 33.
-LaTeX Info: Redefining \pageref on input line 33.
-LaTeX Info: Redefining \nameref on input line 33.
+LaTeX Info: Redefining \ref on input line 32.
+LaTeX Info: Redefining \pageref on input line 32.
+LaTeX Info: Redefining \nameref on input line 32.
  (./MIPT_conf.out) (./MIPT_conf.out)
 \@outlinefile=\write5
 \openout5 = `MIPT_conf.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 33.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 32.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 33.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 32.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 33.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 32.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 33.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 33.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 33.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 32.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 33.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 33.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 33.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 32.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 33.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 33.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 33.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 32.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 33.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 33.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 32.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 33.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 32.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 33.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/b/n --> OT1/cmr/b/n on input line 33.
+(Font)                  OT1/cmss/b/n --> OT1/cmr/b/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/b/n --> OT1/cmss/b/n on input line 33.
+(Font)                  OT1/cmss/b/n --> OT1/cmss/b/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 33.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 33.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/b/n on input line 33.
-LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 33.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/b/n on input line 32.
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 32.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
 (Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 3
-3.
+2.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/cmss/b/it --> OT1/mathkerncmss/m/sl on input line 3
-3.
+2.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on inp
-ut line 33.
+ut line 32.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/translator/translator-basic-dicti
 onary-English.dict
@@ -986,45 +982,38 @@ Dictionary: translator-theorem-dictionary, Language: English
 (/usr/local/texlive/2022/texmf-dist/tex/latex/ucs/ucsencs.def
 File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
 )
-LaTeX Info: Redefining \th on input line 33.
+LaTeX Info: Redefining \th on input line 32.
  (./MIPT_conf.nav)
 <./images/logo.png, id=14, 903.375pt x 903.375pt>
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 37.
+Package pdftex.def Info: ./images/logo.png  used on input line 36.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-<./images/MIET-logo.jpg, id=16, 2168.1pt x 2168.1pt>
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 37.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
  [1
 
 {/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./image
-s/logo.png> <./images/MIET-logo.jpg>]
-(/usr/local/texlive/2022/texmf-dist/tex/latex/ucs/data/uni-32.def
-File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
-)
-LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 
-49.
+s/logo.png>]
+File: ./images/logo.png Graphic file (type png)
+<use ./images/logo.png>
+Package pdftex.def Info: ./images/logo.png  used on input line 57.
+(pdftex.def)             Requested size: 22.76228pt x 22.758pt.
+ [2
 
-(/usr/local/texlive/2022/texmf-dist/tex/latex/base/ts1cmss.fd
-File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-)
-LaTeX Font Info:    Trying to load font information for U+msa on input line 49.
+]
+LaTeX Font Info:    Trying to load font information for U+msa on input line 72.
 
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 49.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 72.
 
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on inp
-ut line 49.
+ut line 72.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/ma
@@ -1032,96 +1021,81 @@ thkerncmss.
 )
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 49.
+Package pdftex.def Info: ./images/logo.png  used on input line 72.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 49.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
- [2
-
-]
-File: ./images/logo.png Graphic file (type png)
-<use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 71.
-(pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 71.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
  [3
 
 ]
-File: ./images/logo.png Graphic file (type png)
-<use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 86.
-(pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 86.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
- [4
-
-]
-<./images/domain.png, id=58, 1366.10374pt x 1124.2pt>
+<./images/domain.png, id=50, 1366.10374pt x 1124.2pt>
 File: ./images/domain.png Graphic file (type png)
 <use ./images/domain.png>
-Package pdftex.def Info: ./images/domain.png  used on input line 99.
+Package pdftex.def Info: ./images/domain.png  used on input line 85.
 (pdftex.def)             Requested size: 245.83282pt x 202.2958pt.
 
-Overfull \vbox (10.93486pt too high) detected at line 99
+Overfull \vbox (10.93486pt too high) detected at line 85
  []
 
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 99.
+Package pdftex.def Info: ./images/logo.png  used on input line 85.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 99.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
-[5
+[4
 
  <./images/domain.png>]
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 116.
+Package pdftex.def Info: ./images/logo.png  used on input line 102.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 116.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
- [6
+ [5
 
 ]
-<./images/Q_scheme.png, id=74, 2366.8425pt x 766.865pt>
+<./images/Q_scheme.png, id=66, 2366.8425pt x 766.865pt>
 File: ./images/Q_scheme.png Graphic file (type png)
 <use ./images/Q_scheme.png>
-Package pdftex.def Info: ./images/Q_scheme.png  used on input line 132.
+Package pdftex.def Info: ./images/Q_scheme.png  used on input line 118.
 (pdftex.def)             Requested size: 276.559pt x 89.59764pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.132 \end{frame}
+l.118 \end{frame}
                  
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 132.
+Package pdftex.def Info: ./images/logo.png  used on input line 118.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 132.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
- [7
+ [6
 
  <./images/Q_scheme.png>]
-<./images/interp.png, id=83, 1214.5375pt x 755.82375pt>
+<./images/interp.png, id=74, 1214.5375pt x 755.82375pt>
 File: ./images/interp.png Graphic file (type png)
 <use ./images/interp.png>
-Package pdftex.def Info: ./images/interp.png  used on input line 153.
+Package pdftex.def Info: ./images/interp.png  used on input line 139.
 (pdftex.def)             Requested size: 153.64493pt x 95.60796pt.
+
+pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.139 \end{frame}
+                 
+Overfull \vbox (7.45592pt too high) detected at line 139
+ []
+
+File: ./images/logo.png Graphic file (type png)
+<use ./images/logo.png>
+Package pdftex.def Info: ./images/logo.png  used on input line 139.
+(pdftex.def)             Requested size: 22.76228pt x 22.758pt.
+[7
+
+ <./images/interp.png>]
+<./images/initial_cond_kelhelm.png, id=82, 2705.10625pt x 1084.05pt>
+File: ./images/initial_cond_kelhelm.png Graphic file (type png)
+<use ./images/initial_cond_kelhelm.png>
+Package pdftex.def Info: ./images/initial_cond_kelhelm.png  used on input line 
+153.
+(pdftex.def)             Requested size: 307.28987pt x 123.13306pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
  been already used, duplicate ignored
@@ -1129,147 +1103,119 @@ pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
                    \relax 
 l.153 \end{frame}
                  
-Overfull \vbox (7.45592pt too high) detected at line 153
- []
-
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
 Package pdftex.def Info: ./images/logo.png  used on input line 153.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 153.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
-[8
-
- <./images/interp.png>]
-<./images/initial_cond_kelhelm.png, id=90, 2705.10625pt x 1084.05pt>
-File: ./images/initial_cond_kelhelm.png Graphic file (type png)
-<use ./images/initial_cond_kelhelm.png>
-Package pdftex.def Info: ./images/initial_cond_kelhelm.png  used on input line 
-167.
-(pdftex.def)             Requested size: 307.28987pt x 123.13306pt.
-
-pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
- been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.167 \end{frame}
-                 
-File: ./images/logo.png Graphic file (type png)
-<use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 167.
-(pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 167.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
- [9
+ [8
 
  <./images/initial_cond_kelhelm.png>]
-<./images/kelhelm_full.png, id=97, 2523.4275pt x 2086.79625pt>
+<./images/kelhelm_full.png, id=89, 2523.4275pt x 2086.79625pt>
 File: ./images/kelhelm_full.png Graphic file (type png)
 <use ./images/kelhelm_full.png>
-Package pdftex.def Info: ./images/kelhelm_full.png  used on input line 179.
+Package pdftex.def Info: ./images/kelhelm_full.png  used on input line 165.
 (pdftex.def)             Requested size: 245.83282pt x 203.27872pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.179 \end{frame}
+l.165 \end{frame}
                  
-Overfull \vbox (12.41765pt too high) detected at line 179
+Overfull \vbox (12.41765pt too high) detected at line 165
  []
 
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 179.
+Package pdftex.def Info: ./images/logo.png  used on input line 165.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 179.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
-[10
+[9
 
  <./images/kelhelm_full.png>]
-<./images/kelhelm12.png, id=105, 2708.1175pt x 1145.27875pt>
+<./images/kelhelm12.png, id=97, 2708.1175pt x 1145.27875pt>
 File: ./images/kelhelm12.png Graphic file (type png)
 <use ./images/kelhelm12.png>
-Package pdftex.def Info: ./images/kelhelm12.png  used on input line 188.
+Package pdftex.def Info: ./images/kelhelm12.png  used on input line 174.
 (pdftex.def)             Requested size: 307.28987pt x 129.948pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.188 \end{frame}
+l.174 \end{frame}
                  
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 188.
+Package pdftex.def Info: ./images/logo.png  used on input line 174.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 188.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
- [11
+ [10
 
  <./images/kelhelm12.png>]
-<./images/kelhelm15.png, id=112, 2708.1175pt x 1145.27875pt>
+<./images/kelhelm15.png, id=104, 2708.1175pt x 1145.27875pt>
 File: ./images/kelhelm15.png Graphic file (type png)
 <use ./images/kelhelm15.png>
-Package pdftex.def Info: ./images/kelhelm15.png  used on input line 197.
+Package pdftex.def Info: ./images/kelhelm15.png  used on input line 183.
 (pdftex.def)             Requested size: 307.28987pt x 129.948pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.197 \end{frame}
+l.183 \end{frame}
                  
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 197.
+Package pdftex.def Info: ./images/logo.png  used on input line 183.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 197.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
- [12
+ [11
 
  <./images/kelhelm15.png>]
-<./images/twocycref.png, id=119, 2314.6475pt x 1957.3125pt>
+<./images/twocycref.png, id=111, 2314.6475pt x 1957.3125pt>
 File: ./images/twocycref.png Graphic file (type png)
 <use ./images/twocycref.png>
-Package pdftex.def Info: ./images/twocycref.png  used on input line 209.
+Package pdftex.def Info: ./images/twocycref.png  used on input line 195.
 (pdftex.def)             Requested size: 215.10196pt x 181.88483pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.209 \end{frame}
+l.195 \end{frame}
                  
-Overfull \vbox (3.85689pt too high) detected at line 209
+Overfull \vbox (3.85689pt too high) detected at line 195
  []
 
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 209.
+Package pdftex.def Info: ./images/logo.png  used on input line 195.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 209.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
-[13
+[12
 
  <./images/twocycref.png>]
-<./images/twocyccoarse.png, id=130, 2314.6475pt x 1989.4325pt>
+<./images/twocyccoarse.png, id=121, 2314.6475pt x 1989.4325pt>
 File: ./images/twocyccoarse.png Graphic file (type png)
 <use ./images/twocyccoarse.png>
-Package pdftex.def Info: ./images/twocyccoarse.png  used on input line 220.
+Package pdftex.def Info: ./images/twocyccoarse.png  used on input line 206.
 (pdftex.def)             Requested size: 215.10196pt x 184.8696pt.
+
+pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.206 \end{frame}
+                 
+File: ./images/logo.png Graphic file (type png)
+<use ./images/logo.png>
+Package pdftex.def Info: ./images/logo.png  used on input line 206.
+(pdftex.def)             Requested size: 22.76228pt x 22.758pt.
+ [13
+
+ <./images/twocyccoarse.png>]
+<./images/twocyc.png, id=130, 2350.7825pt x 1996.45876pt>
+File: ./images/twocyc.png Graphic file (type png)
+<use ./images/twocyc.png>
+Package pdftex.def Info: ./images/twocyc.png  used on input line 220.
+(pdftex.def)             Requested size: 215.10196pt x 182.65895pt.
 
 pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
  been already used, duplicate ignored
@@ -1281,116 +1227,61 @@ File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
 Package pdftex.def Info: ./images/logo.png  used on input line 220.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 220.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
  [14
-
- <./images/twocyccoarse.png>]
-<./images/twocyc.png, id=138, 2350.7825pt x 1996.45876pt>
-File: ./images/twocyc.png Graphic file (type png)
-<use ./images/twocyc.png>
-Package pdftex.def Info: ./images/twocyc.png  used on input line 234.
-(pdftex.def)             Requested size: 215.10196pt x 182.65895pt.
-
-pdfTeX warning (ext4): destination with the same identifier (name{fig:mpr}) has
- been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.234 \end{frame}
-                 
-File: ./images/logo.png Graphic file (type png)
-<use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 234.
-(pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 234.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
- [15
 
  <./images/twocyc.png>]
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 256.
+Package pdftex.def Info: ./images/logo.png  used on input line 242.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 256.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
+ [15
+
+]
+File: ./images/logo.png Graphic file (type png)
+<use ./images/logo.png>
+Package pdftex.def Info: ./images/logo.png  used on input line 254.
+(pdftex.def)             Requested size: 22.76228pt x 22.758pt.
  [16
 
 ]
-File: ./images/logo.png Graphic file (type png)
-<use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 268.
-(pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 268.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
- [17
-
-]
-<./images/cubsphere.png, id=157, 1027.84pt x 1027.84pt>
+<./images/cubsphere.png, id=149, 1027.84pt x 1027.84pt>
 File: ./images/cubsphere.png Graphic file (type png)
 <use ./images/cubsphere.png>
-Package pdftex.def Info: ./images/cubsphere.png  used on input line 276.
+Package pdftex.def Info: ./images/cubsphere.png  used on input line 262.
 (pdftex.def)             Requested size: 122.91406pt x 122.91202pt.
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 276.
+Package pdftex.def Info: ./images/logo.png  used on input line 262.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 276.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
- [18
+ [17
 
  <./images/cubsphere.png>]
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 290.
+Package pdftex.def Info: ./images/logo.png  used on input line 276.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 290.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
+ [18
+
+]
+File: ./images/logo.png Graphic file (type png)
+<use ./images/logo.png>
+Package pdftex.def Info: ./images/logo.png  used on input line 286.
+(pdftex.def)             Requested size: 22.76228pt x 22.758pt.
  [19
 
 ]
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 300.
+Package pdftex.def Info: ./images/logo.png  used on input line 295.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 300.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
  [20
 
 ]
 File: ./images/logo.png Graphic file (type png)
 <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 309.
+Package pdftex.def Info: ./images/logo.png  used on input line 310.
 (pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 309.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
  [21
-
-]
-File: ./images/logo.png Graphic file (type png)
-<use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png  used on input line 324.
-(pdftex.def)             Requested size: 22.76228pt x 22.758pt.
-File: ./images/MIET-logo.jpg Graphic file (type jpg)
-<use ./images/MIET-logo.jpg>
-Package pdftex.def Info: ./images/MIET-logo.jpg  used on input line 324.
-(pdftex.def)             Requested size: 22.76228pt x 22.76076pt.
- [22
 
 ]
 \tf@nav=\write6
@@ -1410,39 +1301,42 @@ Package rerunfilecheck Info: File `MIPT_conf.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 24575 strings out of 478268
- 468211 string characters out of 5846348
- 731992 words of memory out of 5000000
- 42202 multiletter control sequences out of 15000+600000
- 485495 words of font info for 67 fonts, out of 8000000 for 9000
+ 24294 strings out of 478268
+ 464359 string characters out of 5846348
+ 729882 words of memory out of 5000000
+ 41931 multiletter control sequences out of 15000+600000
+ 485154 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,15n,122p,464b,663s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t2a.enc
-}{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}
-</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
-/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
-r/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/
-local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/l
-ocal/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/loc
-al/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/local
-/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local
-/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/
-texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi9.pfb></usr/local/t
-exlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
-xlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texl
-ive/2022/texmf-dist/fonts/type1/public/cm-super/sfss0500.pfb></usr/local/texliv
-e/2022/texmf-dist/fonts/type1/public/cm-super/sfss0700.pfb></usr/local/texlive/
-2022/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb></usr/local/texlive/20
-22/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2022
-/texmf-dist/fonts/type1/public/cm-super/sfss1440.pfb></usr/local/texlive/2022/t
-exmf-dist/fonts/type1/public/cm-super/sfss2074.pfb></usr/local/texlive/2022/tex
-mf-dist/fonts/type1/public/cm-super/sfsx0700.pfb></usr/local/texlive/2022/texmf
--dist/fonts/type1/public/cm-super/sfsx1000.pfb>
-Output written on MIPT_conf.pdf (22 pages, 7904557 bytes).
+
+pdfTeX warning (dest): name{Navigation22} has been referenced but does not exis
+t, replaced by a fixed one
+
+{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t2a.enc}<
+/usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
+usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></u
+sr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr
+/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/l
+ocal/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/lo
+cal/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/loca
+l/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/local/
+texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/
+texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/t
+exlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi9.pfb></usr/local/te
+xlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
+live/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texli
+ve/2022/texmf-dist/fonts/type1/public/cm-super/sfss0500.pfb></usr/local/texlive
+/2022/texmf-dist/fonts/type1/public/cm-super/sfss0700.pfb></usr/local/texlive/2
+022/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb></usr/local/texlive/202
+2/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2022/
+texmf-dist/fonts/type1/public/cm-super/sfss1440.pfb></usr/local/texlive/2022/te
+xmf-dist/fonts/type1/public/cm-super/sfss2074.pfb></usr/local/texlive/2022/texm
+f-dist/fonts/type1/public/cm-super/sfsx0700.pfb></usr/local/texlive/2022/texmf-
+dist/fonts/type1/public/cm-super/sfsx1000.pfb>
+Output written on MIPT_conf.pdf (21 pages, 7554574 bytes).
 PDF statistics:
- 289 PDF objects out of 1000 (max. 8388607)
- 199 compressed objects within 2 object streams
- 46 named destinations out of 1000 (max. 500000)
- 108 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 279 PDF objects out of 1000 (max. 8388607)
+ 192 compressed objects within 2 object streams
+ 45 named destinations out of 1000 (max. 500000)
+ 103 words of extra memory for PDF output out of 10000 (max. 10000000)
 

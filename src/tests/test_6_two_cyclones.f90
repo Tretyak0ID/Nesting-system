@@ -74,13 +74,13 @@ implicit none
   allocate(coefs(1:num_sub_x, 1:num_sub_y))
   do n = 1, num_sub_x
     do m = 1, num_sub_y
-      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / sqrt(dt) / 150.0_8
+      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / sqrt(dt) / 200.0_8
     end do
   end do
   call diffusion%init(sbp42_2, coefs, multi_domain)
 
   call create_timescheme(timescheme, state, 'rk4')
-  call create_timescheme(explicit_Euler, state, 'explicit_Euler')
+  call create_timescheme(explicit_Euler, state, 'rk4')
   call set_two_cyclones_initial_conditions(state, multi_domain, H_MEAN)
 
   do t = 0, Nt

@@ -58,49 +58,50 @@ yy2 = [dim1 / 2 : 1/2 : dim1];
 [X1, Y1] = meshgrid(xx1, yy1);
 [X2, Y2] = meshgrid(xx2, yy2);
 
-% for i = 1:1:length(A11(1,1,:))
-%     zlim([min(min(min(A22(:, :, :)))) max(max(max(A22(:,:,:))))])  %for 3d field
-%     %zlim([9000 11000])  %for 3d field
-%     %surf(X1, Y1, A1(:, :, i)')
-% 
-%     surf(X11, Y11, A11(:, :, i)')
-%     title(i)
-%     hold on; grid on;
-%     colorbar;
-%     %surf(X2, Y2, A2(:, :, i)')
-%     surf(X12, Y12, A12(:, :, i)')
-%     surf(X13, Y13, A13(:, :, i)')
-%     surf(X21, Y21, A21(:, :, i)')
-%     surf(X22, Y22, A22(:, :, i)')
-%     surf(X23, Y23, A23(:, :, i)')
-%     surf(X31, Y31, A31(:, :, i)')
-%     surf(X32, Y32, A32(:, :, i)')
-%     surf(X33, Y33, A33(:, :, i)')
-%     colormap jet;
-%     pause(0.1)
-%     if (i < length(A11(1,1,:)))
-%         cla;
-%     end
-% end
+for i = 1:1:length(A11(1,1,:))
+    %zlim([min(min(min(A22(:, :, :)))) max(max(max(A22(:,:,:))))])  %for 3d field
+    %zlim([9000 11000])  %for 3d field
+    %surf(X1, Y1, A1(:, :, i)')
+    hold on; grid on;
+    c = colorbar;
+    c.Limits = [-1e-4 13e-4];
+    caxis([-1e-4 13e-4]);
+    pcolor(X11, Y11, A11(:, :, i)')
+    title(i)
+    %surf(X2, Y2, A2(:, :, i)')
+    pcolor(X12, Y12, A12(:, :, i)')
+    pcolor(X13, Y13, A13(:, :, i)')
+    pcolor(X21, Y21, A21(:, :, i)')
+    pcolor(X22, Y22, A22(:, :, i)')
+    pcolor(X23, Y23, A23(:, :, i)')
+    pcolor(X31, Y31, A31(:, :, i)')
+    pcolor(X32, Y32, A32(:, :, i)')
+    pcolor(X33, Y33, A33(:, :, i)')
+    shading interp;
+    pause(0.01)
+    if (i < length(A11(1,1,:)))
+        cla;
+    end
+end
 
-hold on; grid on;
-c = colorbar;
-%zlim([min(min(min(A22(:, :, :)))) max(max(max(A22(:,:,:))))])  %for 3d field
-c.Limits = [-1e-4 13e-4];
-caxis([-1e-4 13e-4]);
-pcolor(X11, Y11, A11(:, :, 100)')
-pcolor(X12, Y12, A12(:, :, 100)')
-pcolor(X13, Y13, A13(:, :, 100)')
-pcolor(X21, Y21, A21(:, :, 100)')
-pcolor(X22, Y22, A22(:, :, 100)')
-pcolor(X23, Y23, A23(:, :, 100)')
-pcolor(X31, Y31, A31(:, :, 100)')
-pcolor(X32, Y32, A32(:, :, 100)')
-pcolor(X33, Y33, A33(:, :, 100)')
-shading interp;
-xlabel('x, km')
-ylabel('y, km')
-title("t = 10 hours, $\Delta x_{max}$ = 42 km")
+% hold on; grid on;
+% c = colorbar;
+% %zlim([min(min(min(A22(:, :, :)))) max(max(max(A22(:,:,:))))])  %for 3d field
+% %c.Limits = [-1e-4 13e-4];
+% %caxis([-1e-4 13e-4]);
+% pcolor(X11, Y11, A11(:, :, 30)')
+% pcolor(X12, Y12, A12(:, :, 30)')
+% pcolor(X13, Y13, A13(:, :, 30)')
+% pcolor(X21, Y21, A21(:, :, 30)')
+% pcolor(X22, Y22, A22(:, :, 30)')
+% pcolor(X23, Y23, A23(:, :, 30)')
+% pcolor(X31, Y31, A31(:, :, 30)')
+% pcolor(X32, Y32, A32(:, :, 30)')
+% pcolor(X33, Y33, A33(:, :, 30)')
+% shading interp;
+% xlabel('x, km')
+% ylabel('y, km')
+% title("t = 10 hours, $\Delta x_{max}$ = 42 km")
 
 
 %--------------------------------------------------------------------------
