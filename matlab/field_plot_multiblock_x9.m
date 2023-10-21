@@ -9,9 +9,8 @@ end
 %--------------------------------------------------------------------------
 
 
-dim1 = 96;
-dim2 = 96 * 2;
-dim22 = 96 * 2;
+dim1 = 96 * 2;
+dim22 = 96 * 4;
 L_max = 4000;
 %dim3 = 192;
 %A1 = read_bin('../data/test1h_1.dat', dim1 + 1, dim1 / 2 + 1);
@@ -34,12 +33,12 @@ y1 = [0 : L_max / dim1 : L_max / 3];
 y2 = [L_max / 3 : L_max / dim1 : 2 * L_max / 3];
 y3 = [2 * L_max / 3 : L_max/ dim1 : L_max];
 
-x11 = [0 : L_max / dim1 / 2 : L_max / 3];
-y11 = [0 : L_max / dim1 / 2 : L_max / 3];
-x22 = [L_max / 3 : L_max / dim1 / 2 : 2 * L_max / 3];
-y22 = [L_max / 3 : L_max / dim1 / 2 : 2 * L_max / 3];
-x33 = [2 * L_max / 3 : L_max / dim1 / 2 : L_max];
-y33 = [2 * L_max / 3 : L_max / dim1 / 2 : L_max];
+x11 = [0 : L_max / dim1 / (dim22 / dim1) : L_max / 3];
+y11 = [0 : L_max / dim1 / (dim22 / dim1) : L_max / 3];
+x22 = [L_max / 3 : L_max / dim1 / (dim22 / dim1) : 2 * L_max / 3];
+y22 = [L_max / 3 : L_max / dim1 / (dim22 / dim1) : 2 * L_max / 3];
+x33 = [2 * L_max / 3 : L_max / dim1 / (dim22 / dim1) : L_max];
+y33 = [2 * L_max / 3 : L_max / dim1 / (dim22 / dim1) : L_max];
 
 [X11, Y11] = meshgrid(x1, y1);
 [X12, Y12] = meshgrid(x1, y2);

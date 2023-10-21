@@ -34,7 +34,7 @@ implicit none
   real(kind=8),        allocatable :: coefs(:, :)
 
   real(kind=8),    parameter :: LX = 4000e3_8, LY = 4000e3_8
-  integer(kind=4), parameter :: Nx = 96, Ny = 96
+  integer(kind=4), parameter :: Nx = 96 * 2, Ny = 96 * 2
   integer(kind=8), parameter :: num_sub_x = 3, num_sub_y = 3
   real(kind=8),    parameter :: H_MEAN = 1e4_8
   real(kind=8),    parameter :: T_max  = 256.0_8*3600.0_8, dt = 25.0_8, tau_wr = 3600.0_8
@@ -74,7 +74,7 @@ implicit none
   allocate(coefs(1:num_sub_x, 1:num_sub_y))
   do n = 1, num_sub_x
     do m = 1, num_sub_y
-      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / sqrt(dt) / 200.0_8
+      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / dt / 10000.0_8
     end do
   end do
   call diffusion%init(sbp42_2, coefs, multi_domain)

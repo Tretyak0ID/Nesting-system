@@ -70,13 +70,13 @@ contains
         call calc_laplacian(this%lap_u_buff, in%u, multi_domain, this%coefs, this%diff2_op)
         call calc_laplacian(this%lap_v_buff, in%v, multi_domain, this%coefs, this%diff2_op)
         call calc_laplacian(this%lap_h_buff, in%h, multi_domain, this%coefs, this%diff2_op)
-        call calc_laplacian(this%lap_u, this%lap_u_buff, multi_domain, this%coefs, this%diff2_op)
-        call calc_laplacian(this%lap_v, this%lap_v_buff, multi_domain, this%coefs, this%diff2_op)
-        call calc_laplacian(this%lap_h, this%lap_h_buff, multi_domain, this%coefs, this%diff2_op)
+        !call calc_laplacian(this%lap_u, this%lap_u_buff, multi_domain, this%coefs, this%diff2_op)
+        !call calc_laplacian(this%lap_v, this%lap_v_buff, multi_domain, this%coefs, this%diff2_op)
+        !call calc_laplacian(this%lap_h, this%lap_h_buff, multi_domain, this%coefs, this%diff2_op)
 
-        call out%u%assign(-1.0_8, this%lap_u, multi_domain)
-        call out%v%assign(-1.0_8, this%lap_v, multi_domain)
-        call out%h%assign(-1.0_8, this%lap_h, multi_domain)
+        call out%u%assign(1.0_8, this%lap_u_buff, multi_domain)
+        call out%v%assign(1.0_8, this%lap_v_buff, multi_domain)
+        call out%h%assign(1.0_8, this%lap_h_buff, multi_domain)
 
       class default
       end select

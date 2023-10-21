@@ -16,21 +16,21 @@ contains
   		integer(kind=8) :: i
 
   		if (direction == 'x') then
-  			if (sten == 'start') then
+  			if (sten == 's') then
 	  			do i = out%is, out%ie
 	  				out%f(i, out%js) = (3.0_8 * in%f(in%is, i) - 4.0_8 * in%f(in%is + 1, i) + in%f(in%is + 2, i)) / 2.0_8 / domain%dx
 	  			end do
-	  		else if (sten == 'end') then
+	  		else if (sten == 'e') then
 	  			do i = out%is, out%ie
 	  				out%f(i, out%js) = (3.0_8 * in%f(in%ie, i) - 4.0_8 * in%f(in%ie - 1, i) + in%f(in%ie - 2, i)) / 2.0_8 / domain%dx
 	  			end do
 	  		end if
 	  	else if (direction == 'y') then
-	  		if (sten == 'start') then
+	  		if (sten == 's') then
 	  			do i = out%is, out%ie
 	  				out%f(i, out%js) = (3.0_8 * in%f(i, in%js) - 4.0_8 * in%f(i, in%js + 1) + in%f(i, in%js + 2)) / 2.0_8 / domain%dy
 	  			end do
-	  		else if (sten == 'end') then
+	  		else if (sten == 'e') then
 	  			do i = out%is, out%ie
 	  				out%f(i, out%js) = (3.0_8 * in%f(i, in%je) - 4.0_8 * in%f(i, in%je - 1) + in%f(i, in%je - 2)) / 2.0_8 / domain%dy
 	  			end do

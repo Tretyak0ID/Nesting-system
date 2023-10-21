@@ -68,7 +68,7 @@ implicit none
   allocate(coefs(1:num_sub_x, 1:num_sub_y))
   do n = 1, num_sub_x
     do m = 1, num_sub_y
-      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / sqrt(dt) / 50.0_8 * (128.0_8 / Nx)
+      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / dt / 5000.0_8
     end do
   end do
   call diffusion%init(sbp42_2, coefs, multi_domain)
