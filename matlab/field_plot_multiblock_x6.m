@@ -1,12 +1,3 @@
-close all;
-clear all;
-
-list_factory = fieldnames(get(groot,'factory'));
-index_interpreter = find(contains(list_factory,'Interpreter'));
-for i = 1:length(index_interpreter)
-    default_name = strrep(list_factory{index_interpreter(i)},'factory','default');
-    set(groot, default_name,'latex');
-end
 %--------------------------------------------------------------------------
 
 
@@ -50,7 +41,7 @@ for i = 1:1:length(A11(1,1,:))
     pcolor(X21, Y21, A21(:, :, i)')
     pcolor(X22, Y22, A22(:, :, i)')
     shading interp
-    pause(0.01)
+    pause(0.1)
     if (i < length(A11(1,1,:)))
         cla;
     end
@@ -70,5 +61,3 @@ end
 % title("t = 15 days, $\Delta x_{max}$ = 312 km")
 
 
-%--------------------------------------------------------------------------
-set(gca, 'FontSize', 20)

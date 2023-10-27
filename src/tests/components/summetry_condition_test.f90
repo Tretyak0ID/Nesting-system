@@ -1,4 +1,4 @@
-program diffusion_test
+program summetry_condition_test
 use initial_conditions_mod,            only : set_swm_gaussian_hill, set_swm_rotor_velocity
 use diffusion_operator_mod,            only : diffusion_operator_t
 use sbp_differential_operator_mod,     only : sbp21_2_t, sbp42_2_t
@@ -43,20 +43,10 @@ call state%v%init(multi_domain)
 
 do n = 1, 2
     do m = 1, 1
-      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / sqrt(dt) / 500.0_8
+      coefs(n, m) = multi_domain%subdomains(n, m)%dx ** 2.0_8 / sqrt(dt) / 50.0_8
     end do
-  end do
+ end do
 
-call op%init(sbp42, coefs, multi_domain)
 
-call create_timescheme(timescheme, state, 'rk4')
-call set_swm_gaussian_hill(state, multi_domain, H_MEAN, 1000.0_8, 1000.0_8, 0)
 
-do t = 0, Nt
-  if (mod(t, 100) == 0) print *, 'step: ',  t
-  if (mod(t, 20) == 0) call write_field(state%h%subfields(1, 1), multi_domain%subdomains(1, 1), './data/diffusion_left.dat', t/20 + 1)
-  if (mod(t, 20) == 0) call write_field(state%h%subfields(2, 1), multi_domain%subdomains(2, 1), './data/diffusion_right.dat', t/20 + 1)
-  call timescheme%step(state, op, multi_domain, dt)
-end do
-
-end program diffusion_test
+end program summetry_condition_test

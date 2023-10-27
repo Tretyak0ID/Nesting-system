@@ -1,20 +1,11 @@
-close all;
 
-list_factory = fieldnames(get(groot,'factory'));
-index_interpreter = find(contains(list_factory,'Interpreter'));
-for i = 1:length(index_interpreter)
-    default_name = strrep(list_factory{index_interpreter(i)},'factory','default');
-    set(groot, default_name,'latex');
-end
 %--------------------------------------------------------------------------
 
 
-dim1 = 96 * 2;
-dim22 = 96 * 4;
+dim1 = 96;
+dim22 = 96 * 2;
 L_max = 4000;
-%dim3 = 192;
-%A1 = read_bin('../data/test1h_1.dat', dim1 + 1, dim1 / 2 + 1);
-%A2 = read_bin('../data/test1_2.dat', dim2 + 1, dim2 / 2 + 1);
+
 A11 = read_bin('../data/test6_96_11_curl.dat', dim1 / 3 + 1, dim1 / 3 + 1);
 A12 = read_bin('../data/test6_96_12_curl.dat', dim1 / 3 + 1, dim1 / 3 + 1);
 A13 = read_bin('../data/test6_96_13_curl.dat', dim1 / 3 + 1, dim1 / 3 + 1);
@@ -63,7 +54,7 @@ for i = 1:1:length(A11(1,1,:))
     %surf(X1, Y1, A1(:, :, i)')
     hold on; grid on;
     c = colorbar;
-    c.Limits = [-1e-4 13e-4];
+    %c.Limits = [-1e-4 13e-4];
     caxis([-1e-4 13e-4]);
     pcolor(X11, Y11, A11(:, :, i)')
     title(i)
