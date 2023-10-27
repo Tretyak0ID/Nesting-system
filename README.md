@@ -1,6 +1,6 @@
 # Nesting-system
 -------
-⛅ 🌍 🔧 Prototype of the model nesting system for a new generation atmosphere model (INM RAS)
+⛅ 🌍 🔧 Prototype of nesting system for a new generation atmosphere model (INM RAS)
 Flat two - dimensional biperiodic model with possibility of adapting mesh refinement
 To build, use FoBis.py
 
